@@ -17,6 +17,7 @@ def run(
     host: str = "localhost",
     skip_upload: bool = False,
 ):
+
     """
     Example:
         python3 run --engines *-m-16-* --datasets glove-*
@@ -34,14 +35,20 @@ def run(
         for name, config in all_datasets.items()
         if fnmatch.fnmatch(name, datasets)
     }
-
+    print("select engine {}".format(selected_engines))
+    print("select dataset {}".format(selected_datasets))
+    # 对每个选中的 engine-engine 配置，轮流 run 对应的数据集
     for engine_name, engine_config in selected_engines.items():
         for dataset_name, dataset_config in selected_datasets.items():
             print(f"Running experiment: {engine_name} - {dataset_name}")
             client = ClientFactory(host).build_client(engine_config)
+            # 测试前下载数据集
             dataset = Dataset(dataset_config)
             dataset.download()
             try:
+                print("trying to run experiment")
+                print("dataset vector_size:{}".format(dataset.config.vector_size))
+                print("dataset distance:{}".format(dataset.config.distance))
                 client.run_experiment(dataset, skip_upload)
             except IncompatibilityError as e:
                 print(f"Skipping {engine_name} - {dataset_name}, incompatible params")

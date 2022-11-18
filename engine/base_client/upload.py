@@ -11,6 +11,7 @@ from engine.base_client.utils import iter_batches
 class BaseUploader:
     client = None
 
+    # connection_params 和 upload_params 均为字典类型
     def __init__(self, host, connection_params, upload_params):
         self.host = host
         self.connection_params = connection_params
@@ -34,14 +35,21 @@ class BaseUploader:
         parallel = self.upload_params.pop("parallel", 1)
         batch_size = self.upload_params.pop("batch_size", 64)
 
+        print("base upload, parallel {}, batch size is {}, upload params dict is {}".format(
+            parallel,
+            batch_size,
+            self.upload_params
+        ))
         self.init_client(
             self.host, distance, self.connection_params, self.upload_params
         )
 
         if parallel == 1:
+            # 每次只会取 batch_size 的数据进行上传，通过 yield 继续读取下一次 batch
             for batch in iter_batches(tqdm.tqdm(records), batch_size):
                 latencies.append(self._upload_batch(batch))
         else:
+            # 并发上传
             ctx = get_context(self.get_mp_start_method())
             with ctx.Pool(
                 processes=int(parallel),
@@ -62,8 +70,9 @@ class BaseUploader:
 
         upload_time = time.perf_counter() - start
 
-        print("Upload time: {}".format(upload_time))
+        print("Upload time consume: {}".format(upload_time))
 
+        print("after upload finished, post upload will create index, distance is {}".format(distance))
         post_upload_stats = self.post_upload(distance)
 
         total_time = time.perf_counter() - start
@@ -75,6 +84,7 @@ class BaseUploader:
             "latencies": latencies,
         }
 
+    # 上传 ids, vectors, metadata 并返回时间花费
     @classmethod
     def _upload_batch(
         cls, batch: Tuple[List[int], List[list], List[Optional[dict]]]

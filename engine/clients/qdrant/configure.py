@@ -27,9 +27,11 @@ class QdrantConfigurator(BaseConfigurator):
         vector_size,
         collection_params,
     ):
+        print("distance {}, vector_size {}, collection_params {}".format(distance,vector_size,collection_params))
         self.client.recreate_collection(
             collection_name=QDRANT_COLLECTION_NAME,
-            vector_size=vector_size,
-            distance=self.DISTANCE_MAPPING.get(distance),
+            vectors_config=rest.VectorParams(size=vector_size,distance=self.DISTANCE_MAPPING.get(distance)),
+            # vector_size=vector_size,
+            # distance=self.DISTANCE_MAPPING.get(distance),
             **self.collection_params
         )

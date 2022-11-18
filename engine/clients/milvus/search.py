@@ -30,6 +30,7 @@ class MilvusSearcher(BaseSearcher):
         cls.search_params = search_params
         cls.distance = DISTANCE_MAPPING[distance]
 
+    # forkserver 和 spawn 是 python 启动进程的不同方式，优先使用 forkserver，spawn 比较慢
     @classmethod
     def get_mp_start_method(cls):
         return "forkserver" if "forkserver" in mp.get_all_start_methods() else "spawn"
@@ -42,6 +43,7 @@ class MilvusSearcher(BaseSearcher):
     @classmethod
     def search_one(cls, vector, meta_conditions, top) -> List[Tuple[int, float]]:
         param = {"metric_type": cls.distance, "params": cls.search_params["params"]}
+        # param = {"metric_type": "L2", "params": {"nprobe": 10}}
         try:
             res = cls.collection.search(
                 data=[vector],

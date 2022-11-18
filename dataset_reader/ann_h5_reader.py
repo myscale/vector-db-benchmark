@@ -14,7 +14,7 @@ class AnnH5Reader(BaseReader):
 
     def read_queries(self) -> Iterator[Query]:
         data = h5py.File(self.path)
-
+        print("AnnH5Reader read_queries-----")
         for vector, expected_result, expected_scores in zip(
             data["test"], data["neighbors"], data["distances"]
         ):
@@ -46,11 +46,15 @@ if __name__ == "__main__":
     # contains info about 100 nearest neighbors)
     # `distances` - float - distances for nearest neighbors for test vectors
 
-    test_path = os.path.join(
-        DATASETS_DIR, "glove-100-angular", "glove-100-angular.hdf5"
-    )
-    record = next(AnnH5Reader(test_path).read_data())
-    print(record, end="\n\n")
-
-    query = next(AnnH5Reader(test_path).read_queries())
-    print(query)
+    # test_path = os.path.join(
+    #     DATASETS_DIR, "glove-25-angular", "glove-25-angular.hdf5"
+    # )
+    # record = next(AnnH5Reader(test_path).read_data())
+    # print(record, end="\n\n")
+    #
+    # query = next(AnnH5Reader(test_path).read_queries())
+    # print("query vector")
+    # print(query.vector)
+    # print("expect result")
+    # print(query.expected_result)
+    # print(len(query.expected_result))

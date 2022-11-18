@@ -61,18 +61,23 @@ class JSONReader(BaseReader):
             yield Query(vector=vector, meta_conditions=None, expected_result=neighbours)
 
     def read_data(self) -> Iterator[Record]:
+        """
+        Returns:Record(id=0, vector=[0.29879.....378], metadata={})
+        """
+        # 此处的 idx 是 enumerate 自动生成的索引序号
         for idx, (vector, payload) in enumerate(
             zip(self.read_vectors(), self.read_payloads())
         ):
             yield Record(id=idx, vector=vector, metadata=payload)
 
 
-if __name__ == "__main__":
-    from benchmark import DATASETS_DIR
-
-    test_path = DATASETS_DIR / "random-100"
-    record = next(JSONReader(test_path).read_data())
-    print(record, end="\n\n")
-
-    query = next(JSONReader(test_path).read_queries())
-    print(query)
+# if __name__ == "__main__":
+    # from benchmark import DATASETS_DIR
+    #
+    # test_path = DATASETS_DIR / "random-100"
+    # record = next(JSONReader(test_path).read_data())
+    # print(record, end="\n\n")
+    #
+    # query = next(JSONReader(test_path).read_queries())
+    # print(query)
+    # print(query.expected_result)

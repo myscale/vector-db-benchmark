@@ -7,8 +7,8 @@ import numpy as np
 import tqdm
 
 from dataset_reader.base_reader import Query
-
-DEFAULT_TOP = 10
+# 数据集 expected result 不能小于 100
+DEFAULT_TOP = 100
 
 
 class BaseSearcher:
@@ -50,7 +50,9 @@ class BaseSearcher:
 
         precision = 1.0
         if query.expected_result is not None:
+            # 获得 single search TopK 的结果 ids
             ids = set(x[0] for x in search_res)
+            # 将 single search TopK 结果与 expected result 进行对比
             precision = len(ids.intersection(query.expected_result[:top])) / top
 
         return precision, end - start
@@ -77,8 +79,9 @@ class BaseSearcher:
                 zip(*[search_one(query) for query in tqdm.tqdm(queries)])
             )
         else:
+            # 获得 multiprocessing ctx 模块
             ctx = get_context(self.get_mp_start_method())
-
+            # Pool 并行执行不需要通讯的 CPU 密集型任务
             with ctx.Pool(
                 processes=parallel,
                 initializer=self.__class__.init_client,
@@ -90,6 +93,7 @@ class BaseSearcher:
                 ),
             ) as pool:
                 precisions, latencies = list(
+                    # pool.imap_unordered 的返回结果是一个迭代器
                     zip(*pool.imap_unordered(search_one, iterable=tqdm.tqdm(queries)))
                 )
 
