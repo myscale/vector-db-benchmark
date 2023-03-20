@@ -7,9 +7,11 @@ from engine.base_client.client import (
     BaseSearcher,
     BaseUploader,
 )
-from engine.clients.elasticsearch.configure import ElasticConfigurator
-from engine.clients.elasticsearch.search import ElasticSearcher
-from engine.clients.elasticsearch.upload import ElasticUploader
+from engine.clients.elasticsearch import (
+    ElasticConfigurator,
+    ElasticSearcher,
+    ElasticUploader,
+)
 from engine.clients.milvus import MilvusConfigurator, MilvusSearcher, MilvusUploader
 from engine.clients.myscale.configure import MyScaleConfigurator
 from engine.clients.myscale.search import MyScaleSearcher
@@ -23,10 +25,13 @@ from engine.clients.pinecone.upload import PineconeUploader
 from engine.clients.proxima.configure import ProximaConfigurator
 from engine.clients.proxima.search import ProximaSearcher
 from engine.clients.proxima.upload import ProximaUploader
+from engine.clients.opensearch import (
+    OpenSearchConfigurator,
+    OpenSearchSearcher,
+    OpenSearchUploader,
+)
 from engine.clients.qdrant import QdrantConfigurator, QdrantSearcher, QdrantUploader
-from engine.clients.redis.configure import RedisConfigurator
-from engine.clients.redis.search import RedisSearcher
-from engine.clients.redis.upload import RedisUploader
+from engine.clients.redis import RedisConfigurator, RedisSearcher, RedisUploader
 from engine.clients.weaviate import (
     WeaviateConfigurator,
     WeaviateSearcher,
@@ -41,6 +46,7 @@ ENGINE_CONFIGURATORS = {
     "milvus": MilvusConfigurator,
     "zilliz": MilvusConfigurator,
     "elastic": ElasticConfigurator,
+    "opensearch": OpenSearchConfigurator,
     "redis": RedisConfigurator,
     "pinecone": PineconeConfigurator,
     "proxima": ProximaConfigurator,
@@ -54,6 +60,7 @@ ENGINE_UPLOADERS = {
     "milvus": MilvusUploader,
     "zilliz": MilvusUploader,
     "elastic": ElasticUploader,
+    "opensearch": OpenSearchUploader,
     "redis": RedisUploader,
     "pinecone": PineconeUploader,
     "proxima": ProximaUploader,
@@ -67,6 +74,7 @@ ENGINE_SEARCHERS = {
     "milvus": MilvusSearcher,
     "zilliz": MilvusSearcher,
     "elastic": ElasticSearcher,
+    "opensearch": OpenSearchSearcher,
     "redis": RedisSearcher,
     "pinecone": PineconeSearcher,
     "proxima": ProximaSearcher,
