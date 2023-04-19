@@ -1,13 +1,11 @@
 import functools
 import time
 from multiprocessing import get_context
-from typing import Iterable, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 import numpy as np
 import tqdm
 
-from dataset_reader.base_reader import Query
-# 数据集 expected result 不能小于 100
 DEFAULT_TOP = 100
 
 
@@ -20,9 +18,7 @@ class BaseSearcher:
         self.search_params = search_params
 
     @classmethod
-    def init_client(
-        cls, host: str, distance, connection_params: dict, search_params: dict
-    ):
+    def init_client(cls, host: str, distance, connection_params: dict, search_params: dict):
         raise NotImplementedError()
 
     @classmethod
@@ -31,71 +27,73 @@ class BaseSearcher:
 
     @classmethod
     def search_one(
-        cls, vector: List[float], meta_conditions, top: Optional[int]
+            cls, vector: List[float], meta_conditions, top: Optional[int], schema: Optional[dict]
     ) -> List[Tuple[int, float]]:
         raise NotImplementedError()
 
     @classmethod
-    def _search_one(cls, query, top: Optional[int] = None):
+    def _search_one(cls, query, top: Optional[int] = None, schema: Optional[dict] = None):
         if top is None:
             top = (
                 len(query.expected_result)
-                if query.expected_result is not None
+                if query.expected_result is not None and len(query.expected_result) > 0
                 else DEFAULT_TOP
             )
 
         start = time.perf_counter()
-        search_res = cls.search_one(query.vector, query.meta_conditions, top)
+        search_res = cls.search_one(query.vector, query.meta_conditions, top, schema)
         end = time.perf_counter()
+
+        # Updating the TopK, the number of standard answers contained in the dataset may be less than TopK
+        # The HNM dataset only has 25 standard answers.
+        ans_len = len(query.expected_result)
+        top = (top > ans_len and ans_len or top)
 
         precision = 1.0
         if query.expected_result is not None:
-            # 获得 single search TopK 的结果 ids
-            ids = set(x[0] for x in search_res)
-            # 将 single search TopK 结果与 expected result 进行对比
+            # Retrieve the top K results of vector search
+            ids = set([x[0] for x in search_res][:top])
+            # Calculate accuracy
             precision = len(ids.intersection(query.expected_result[:top])) / top
-
         return precision, end - start
 
     def search_all(
-        self,
-        distance,
-        queries: Iterable[Query],
+            self,
+            distance,
+            get_queries,
+            queries,  # The number of vectors used for search in each round of testing.
+            schema    # Payload fields of dataset
     ):
+        parallel = self.search_params.get("parallel", 1)
+        top = self.search_params.get("top", None)
+
+        # weaviate-client setup_search may require initialized client
+        self.setup_search(self.host, distance, self.connection_params, self.search_params)
+
+        search_one = functools.partial(self.__class__._search_one, top=top, schema=schema)
+
+        queries_need = 1000 * parallel
+        # Ensure each process searches at least 1K vectors and all test vectors provided by the dataset are searched.
+        count = queries if queries_need <= queries else queries_need
+        # Match the correct dataset based on the `query_meta` provided by the `search_parameters`.
+        multi_queries = get_queries(times=count, query_meta=self.search_params.get("query_meta", None))
+        print(f"parallel - {parallel}, queries have {queries}, queries need {queries_need}, queries run - {count}")
         start = time.perf_counter()
-        parallel = self.search_params.pop("parallel", 1)
-        top = self.search_params.pop("top", None)
 
-        # setup_search may require initialized client
-        self.init_client(
-            self.host, distance, self.connection_params, self.search_params
-        )
-        self.setup_search()
-
-        search_one = functools.partial(self.__class__._search_one, top=top)
-
-        if parallel == 1:
-            precisions, latencies = list(
-                zip(*[search_one(query) for query in tqdm.tqdm(queries)])
-            )
-        else:
-            # 获得 multiprocessing ctx 模块
-            ctx = get_context(self.get_mp_start_method())
-            # Pool 并行执行不需要通讯的 CPU 密集型任务
-            with ctx.Pool(
+        ctx = get_context(self.get_mp_start_method())
+        with ctx.Pool(
                 processes=parallel,
                 initializer=self.__class__.init_client,
                 initargs=(
-                    self.host,
-                    distance,
-                    self.connection_params,
-                    self.search_params,
+                        self.host,
+                        distance,
+                        self.connection_params,
+                        self.search_params,
                 ),
-            ) as pool:
-                precisions, latencies = list(
-                    # pool.imap_unordered 的返回结果是一个迭代器
-                    zip(*pool.imap_unordered(search_one, iterable=tqdm.tqdm(queries)))
-                )
+        ) as pool:
+            precisions, latencies = list(
+                zip(*pool.imap_unordered(search_one, iterable=tqdm.tqdm(multi_queries)))
+            )
 
         total_time = time.perf_counter() - start
         return {
@@ -112,7 +110,7 @@ class BaseSearcher:
             "latencies": latencies,
         }
 
-    def setup_search(self):
+    def setup_search(self, host, distance, connection_params: dict, search_params: dict):
         pass
 
     def post_search(self):

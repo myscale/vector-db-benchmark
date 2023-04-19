@@ -1,0 +1,93 @@
+stages:
+  - tar_code
+  - env_image
+  - full_image
+
+# upload to S3 beijing
+tar_code:
+  stage: tar_code
+  image: harbor.internal.moqi.ai/mochix/dind_tools:latest
+  only:
+    - master
+  script:
+    - ls -lh
+    - mkdir vector-db-benchmark
+    - cp -r benchmark vector-db-benchmark
+    - cp -r dataset_reader vector-db-benchmark
+    - cp -r datasets vector-db-benchmark
+    - cp -r docker vector-db-benchmark
+    - cp -r engine vector-db-benchmark
+    - cp -r experiments vector-db-benchmark
+    - cp -r results vector-db-benchmark
+    - cp -r run.py vector-db-benchmark
+    - tar -czvf vector-db-benchmark.tar.gz vector-db-benchmark
+    - ls -lh vector-db-benchmark.tar.gz
+    - coscmd upload vector-db-benchmark.tar.gz vector-db-benchmark-space/
+  artifacts:
+    name: "code"
+    expire_in: 7 week
+    paths:
+      - vector-db-benchmark.tar.gz
+
+
+
+build_env_image:
+  stage: env_image
+  image: harbor.internal.moqi.ai/mochix/dind_tools:latest
+  only:
+    - master
+  script:
+    - ls -lh
+    - for index in {1..180}; do if docker version; then break; else sleep 1; fi; done
+    - docker buildx build --build-arg 'http_proxy=http://clash.internal.moqi.ai:7890' --build-arg 'https_proxy=http://clash.internal.moqi.ai:7890' --build-arg 'no_proxy=localhost,127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,docker,git.moqi.ai,.internal.moqi.ai' --platform linux/amd64 --build-arg version="latest" --rm=true -t harbor.internal.moqi.ai/mqdb/vector-db-benchmark-env docker --push
+
+
+build_env_saas_image:
+  stage: env_image
+  image: harbor.internal.moqi.ai/mochix/dind_tools:latest
+  only:
+    - master
+  script:
+    - ls -lh
+    - for index in {1..180}; do if docker version; then break; else sleep 1; fi; done
+    - docker buildx build --build-arg 'http_proxy=http://clash.internal.moqi.ai:7890' --build-arg 'https_proxy=http://clash.internal.moqi.ai:7890' --build-arg 'no_proxy=localhost,127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,docker,git.moqi.ai,.internal.moqi.ai' --platform linux/amd64 --build-arg version="latest" --rm=true -t mochix/vector-db-benchmark-env docker --push
+
+build_full_image:
+  stage: full_image
+  needs:
+    - job: tar_code
+      artifacts: true
+  artifacts:
+    name: "code"
+    paths:
+      - vector-db-benchmark.tar.gz
+    when: always
+  image: harbor.internal.moqi.ai/mochix/dind_tools:latest
+  only:
+    - master
+  script:
+    - ls -lh
+    - mv vector-db-benchmark.tar.gz docker/full
+    - for index in {1..180}; do if docker version; then break; else sleep 1; fi; done
+    - docker buildx build --build-arg 'http_proxy=http://clash.internal.moqi.ai:7890' --build-arg 'https_proxy=http://clash.internal.moqi.ai:7890' --build-arg 'no_proxy=localhost,127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,docker,git.moqi.ai,.internal.moqi.ai' --platform linux/amd64 --build-arg version="latest" --rm=true -t harbor.internal.moqi.ai/mqdb/vector-db-benchmark-full docker/full --push
+
+
+
+build_full_saas_image:
+  stage: full_image
+  needs:
+    - job: tar_code
+      artifacts: true
+  artifacts:
+    name: "code"
+    paths:
+      - vector-db-benchmark.tar.gz
+    when: always
+  image: harbor.internal.moqi.ai/mochix/dind_tools:latest
+  only:
+    - master
+  script:
+    - ls -lh
+    - mv vector-db-benchmark.tar.gz docker/full
+    - for index in {1..180}; do if docker version; then break; else sleep 1; fi; done
+    - docker buildx build --build-arg 'http_proxy=http://clash.internal.moqi.ai:7890' --build-arg 'https_proxy=http://clash.internal.moqi.ai:7890' --build-arg 'no_proxy=localhost,127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,docker,git.moqi.ai,.internal.moqi.ai' --platform linux/amd64 --build-arg version="latest" --rm=true -t mochix/vector-db-benchmark-full docker/full --push

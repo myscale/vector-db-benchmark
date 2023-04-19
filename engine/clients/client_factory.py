@@ -14,6 +14,12 @@ from engine.clients.milvus import MilvusConfigurator, MilvusSearcher, MilvusUplo
 from engine.clients.mqdb.configure import MqdbConfigurator
 from engine.clients.mqdb.search import MqdbSearcher
 from engine.clients.mqdb.upload import MqdbUploader
+from engine.clients.pinecone.configure import PineconeConfigurator
+from engine.clients.pinecone.search import PineconeSearcher
+from engine.clients.pinecone.upload import PineconeUploader
+from engine.clients.proxima.configure import ProximaConfigurator
+from engine.clients.proxima.search import ProximaSearcher
+from engine.clients.proxima.upload import ProximaUploader
 from engine.clients.qdrant import QdrantConfigurator, QdrantSearcher, QdrantUploader
 from engine.clients.redis.configure import RedisConfigurator
 from engine.clients.redis.search import RedisSearcher
@@ -31,6 +37,8 @@ ENGINE_CONFIGURATORS = {
     "milvus": MilvusConfigurator,
     "elastic": ElasticConfigurator,
     "redis": RedisConfigurator,
+    "pinecone": PineconeConfigurator,
+    "proxima": ProximaConfigurator,
 }
 
 ENGINE_UPLOADERS = {
@@ -40,6 +48,8 @@ ENGINE_UPLOADERS = {
     "milvus": MilvusUploader,
     "elastic": ElasticUploader,
     "redis": RedisUploader,
+    "pinecone": PineconeUploader,
+    "proxima": ProximaUploader,
 }
 
 ENGINE_SEARCHERS = {
@@ -49,6 +59,8 @@ ENGINE_SEARCHERS = {
     "milvus": MilvusSearcher,
     "elastic": ElasticSearcher,
     "redis": RedisSearcher,
+    "pinecone": PineconeSearcher,
+    "proxima": ProximaSearcher,
 }
 
 
@@ -57,7 +69,6 @@ class ClientFactory(ABC):
         self.host = host
 
     def _create_configurator(self, experiment) -> BaseConfigurator:
-        # 找到对应的配置类实现
         engine_configurator_class = ENGINE_CONFIGURATORS[experiment["engine"]]
         engine_configurator = engine_configurator_class(
             self.host,
@@ -67,11 +78,9 @@ class ClientFactory(ABC):
         return engine_configurator
 
     def _create_uploader(self, experiment) -> BaseUploader:
-        # 初始化 uploader
         engine_uploader_class = ENGINE_UPLOADERS[experiment["engine"]]
         engine_uploader = engine_uploader_class(
             self.host,
-            # 使用 ** 作为前缀，多余的参数会被认为是字典
             connection_params={**experiment.get("connection_params", {})},
             upload_params={**experiment.get("upload_params", {})},
         )
@@ -90,19 +99,33 @@ class ClientFactory(ABC):
             )
             for search_params in experiment.get("search_params", [{}])
         ]
-        print("create {} engine searchers".format(len(engine_searchers)))
         return engine_searchers
 
-    def build_client(self, experiment):
-        # experiment 对应每个需要测试的 single-node-config-op
-        print("build_client: client factory trying to build client..")
-        print("build_client: experiment is {}".format(experiment))
+    def build_client(self, experiment, dataset_name, dataset_config):
+        meta = {
+            "engine": {
+                "name": experiment["engine"],
+                "branch": experiment["branch"],
+                "version": experiment["version"],
+                "commit": experiment["commit"],
+                "link": experiment["link"],
+                "remark": experiment["remark"],
+                "other": experiment["other"],
+            },
+            "index_type": experiment["index_type"],
+            "dataset": dataset_name,
+            "dataset_group": dataset_config["group_name"],
+            "dataset_tag": dataset_config["tag"],
+            "platform": experiment["platform"],
+            "time_stamp": experiment["time_stamp"],
+            "run_date": experiment["run_date"],
+        }
+
         return BaseClient(
-            name=experiment["name"],  # milvus-m-16-ef-128
-            # 初始化引擎配置--configure.py
+            name=experiment["name"],  # example: milvus-m-16-ef-128
+            meta=meta,
             configurator=self._create_configurator(experiment),
-            # 初始化上传类--upload.py
             uploader=self._create_uploader(experiment),
-            # 初始化 15 个搜索类--search.py
+            # init n search obj from search.py
             searchers=self._create_searchers(experiment),
         )

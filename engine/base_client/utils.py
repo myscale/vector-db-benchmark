@@ -1,5 +1,4 @@
 from typing import Any, Iterable
-
 from dataset_reader.base_reader import Record
 
 
@@ -15,7 +14,8 @@ def iter_batches(records: Iterable[Record], n: int) -> Iterable[Any]:
 
         if len(vectors) >= n:
             yield [ids, vectors, metadata]
-            # 下一次 batch 遍历清空暂存的 ids vectors metadata
             ids, vectors, metadata = [], [], []
     if len(ids) > 0:
         yield [ids, vectors, metadata]
+
+

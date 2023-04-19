@@ -2,7 +2,7 @@ from weaviate import Client
 
 from engine.base_client.configure import BaseConfigurator
 from engine.base_client.distances import Distance
-from engine.clients.weaviate.config import WEAVIATE_CLASS_NAME, WEAVIATE_DEFAULT_PORT
+from engine.clients.weaviate.config import WEAVIATE_CLASS_NAME, WEAVIATE_DEFAULT_PORT, convert_H52WeaviateType
 
 
 class WeaviateConfigurator(BaseConfigurator):
@@ -14,7 +14,7 @@ class WeaviateConfigurator(BaseConfigurator):
 
     def __init__(self, host, collection_params: dict, connection_params: dict):
         super().__init__(host, collection_params, connection_params)
-        url = f"http://{host}:{connection_params.pop('port', WEAVIATE_DEFAULT_PORT)}"
+        url = f"http://{connection_params.pop('host', host)}:{connection_params.pop('port', WEAVIATE_DEFAULT_PORT)}"
         self.client = Client(url, **connection_params)
 
     def clean(self):
@@ -23,17 +23,26 @@ class WeaviateConfigurator(BaseConfigurator):
             if cl["class"] == WEAVIATE_CLASS_NAME:
                 self.client.schema.delete_class(WEAVIATE_CLASS_NAME)
 
-    def recreate(
-        self,
-        distance,
-        vector_size,
-        collection_params,
-    ):
+    def recreate(self, distance, vector_size, collection_params, connection_params,  extra_columns_name, extra_columns_type):
+        # 记录结构化字段
+        structured_list = [
+            {
+                "name": extra_columns_name[i],
+                "dataType": [
+                    convert_H52WeaviateType(extra_columns_type[i]),
+                ],
+                "indexInverted": True,
+            }
+            for i in range(0, len(extra_columns_name))
+        ]
+        print(f"weaviate structured columns and types: {structured_list}")
         self.client.schema.create_class(
             {
                 "class": WEAVIATE_CLASS_NAME,
                 "vectorizer": "none",
-                "properties": [],
+                "properties": structured_list,
+                # Defaults to hnsw, can be omitted in schema definition since this is the only available type for now
+                "vectorIndexType": "hnsw",
                 "vectorIndexConfig": {
                     **{
                         "vectorCacheMaxObjects": 1000000000,

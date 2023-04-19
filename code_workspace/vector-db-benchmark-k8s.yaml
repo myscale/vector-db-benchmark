@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vector-db-benchmark
+  labels:
+    app: vector-db-benchmark
+spec:
+  replicas: 1
+  serviceName: "vector-db-benchmark"
+  selector:
+    matchLabels:
+      app: vector-db-benchmark
+  template:
+    metadata:
+      labels:
+        app: vector-db-benchmark
+    spec:
+      containers:
+      - name: vector-db-benchmark
+#        image: mochix/vector-db-benchmark:latest
+        image: harbor.internal.moqi.ai/mqdb/vector-db-benchmark-k8s:latest
+        imagePullPolicy: Always
+        command: ["bash", "-c", "python3 run.py && tail -f /dev/null"]
+#        command: ["bash", "-c", "tail -f /dev/null"]
+        volumeMounts:
+          - mountPath: "/home/vector-db-benchmark/results/"
+            subPath: "results"
+            name: res-volume-claim-template
+          - mountPath: "/home/vector-db-benchmark/datasets/downloaded/"
+            subPath: "downloaded"
+            name: datasets-volume-claim-template
+        resources:
+          limits:
+            cpu: 4
+            memory: 8Gi
+          requests:
+            cpu: 4
+            memory: 8Gi
+
+  volumeClaimTemplates:
+  - metadata:
+      name: res-volume-claim-template
+    spec:
+      storageClassName: cbs
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 10Gi
+  - metadata:
+      name: datasets-volume-claim-template
+    spec:
+      storageClassName: cbs
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 64Gi
+---

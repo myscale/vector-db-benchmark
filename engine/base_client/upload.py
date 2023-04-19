@@ -11,7 +11,6 @@ from engine.base_client.utils import iter_batches
 class BaseUploader:
     client = None
 
-    # connection_params 和 upload_params 均为字典类型
     def __init__(self, host, connection_params, upload_params):
         self.host = host
         self.connection_params = connection_params
@@ -22,72 +21,75 @@ class BaseUploader:
         return None
 
     @classmethod
-    def init_client(cls, host, distance, connection_params: dict, upload_params: dict):
+    def init_client(cls, host, distance, connection_params: dict, upload_params: dict,
+                    extra_columns_name: list, extra_columns_type: list):
         raise NotImplementedError()
 
     def upload(
-        self,
-        distance,
-        records: Iterable[Record],
+            self,
+            distance,
+            records: Iterable[Record],
+            extra_columns_name: list,
+            extra_columns_type: list
     ) -> dict:
         latencies = []
         start = time.perf_counter()
-        parallel = self.upload_params.pop("parallel", 1)
-        batch_size = self.upload_params.pop("batch_size", 64)
+        parallel = self.upload_params.get("parallel", 8)
+        batch_size = self.upload_params.get("batch_size", 64)
+        print(f"upload parallel: {parallel}, batch size: {batch_size}, upload params dict: { self.upload_params}")
 
-        print("base upload, parallel {}, batch size is {}, upload params dict is {}".format(
-            parallel,
-            batch_size,
-            self.upload_params
-        ))
-        self.init_client(
-            self.host, distance, self.connection_params, self.upload_params
-        )
-
-        if parallel == 1:
-            # 每次只会取 batch_size 的数据进行上传，通过 yield 继续读取下一次 batch
-            for batch in iter_batches(tqdm.tqdm(records), batch_size):
-                latencies.append(self._upload_batch(batch))
-        else:
-            # 并发上传
-            ctx = get_context(self.get_mp_start_method())
-            with ctx.Pool(
+        ctx = get_context(self.get_mp_start_method())
+        with ctx.Pool(
                 processes=int(parallel),
                 initializer=self.__class__.init_client,
                 initargs=(
-                    self.host,
-                    distance,
-                    self.connection_params,
-                    self.upload_params,
+                        self.host,
+                        distance,
+                        self.connection_params,
+                        self.upload_params,
+                        extra_columns_name,
+                        extra_columns_type,
                 ),
-            ) as pool:
-                latencies = list(
-                    pool.imap(
-                        self.__class__._upload_batch,
-                        iter_batches(tqdm.tqdm(records), batch_size),
-                    )
+        ) as pool:
+            latencies = list(
+                pool.imap(
+                    self.__class__._upload_batch,
+                    iter_batches(tqdm.tqdm(records), batch_size),
                 )
-
+            )
         upload_time = time.perf_counter() - start
 
         print("Upload time consume: {}".format(upload_time))
 
-        print("after upload finished, post upload will create index, distance is {}".format(distance))
-        post_upload_stats = self.post_upload(distance)
+        wait_index_begin = time.perf_counter()
+        ctx = get_context("forkserver")  # When use None, sometimes it will be blocked.
+        with ctx.Pool(
+                processes=1,
+                initializer=self.__class__.init_client,
+                initargs=(self.host,
+                          distance,
+                          self.connection_params,
+                          self.upload_params,
+                          extra_columns_name,
+                          extra_columns_type,),
+        ) as pool:
+            pool.apply(func=self.post_upload, args=(distance,))
 
         total_time = time.perf_counter() - start
+        post_time = time.perf_counter() - wait_index_begin
 
         return {
-            "post_upload": post_upload_stats,
+            # "post_upload": post_upload_stats,
+            "post_upload": post_time,
             "upload_time": upload_time,
             "total_time": total_time,
             "latencies": latencies,
         }
 
-    # 上传 ids, vectors, metadata 并返回时间花费
+    # Upload data[ids, vectors, metadata] and return time consume
     @classmethod
     def _upload_batch(
-        cls, batch: Tuple[List[int], List[list], List[Optional[dict]]]
+            cls, batch: Tuple[List[int], List[list], List[Optional[dict]]]
     ) -> float:
         ids, vectors, metadata = batch
         start = time.perf_counter()
@@ -99,7 +101,5 @@ class BaseUploader:
         return {}
 
     @classmethod
-    def upload_batch(
-        cls, ids: List[int], vectors: List[list], metadata: List[Optional[dict]]
-    ):
+    def upload_batch(cls, ids: List[int], vectors: List[list], metadata: List[Optional[dict]]):
         raise NotImplementedError()

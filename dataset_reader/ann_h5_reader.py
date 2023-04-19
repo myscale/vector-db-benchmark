@@ -1,60 +1,81 @@
-from typing import Iterator
+import ast
+from typing import Iterator, Optional, Tuple
 
 import h5py
 import numpy as np
 
-from benchmark import DATASETS_DIR
+from benchmark.dataset_config import DatasetConfig
 from dataset_reader.base_reader import BaseReader, Query, Record
+from dataset_reader.utils import convert_H52py
 
 
 class AnnH5Reader(BaseReader):
-    def __init__(self, path, normalize=False):
-        self.path = path
+    def __init__(self, dataset_dir, dataset_config: DatasetConfig, normalize=False):
+        self.dataset_dir = dataset_dir
+        self.dataset_config = dataset_config
         self.normalize = normalize
+        # 初始化 query_file_path
+        if self.dataset_config.query_file_path is not None:
+            query_file_path = [{"path": self.dataset_dir / query_file_op["path"], "meta": query_file_op["meta"]} for
+                               query_file_op in self.dataset_config.query_file_path]
+        else:
+            query_file_path = [{"path": self.dataset_dir / self.dataset_config.path, "meta": None}]
+        self.query_file_path = query_file_path
 
-    def read_queries(self) -> Iterator[Query]:
-        data = h5py.File(self.path)
-        print("AnnH5Reader read_queries-----")
-        for vector, expected_result, expected_scores in zip(
-            data["test"], data["neighbors"], data["distances"]
-        ):
-            if self.normalize:
-                vector /= np.linalg.norm(vector)
-            yield Query(
-                vector=vector.tolist(),
-                meta_conditions=None,
-                expected_result=expected_result.tolist(),
-                expected_scores=expected_scores.tolist(),
-            )
+    def read_queries(self, times: Optional[int] = 1000, query_meta: Optional[dict] = None) -> Iterator[Query]:
+        for query_path in self.query_file_path:
+            # skip mismatched query path
+            if query_meta is not None and query_meta != query_path["meta"]:
+                continue
+            with h5py.File(query_path["path"], "r") as query_data:
+                # initialize the filtering criteria
+                filter_conditions = query_data["filter"] \
+                    if "filter" in list(query_data.keys()) else [None for i in range(0, len(query_data["test"]))]
+                count = 0
+                while True:
+                    exit_flag = 0
+                    for vector, expected_result, expected_scores, filter_condition in zip(
+                            query_data["test"], query_data["neighbors"], query_data["distances"], filter_conditions):
+                        if self.normalize:
+                            vector /= np.linalg.norm(vector)
+                        count += 1
+                        if count > times:
+                            exit_flag = 1
+                            break
+                        yield Query(
+                            vector=vector.tolist(),
+                            meta_conditions=ast.literal_eval(
+                                filter_condition.decode("ascii",
+                                                        "ignore")).get("conditions",
+                                                                       None) if filter_condition is not None else None,
+                            expected_result=expected_result.tolist(),
+                            expected_scores=expected_scores.tolist(),
+                        )
+                    if exit_flag == 1:
+                        break
+            break  # Avoid meaningless loops
 
     def read_data(self) -> Iterator[Record]:
-        data = h5py.File(self.path)
+        with h5py.File(self.dataset_dir / self.dataset_config.path, "r") as train_data:
+            extra_columns = train_data.attrs.get("extra_columns", [])
+            extra_columns_type = train_data.attrs.get("extra_columns_type", [])
+            for idx, vector in enumerate(train_data["train"]):
+                # normalize the vector for some distance
+                if self.normalize:
+                    vector /= np.linalg.norm(vector)
 
-        for idx, vector in enumerate(data["train"]):
-            if self.normalize:
-                vector /= np.linalg.norm(vector)
-            yield Record(id=idx, vector=vector.tolist(), metadata=None)
+                # read payload data
+                extra_columns_data = {}
+                for col_name, col_type in zip(extra_columns, extra_columns_type):
+                    extra_columns_data[col_name] = convert_H52py(col_type)(train_data[col_name][idx])
 
+                yield Record(id=idx,
+                             vector=vector.tolist(),
+                             metadata=None if len(extra_columns_data.keys()) == 0 else extra_columns_data)
 
-if __name__ == "__main__":
-    import os
-
-    # h5py file 4 keys:
-    # `train` - float vectors (num vectors 1183514)
-    # `test` - float vectors (num vectors 10000)
-    # `neighbors` - int - indices of nearest neighbors for test (num items 10k, each item
-    # contains info about 100 nearest neighbors)
-    # `distances` - float - distances for nearest neighbors for test vectors
-
-    # test_path = os.path.join(
-    #     DATASETS_DIR, "glove-25-angular", "glove-25-angular.hdf5"
-    # )
-    # record = next(AnnH5Reader(test_path).read_data())
-    # print(record, end="\n\n")
-    #
-    # query = next(AnnH5Reader(test_path).read_queries())
-    # print("query vector")
-    # print(query.vector)
-    # print("expect result")
-    # print(query.expected_result)
-    # print(len(query.expected_result))
+    def read_column_name_type(self) -> Tuple[list, list]:
+        """ Get the payloads data name and type """
+        with h5py.File(self.dataset_dir / self.dataset_config.path, "r") as train_data:
+            extra_columns = train_data.attrs.get("extra_columns", [])
+            extra_columns_type = train_data.attrs.get("extra_columns_type", [])
+            return extra_columns, extra_columns_type

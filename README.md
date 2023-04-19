@@ -1,8 +1,5 @@
 # vector-db-benchmark
-
-![Screenshot from 2022-08-23 14-10-01](https://user-images.githubusercontent.com/1935623/186516524-a61098d4-bca6-4aeb-acbe-d969cf30674e.png)
-
-> [View results](https://qdrant.tech/benchmarks/)
+![Benchmark Results](./benchmark_results.png)
 
 There are various vector search engines available, and each of them may offer
 a different set of features and efficiency. But how do we measure the
@@ -29,7 +26,7 @@ To launch the server instance, run the following command:
 
 ```bash
 cd ./engine/servers/<engine-configuration-name>
-docker compose up
+docker compose up -d
 ```
 
 Containers are expected to expose all necessary ports, so the client can connect to them.
@@ -48,7 +45,7 @@ Run the benchmark:
 ```bash
 Usage: run.py [OPTIONS]
 
-  Example: python3 run --engines *-m-16-* --datasets glove-*
+  Example: python3 -m run --engines *-m-16-* --datasets glove-*
 
 Options:
   --engines TEXT                  [default: *]
@@ -95,4 +92,3 @@ There are a few base classes that you can use to implement a new engine.
 See the examples in the [clients](./engine/clients) directory.
 
 Once all the necessary classes are implemented, you can register the engine in the [ClientFactory](./engine/clients/client_factory.py).
-
