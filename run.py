@@ -55,13 +55,6 @@ def run(
         s3_key_prefix: str = "vector-db-benchmark-dash-results", # your S3 file prefix
         wait_server_online: bool = False,
 ):
-    s3_config = CosConfig(Region=s3_region,
-                          SecretId=s3_secret_id,
-                          SecretKey=s3_secret_key,
-                          Token=None,
-                          Scheme=s3_scheme)
-    s3_client = CosS3Client(s3_config)
-
 
     """
     Example:
@@ -108,6 +101,12 @@ def run(
 
     if s3_auto_upload:
         try:
+            s3_config = CosConfig(Region=s3_region,
+                                  SecretId=s3_secret_id,
+                                  SecretKey=s3_secret_key,
+                                  Token=None,
+                                  Scheme=s3_scheme)
+            s3_client = CosS3Client(s3_config)
             time_stamp = int(time.time() * 1000)
             print("🔥 tar results file...")
             with tarfile.open(f"results-{time_stamp}.tar.gz", "w:gz") as tar:

@@ -18,4 +18,4 @@ WORKDIR /home/vector-db-benchmark
 #ENTRYPOINT ["dockerd-entrypoint.sh"]
 RUN pwd
 RUN ls -lh
-CMD ["sh","-c","tail -f /dev/null"]
+CMD ["sh","-c","python3 run.py && tail -f /dev/null"]

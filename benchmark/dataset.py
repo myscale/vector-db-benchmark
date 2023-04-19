@@ -34,8 +34,8 @@ def download_core(config_path: str, link: str):
         file.close()
         os.remove(file_name)
     else:
-        print(f"❄️ Moving: {file_name} -> {target_path}")
-        (DATASETS_DIR / config_path).parent.mkdir(exist_ok=True)
+        print(f"❄️ Moving: {file_name} -> {(DATASETS_DIR / config_path).parent}")
+        (DATASETS_DIR / config_path).parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(file_name, target_path)
         os.remove(file_name)
 
