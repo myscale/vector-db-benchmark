@@ -116,7 +116,7 @@ def run(
             print(f"🔥 uploading results-{time_stamp}.tar.gz to S3...")
             results_file_compressed = f"results-{time_stamp}.tar.gz"
             upload_data(client=s3_client,
-                        bucket=bucket,
+                        bucket=s3_bucket,
                         key_str=f"{s3_key_prefix}/{results_file_compressed}",
                         local_file_path=results_file_compressed)
             print(f"🔥 uploading results-{time_stamp}.tar.gz finished")
