@@ -28,7 +28,7 @@ class BaseClient:
         self.uploader = uploader
         self.searchers = searchers
         index_create_parameter = {}
-        if self.name.startswith("myscale") or self.name.startswith("milvus"):
+        if self.name.startswith("myscale") or self.name.startswith("milvus") or self.name.startswith("zilliz"):
             index_create_parameter = self.uploader.upload_params["index_params"]
         elif self.name.startswith("qdrant"):
             index_create_parameter = self.configurator.collection_params["hnsw_config"]
