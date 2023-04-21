@@ -29,13 +29,21 @@ class MqdbSearcher(BaseSearcher):
     @classmethod
     def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema) -> List[Tuple[int, float]]:
         search_params_dict = cls.search_params["params"]
-        par = "\'topK={}\'".format(top)
+        par = ""
         for key in search_params_dict.keys():
             par += ", \'{}={}\'".format(key, search_params_dict[key])
+        if par != "":
+            par = par[2:]
 
-        search_str = "SELECT id, distance({})(vector, {}) as dis FROM {}".format(par, vector, MQDB_DATABASE_NAME)
+        search_str = f"SELECT id, distance({par})(vector, {vector}) as dis FROM {MQDB_DATABASE_NAME}"
+
         if meta_conditions is not None:
             search_str += f" prewhere {cls.parser.parse(meta_conditions=meta_conditions)}"
+
+        if cls.distance == Distance.DOT:
+            search_str += f" order by dis DESC limit {top}"
+        else:
+            search_str += f" order by dis limit {top}"
 
         res_list = []
         while True:
