@@ -383,5 +383,41 @@
     "group_name": "random-geo-radius-2048-angular",
     "tag": "no-filter",
     "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_geo_100k_no_filters.tgz"
+  },
+  {
+    "name": "laion-768-cosine-1m",
+    "result_group": "single_search",
+    "vector_size": 768,
+    "queries": 1000,
+    "distance": "cosine",
+    "type": "h5",
+    "path": "downloaded/laion-768-cosine-1m/laion-1m-test.hdf5",
+    "group_name": "laion-768-cosine-1m",
+    "tag": "no-filter",
+    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-1m-test.hdf5"
+  },
+    {
+    "name": "laion-768-cosine-5m",
+    "result_group": "single_search",
+    "vector_size": 768,
+    "queries": 1000,
+    "distance": "cosine",
+    "type": "h5",
+    "path": "downloaded/laion-768-cosine-5m/laion-5m-test.hdf5",
+    "group_name": "laion-768-cosine-5m",
+    "tag": "no-filter",
+    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-5m-test.hdf5"
+  },
+    {
+    "name": "laion-768-cosine-35m",
+    "result_group": "single_search",
+    "vector_size": 768,
+    "queries": 1000,
+    "distance": "cosine",
+    "type": "h5",
+    "path": "downloaded/laion-768-cosine-35m/laion-35m-test.hdf5",
+    "group_name": "laion-768-cosine-35m",
+    "tag": "no-filter",
+    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-35m-test.hdf5"
   }
 ]
