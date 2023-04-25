@@ -11,6 +11,7 @@ from engine.clients.qdrant.parser import QdrantConditionParser
 
 
 class QdrantSearcher(BaseSearcher):
+    connection_params = {}
     search_params = {}
     client: QdrantClient = None
     parser = QdrantConditionParser()
@@ -19,7 +20,8 @@ class QdrantSearcher(BaseSearcher):
     def init_client(cls, host, distance, connection_params: dict, search_params: dict):
         connection_params['host'] = host if connection_params.get('host', None) is None else connection_params['host']
         connection_params = process_connection_params(connection_params)
-        cls.client: QdrantClient = QdrantClient(**connection_params)
+        cls.connection_params = connection_params
+        cls.client = QdrantClient(**connection_params)
         cls.search_params = search_params
 
     @classmethod
@@ -42,3 +44,6 @@ class QdrantSearcher(BaseSearcher):
                 return [(hit.id, hit.score) for hit in res]
             except Exception as e:
                 print(e)
+                print("re init qdrant client")
+                cls.client = QdrantClient(**cls.connection_params)
+

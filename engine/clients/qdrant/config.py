@@ -32,4 +32,6 @@ def process_connection_params(connection_params: dict):
         connection_params.pop('prefer_grpc', '')
         if connection_params.get('api_key', None) is None:
             raise RuntimeError("please set api key for your qdrant client")
+    else:
+        connection_params.pop('api_key', '')
     return connection_params
