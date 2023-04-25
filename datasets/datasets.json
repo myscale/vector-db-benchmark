@@ -385,28 +385,28 @@
     "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_geo_100k_no_filters.tgz"
   },
   {
-    "name": "laion-768-cosine-1m",
+    "name": "laion-768-1m-ip",
     "result_group": "single_search",
     "vector_size": 768,
     "queries": 1000,
-    "distance": "cosine",
+    "distance": "dot",
     "type": "h5",
-    "path": "downloaded/laion-768-cosine-1m/laion-1m-test.hdf5",
-    "group_name": "laion-768-cosine-1m",
+    "path": "downloaded/laion-768-1m-ip/laion-1m-test-ip.hdf5",
+    "group_name": "laion-768-1m-ip",
     "tag": "no-filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-1m-test.hdf5"
+    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-1m-test-ip.hdf5"
   },
     {
-    "name": "laion-768-cosine-5m",
+    "name": "laion-768-5m-ip",
     "result_group": "single_search",
     "vector_size": 768,
     "queries": 1000,
-    "distance": "cosine",
+    "distance": "dot",
     "type": "h5",
-    "path": "downloaded/laion-768-cosine-5m/laion-5m-test.hdf5",
-    "group_name": "laion-768-cosine-5m",
+    "path": "downloaded/laion-768-5m-ip/laion-5m-test-ip.hdf5",
+    "group_name": "laion-768-5m-ip",
     "tag": "no-filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-5m-test.hdf5"
+    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-5m-test-ip.hdf5"
   },
     {
     "name": "laion-768-cosine-35m",
