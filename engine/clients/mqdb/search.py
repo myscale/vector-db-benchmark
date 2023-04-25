@@ -40,7 +40,7 @@ class MqdbSearcher(BaseSearcher):
         if meta_conditions is not None:
             search_str += f" prewhere {cls.parser.parse(meta_conditions=meta_conditions)}"
 
-        if cls.distance == Distance.DOT:
+        if cls.distance == "IP":
             search_str += f" order by dis DESC limit {top}"
         else:
             search_str += f" order by dis limit {top}"

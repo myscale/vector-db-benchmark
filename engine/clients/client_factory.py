@@ -32,6 +32,7 @@ from engine.clients.weaviate import (
 
 ENGINE_CONFIGURATORS = {
     "mqdb": MqdbConfigurator,
+    "myscale": MqdbConfigurator,
     "qdrant": QdrantConfigurator,
     "weaviate": WeaviateConfigurator,
     "milvus": MilvusConfigurator,
@@ -44,6 +45,7 @@ ENGINE_CONFIGURATORS = {
 
 ENGINE_UPLOADERS = {
     "mqdb": MqdbUploader,
+    "myscale": MqdbUploader,
     "qdrant": QdrantUploader,
     "weaviate": WeaviateUploader,
     "milvus": MilvusUploader,
@@ -56,6 +58,7 @@ ENGINE_UPLOADERS = {
 
 ENGINE_SEARCHERS = {
     "mqdb": MqdbSearcher,
+    "myscale": MqdbSearcher,
     "qdrant": QdrantSearcher,
     "weaviate": WeaviateSearcher,
     "milvus": MilvusSearcher,

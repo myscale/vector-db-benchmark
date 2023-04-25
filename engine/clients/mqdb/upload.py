@@ -72,7 +72,8 @@ class MqdbUploader(BaseUploader):
     def post_upload(cls, distance):
         print("MyScale post upload: distance {}, cls.distance {}".format(distance, cls.distance))
         # Create vector index
-        index_parameter_str = "\'metric_type={}\'".format('IP' if cls.distance == 'COSINE' else cls.distance)
+        # index_parameter_str = "\'metric_type={}\'".format('IP' if cls.distance == 'COSINE' else cls.distance)
+        index_parameter_str = "\'metric_type={}\'".format(cls.distance)
         for key in cls.upload_params.get("index_params", {}).keys():
             index_parameter_str += ("'{} = {}'" if index_parameter_str == "" else ",'{}={}'").format(
                 key, cls.upload_params.get("index_params", {})[key])
