@@ -9,6 +9,7 @@ from engine.clients.qdrant.config import QDRANT_COLLECTION_NAME, process_connect
 
 
 class QdrantUploader(BaseUploader):
+    connection_params = {}
     client = None
     upload_params = {}
 
@@ -18,6 +19,7 @@ class QdrantUploader(BaseUploader):
         connection_params['host'] = host if connection_params.get('host', None) is None else connection_params['host']
         connection_params['prefer_grpc'] = connection_params.get('prefer_grpc', True)
         connection_params = process_connection_params(connection_params)
+        cls.connection_params = connection_params
         cls.client = QdrantClient(**connection_params)
         cls.upload_params = upload_params
 
@@ -38,6 +40,7 @@ class QdrantUploader(BaseUploader):
                 break
             except Exception as e:
                 print(e)
+                cls.client = QdrantClient(**cls.connection_params)
 
     @classmethod
     def post_upload(cls, _distance):
@@ -49,13 +52,17 @@ class QdrantUploader(BaseUploader):
         wait_time = 5.0
         total = 0
         while True:
-            time.sleep(wait_time)
-            total += wait_time
-            collection_info = cls.client.get_collection(QDRANT_COLLECTION_NAME)
-            if collection_info.status != CollectionStatus.GREEN:
-                continue
-            time.sleep(wait_time)
-            collection_info = cls.client.get_collection(QDRANT_COLLECTION_NAME)
-            if collection_info.status == CollectionStatus.GREEN:
-                break
+            try:
+                time.sleep(wait_time)
+                total += wait_time
+                collection_info = cls.client.get_collection(QDRANT_COLLECTION_NAME)
+                if collection_info.status != CollectionStatus.GREEN:
+                    continue
+                time.sleep(wait_time)
+                collection_info = cls.client.get_collection(QDRANT_COLLECTION_NAME)
+                if collection_info.status == CollectionStatus.GREEN:
+                    break
+            except Exception as e:
+                print(e)
+
         return total
