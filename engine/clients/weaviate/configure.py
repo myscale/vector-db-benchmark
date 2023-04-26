@@ -2,7 +2,8 @@ from weaviate import Client
 
 from engine.base_client.configure import BaseConfigurator
 from engine.base_client.distances import Distance
-from engine.clients.weaviate.config import WEAVIATE_CLASS_NAME, WEAVIATE_DEFAULT_PORT, convert_H52WeaviateType
+from engine.clients.weaviate.config import WEAVIATE_CLASS_NAME, WEAVIATE_DEFAULT_PORT, convert_H52WeaviateType, \
+    generateWeaviateClient
 
 
 class WeaviateConfigurator(BaseConfigurator):
@@ -14,8 +15,7 @@ class WeaviateConfigurator(BaseConfigurator):
 
     def __init__(self, host, collection_params: dict, connection_params: dict):
         super().__init__(host, collection_params, connection_params)
-        url = f"http://{connection_params.pop('host', host)}:{connection_params.pop('port', WEAVIATE_DEFAULT_PORT)}"
-        self.client = Client(url, **connection_params)
+        self.client = generateWeaviateClient(connection_params={**connection_params}, host=host)
 
     def clean(self):
         classes = self.client.schema.get()

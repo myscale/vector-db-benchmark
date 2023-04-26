@@ -4,7 +4,7 @@ from typing import List, Optional
 from weaviate import Client
 
 from engine.base_client.upload import BaseUploader
-from engine.clients.weaviate.config import WEAVIATE_CLASS_NAME, WEAVIATE_DEFAULT_PORT
+from engine.clients.weaviate.config import WEAVIATE_CLASS_NAME, WEAVIATE_DEFAULT_PORT, generateWeaviateClient
 
 
 class WeaviateUploader(BaseUploader):
@@ -14,10 +14,9 @@ class WeaviateUploader(BaseUploader):
     @classmethod
     def init_client(cls, host, distance, connection_params, upload_params,
                     extra_columns_name: list, extra_columns_type: list):
-        url = f"http://{connection_params.pop('host', host)}:{connection_params.pop('port', WEAVIATE_DEFAULT_PORT)}"
-        cls.client = Client(url, **connection_params)
+        cls.client = generateWeaviateClient(connection_params={**connection_params}, host=host)
         cls.upload_params = upload_params
-        cls.connection_params = connection_params
+
 
     @staticmethod
     def _update_geo_data(data_object):
