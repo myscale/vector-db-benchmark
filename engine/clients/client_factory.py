@@ -78,7 +78,8 @@ class ClientFactory(ABC):
         engine_configurator_class = ENGINE_CONFIGURATORS[experiment["engine"]]
         engine_configurator = engine_configurator_class(
             self.host,
-            collection_params={**experiment.get("collection_params", {})},
+            # for myscale, append upload_params to collection_params
+            collection_params={**experiment.get("collection_params", {})} if experiment["engine"] not in ["myscale", "mqdb"] else {**experiment.get("collection_params", {}), **experiment.get("upload_params", {})},
             connection_params={**experiment.get("connection_params", {})},
         )
         return engine_configurator
@@ -87,8 +88,9 @@ class ClientFactory(ABC):
         engine_uploader_class = ENGINE_UPLOADERS[experiment["engine"]]
         engine_uploader = engine_uploader_class(
             self.host,
+            # for myscale, append upload_params to collection_params
             connection_params={**experiment.get("connection_params", {})},
-            upload_params={**experiment.get("upload_params", {})},
+            upload_params={**experiment.get("upload_params", {})} if experiment["engine"] not in ["myscale", "mqdb"] else {**experiment.get("upload_params", {}), **experiment.get("collection_params", {})},
         )
         return engine_uploader
 

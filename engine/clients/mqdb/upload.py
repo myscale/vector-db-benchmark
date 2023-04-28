@@ -1,19 +1,11 @@
-import random
-import string
 import time
 from typing import List, Optional
 
 import clickhouse_connect
 from clickhouse_connect.driver.client import Client
+
 from engine.base_client import BaseUploader
 from engine.clients.mqdb.config import *
-
-
-def get_random_string(length: int):
-    random_list = []
-    for i in range(length):
-        random_list.append(random.choice(string.ascii_uppercase + string.digits))
-    return ''.join(random_list)
 
 
 class MqdbUploader(BaseUploader):
@@ -73,36 +65,31 @@ class MqdbUploader(BaseUploader):
         print("MyScale post upload: distance {}, cls.distance {}".format(distance, cls.distance))
         # Create vector index
         # index_parameter_str = "\'metric_type={}\'".format('IP' if cls.distance == 'COSINE' else cls.distance)
-        index_parameter_str = "\'metric_type={}\'".format(cls.distance)
-        for key in cls.upload_params.get("index_params", {}).keys():
-            index_parameter_str += ("'{} = {}'" if index_parameter_str == "" else ",'{}={}'").format(
-                key, cls.upload_params.get("index_params", {})[key])
+        use_optimize = cls.upload_params.get("optimizers_config").get("optimize_final", True)
+        if use_optimize:
+            # prepare index create str
+            index_parameter_str = f"\'metric_type={cls.distance}\'"
+            for key in cls.upload_params.get("index_params", {}).keys():
+                index_parameter_str += ("'{}={}'" if index_parameter_str == "" else ",'{}={}'").format(
+                    key, cls.upload_params.get('index_params', {})[key])
 
-        index_create_str = "alter table {} add vector index {} vector type {}({})".format(
-            MQDB_DATABASE_NAME,
-            "{}_{}".format(MQDB_DATABASE_NAME, get_random_string(4)),
-            cls.upload_params["index_type"],
-            index_parameter_str
-        )
-        print(index_create_str)
-        # optimize table
-        optimize_str = "optimize table {} final".format(MQDB_DATABASE_NAME)
-        print("trying to optimize table final: {}".format(optimize_str))
-        optimize_begin_time = time.time()
-        try:
-            cls.client.command(optimize_str)
-        except Exception as e:
-            print(e)
-            print("mqdb may run by multi replicates mode..")
-            optimize_str = f"optimize table replicas.{MQDB_DATABASE_NAME} on cluster '{'{cluster}'}' final"
-            cls.client.command(optimize_str)
-
-        print("optimize table finished, time consume {}".format(time.time() - optimize_begin_time))
-        print("trying to create vector index: {}".format(index_create_str))
-        cls.client.command(index_create_str)
+            index_create_str = f"alter table {MQDB_DATABASE_NAME} add vector index {MQDB_DATABASE_NAME}_{get_random_string(4)} vector type {cls.upload_params['index_type']}({index_parameter_str})"
+            # optimize table
+            optimize_str = "optimize table {} final".format(MQDB_DATABASE_NAME)
+            print(f">>> {optimize_str}")
+            optimize_begin_time = time.time()
+            try:
+                cls.client.command(optimize_str)
+            except Exception as e:
+                print(f"exp: {e}, myscale may run by multi replicates mode..")
+                optimize_str = f"optimize table replicas.{MQDB_DATABASE_NAME} on cluster '{'{cluster}'}' final"
+                cls.client.command(optimize_str)
+            print("optimize table finished, time consume {}".format(time.time() - optimize_begin_time))
+            print(f">>> {index_create_str}")
+            cls.client.command(index_create_str)
         # waiting for vector index create finished
-        check_index_status = "select status from system.vector_indices where table='{}'".format(MQDB_DATABASE_NAME)
-        print("trying to check vector index build status: {}".format(check_index_status))
+        check_index_status = f"select status from system.vector_indices where table='{MQDB_DATABASE_NAME}'"
+        print(f">>> {check_index_status}")
         while True:
             time.sleep(5)
             try:

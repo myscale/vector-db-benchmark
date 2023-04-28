@@ -30,7 +30,8 @@ class BaseClient:
         self.searchers = searchers
         index_create_parameter = {}
         if self.name.startswith("myscale") or self.name.startswith("milvus") or self.name.startswith("zilliz") or self.name.startswith("mqdb"):
-            index_create_parameter = self.uploader.upload_params["index_params"]
+            index_create_parameter = {**self.uploader.upload_params["index_params"],
+                                      "optimizers_config": {**self.configurator.collection_params["optimizers_config"]}}
         elif self.name.startswith("qdrant"):
             # TODO Integrating Two Types of Indexes
             index_create_parameter = {**self.configurator.collection_params.get("hnsw_config", {})}
@@ -70,7 +71,7 @@ class BaseClient:
                     "data_upload_parameter": {
                         "parallel": upload_params.get("parallel", 16),
                         "batch_size": upload_params.get("batch_size", 64),
-                        "optimizers": upload_params.get("optimizers", {})
+                        "optimizers": upload_params.get("optimizers_config", {})
                     },
                     "search_results": search_results,
                     "upload_results": upload_results,
@@ -90,7 +91,7 @@ class BaseClient:
                 "data_upload_parameter": {
                     "parallel": upload_params.get("parallel", 1),
                     "batch_size": upload_params.get("batch_size", 64),
-                    "optimizers": upload_params.get("optimizers", {})
+                    "optimizers": upload_params.get("optimizers_config", {})
                 },
                 "results": results,
             }

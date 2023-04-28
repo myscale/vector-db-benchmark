@@ -1,3 +1,6 @@
+import random
+import string
+
 from engine.base_client.distances import Distance
 
 MQDB_DATABASE_NAME = "Benchmark"
@@ -32,3 +35,10 @@ def convert_H52ClickHouseType(h5_column_type: str):
     if mqdb_type is None:
         raise RuntimeError(f"🐛 mqdb doesn't support h5 column type: {h5_column_type}")
     return mqdb_type
+
+
+def get_random_string(length: int):
+    random_list = []
+    for i in range(length):
+        random_list.append(random.choice(string.ascii_uppercase + string.digits))
+    return ''.join(random_list)
