@@ -5,4 +5,4 @@ NOTES.md
 .DS_Store
 datasets/.DS_Store
 results/*.json
-code_workspace
+experiments/configurations/*.json
