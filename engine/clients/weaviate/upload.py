@@ -17,7 +17,6 @@ class WeaviateUploader(BaseUploader):
         cls.client = generateWeaviateClient(connection_params={**connection_params}, host=host)
         cls.upload_params = upload_params
 
-
     @staticmethod
     def _update_geo_data(data_object):
         if data_object is None:
@@ -34,21 +33,22 @@ class WeaviateUploader(BaseUploader):
 
     @classmethod
     def upload_batch(
-        cls, ids: List[int], vectors: List[list], metadata: List[Optional[dict]]
+            cls, ids: List[int], vectors: List[list], metadata: List[Optional[dict]]
     ):
         cls.client.batch.configure(batch_size=cls.upload_params.get("batch_size", 100), timeout_retries=3)
-        try:
-            with cls.client.batch as batch:
-                for id_, vector, data_object in zip(ids, vectors, metadata):
-                    # Handling latitude and longitude data
-                    data_object = cls._update_geo_data(data_object)
-                    batch.add_data_object(
-                        data_object=data_object or {},
-                        class_name=WEAVIATE_CLASS_NAME,
-                        uuid=uuid.UUID(int=id_).hex,
-                        vector=vector,
-                    )
-
-                batch.create_objects()
-        except Exception as e:
-            raise RuntimeError(e)
+        while True:
+            try:
+                with cls.client.batch as batch:
+                    for id_, vector, data_object in zip(ids, vectors, metadata):
+                        # Handling latitude and longitude data
+                        data_object = cls._update_geo_data(data_object)
+                        batch.add_data_object(
+                            data_object=data_object or {},
+                            class_name=WEAVIATE_CLASS_NAME,
+                            uuid=uuid.UUID(int=id_).hex,
+                            vector=vector,
+                        )
+                    batch.create_objects()
+                break
+            except Exception as e:
+                print(e)

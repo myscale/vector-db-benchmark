@@ -10,6 +10,15 @@ from engine.clients.qdrant.config import QDRANT_COLLECTION_NAME, process_connect
 from engine.clients.qdrant.parser import QdrantConditionParser
 
 
+def generate_search_params(params: dict):
+    if "hnsw_ef" in list(params.keys()):
+        return {"hnsw_ef": params.get("hnsw_ef", 64)}
+    elif "quantization" in list(params.keys()):
+        return {"quantization": rest.QuantizationSearchParams(ignore=params.get("ignore", False),
+                                                              rescore=params.get("rescore", True))}
+    else:
+        return {}
+
 class QdrantSearcher(BaseSearcher):
     connection_params = {}
     search_params = {}
@@ -36,7 +45,7 @@ class QdrantSearcher(BaseSearcher):
                     # We need qdrant to not return structured data payload.
                     with_payload=False,
                     search_params=rest.SearchParams(
-                        **cls.search_params.get("params", {})
+                        **generate_search_params(params=cls.search_params.get("params", {}))
                     ),
                 )
 
@@ -44,6 +53,6 @@ class QdrantSearcher(BaseSearcher):
                 return [(hit.id, hit.score) for hit in res]
             except Exception as e:
                 print(e)
-                print("re init qdrant client")
-                cls.client = QdrantClient(**cls.connection_params)
-
+                print("after 3s retry")
+                time.sleep(3)
+                # cls.client = QdrantClient(**cls.connection_params)

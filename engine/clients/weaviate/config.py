@@ -29,6 +29,7 @@ def generateWeaviateClient(connection_params: dict, host: str):
         # cloud mode
         api_key = connection_params.pop('api_key', '<your_api_key>')
         auth_client_secret = weaviate.auth.AuthApiKey(api_key=api_key)
+        connection_params.pop('port', '')
         return Client(url=host, auth_client_secret=auth_client_secret, **connection_params)
     else:
         # local mode

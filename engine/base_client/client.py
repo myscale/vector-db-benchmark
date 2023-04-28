@@ -22,6 +22,7 @@ class BaseClient:
             uploader: BaseUploader,
             searchers: List[BaseSearcher],
     ):
+        # Fixme do not reference a dict, please deep copy
         self.name = name
         self.meta = meta
         self.configurator = configurator
@@ -31,7 +32,10 @@ class BaseClient:
         if self.name.startswith("myscale") or self.name.startswith("milvus") or self.name.startswith("zilliz") or self.name.startswith("mqdb"):
             index_create_parameter = self.uploader.upload_params["index_params"]
         elif self.name.startswith("qdrant"):
-            index_create_parameter = self.configurator.collection_params["hnsw_config"]
+            # TODO Integrating Two Types of Indexes
+            index_create_parameter = {**self.configurator.collection_params.get("hnsw_config", {})}
+            if index_create_parameter == {}:
+                index_create_parameter = {**self.configurator.collection_params.get("quantization_config", {})}
             if self.configurator.collection_params.get("optimizers_config", None) is not None:
                 index_create_parameter["optimizers_config"] = self.configurator.collection_params["optimizers_config"]
         elif self.name.startswith("pinecone"):
