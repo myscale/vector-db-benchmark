@@ -25,7 +25,7 @@ H5_COLUMN_TYPES_MAPPING = {
     "string": "String",
     "blob": "String",
     "geo": "Tuple(Float64, Float64)",  # 经纬度使用 Point 存储, Point == Tuple(Float64, Float64)
-    "keyword": "Nullable(String)",  # 处理 ann-filter payload 字段是 null
+    "keyword": "LowCardinality(String)",  # TODO 处理 ann-filter payload 字段是 null
     "boolean": "Boolean",
 }
 
