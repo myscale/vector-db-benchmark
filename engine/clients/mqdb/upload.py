@@ -83,6 +83,7 @@ class MqdbUploader(BaseUploader):
             except Exception as e:
                 print(f"exp: {e}, myscale may run by multi replicates mode..")
                 optimize_str = f"optimize table replicas.{MQDB_DATABASE_NAME} on cluster '{'{cluster}'}' final"
+                print(f">>> {optimize_str}")
                 cls.client.command(optimize_str)
             print("optimize table finished, time consume {}".format(time.time() - optimize_begin_time))
             print(f">>> {index_create_str}")
