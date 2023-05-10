@@ -31,14 +31,14 @@ class BaseClient:
         index_create_parameter = {}
         if self.name.startswith("myscale") or self.name.startswith("milvus") or self.name.startswith("zilliz"):
             index_create_parameter = {**self.uploader.upload_params["index_params"],
-                                      "optimizers_config": {**self.configurator.collection_params["optimizers_config"]}}
+                                      "optimizers_config": {**self.configurator.collection_params.get("optimizers_config",{})}}
         elif self.name.startswith("qdrant"):
             # TODO Integrating Two Types of Indexes
             index_create_parameter = {**self.configurator.collection_params.get("hnsw_config", {})}
             if index_create_parameter == {}:
                 index_create_parameter = {**self.configurator.collection_params.get("quantization_config", {})}
             if self.configurator.collection_params.get("optimizers_config", None) is not None:
-                index_create_parameter["optimizers_config"] = self.configurator.collection_params["optimizers_config"]
+                index_create_parameter["optimizers_config"] = self.configurator.collection_params.get("optimizers_config",{})
         elif self.name.startswith("pinecone"):
             index_create_parameter = self.configurator.collection_params["pod_type"]
         elif self.name.startswith("redis"):
