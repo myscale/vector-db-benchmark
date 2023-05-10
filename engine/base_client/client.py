@@ -29,7 +29,7 @@ class BaseClient:
         self.uploader = uploader
         self.searchers = searchers
         index_create_parameter = {}
-        if self.name.startswith("myscale") or self.name.startswith("milvus") or self.name.startswith("zilliz") or self.name.startswith("mqdb"):
+        if self.name.startswith("myscale") or self.name.startswith("milvus") or self.name.startswith("zilliz"):
             index_create_parameter = {**self.uploader.upload_params["index_params"],
                                       "optimizers_config": {**self.configurator.collection_params["optimizers_config"]}}
         elif self.name.startswith("qdrant"):

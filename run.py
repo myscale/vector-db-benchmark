@@ -63,7 +63,7 @@ def run(
     all_engines = read_engine_configs()
     all_datasets = read_dataset_config()
 
-    # 等待 k8s mqdb 服务上线
+    # waiting server online
     if wait_server_online:
         wait_socket(host_=host, port=port)
 

@@ -3,7 +3,7 @@ from typing import Any, List, Optional, Dict
 from engine.base_client.parser import BaseConditionParser, FieldValue
 
 
-class MqdbConditionParser(BaseConditionParser):
+class MyScaleConditionParser(BaseConditionParser):
 
     def build_condition(
             self, and_subfilters: Optional[List[Any]], or_subfilters: Optional[List[Any]]

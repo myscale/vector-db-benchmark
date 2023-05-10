@@ -3,10 +3,10 @@ import string
 
 from engine.base_client.distances import Distance
 
-MQDB_DATABASE_NAME = "Benchmark"
-MQDB_DEFAULT_PORT = "8123"
-MQDB_DEFAULT_USER = "default"
-MQDB_DEFAULT_PASSWD = ""
+MYSCALE_DATABASE_NAME = "Benchmark"
+MYSCALE_DEFAULT_PORT = "8123"
+MYSCALE_DEFAULT_USER = "default"
+MYSCALE_DEFAULT_PASSWD = ""
 
 DISTANCE_MAPPING = {
     Distance.L2: "L2",
@@ -31,10 +31,10 @@ H5_COLUMN_TYPES_MAPPING = {
 
 
 def convert_H52ClickHouseType(h5_column_type: str):
-    mqdb_type = H5_COLUMN_TYPES_MAPPING.get(h5_column_type.lower(), None)
-    if mqdb_type is None:
-        raise RuntimeError(f"🐛 mqdb doesn't support h5 column type: {h5_column_type}")
-    return mqdb_type
+    myscale_type = H5_COLUMN_TYPES_MAPPING.get(h5_column_type.lower(), None)
+    if myscale_type is None:
+        raise RuntimeError(f"🐛 myscale doesn't support h5 column type: {h5_column_type}")
+    return myscale_type
 
 
 def get_random_string(length: int):

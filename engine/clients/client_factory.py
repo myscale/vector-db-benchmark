@@ -11,9 +11,9 @@ from engine.clients.elasticsearch.configure import ElasticConfigurator
 from engine.clients.elasticsearch.search import ElasticSearcher
 from engine.clients.elasticsearch.upload import ElasticUploader
 from engine.clients.milvus import MilvusConfigurator, MilvusSearcher, MilvusUploader
-from engine.clients.mqdb.configure import MqdbConfigurator
-from engine.clients.mqdb.search import MqdbSearcher
-from engine.clients.mqdb.upload import MqdbUploader
+from engine.clients.myscale.configure import MyScaleConfigurator
+from engine.clients.myscale.search import MyScaleSearcher
+from engine.clients.myscale.upload import MyScaleUploader
 from engine.clients.pinecone.configure import PineconeConfigurator
 from engine.clients.pinecone.search import PineconeSearcher
 from engine.clients.pinecone.upload import PineconeUploader
@@ -31,8 +31,7 @@ from engine.clients.weaviate import (
 )
 
 ENGINE_CONFIGURATORS = {
-    "mqdb": MqdbConfigurator,
-    "myscale": MqdbConfigurator,
+    "myscale": MyScaleConfigurator,
     "qdrant": QdrantConfigurator,
     "weaviate": WeaviateConfigurator,
     "milvus": MilvusConfigurator,
@@ -44,8 +43,7 @@ ENGINE_CONFIGURATORS = {
 }
 
 ENGINE_UPLOADERS = {
-    "mqdb": MqdbUploader,
-    "myscale": MqdbUploader,
+    "myscale": MyScaleUploader,
     "qdrant": QdrantUploader,
     "weaviate": WeaviateUploader,
     "milvus": MilvusUploader,
@@ -57,8 +55,7 @@ ENGINE_UPLOADERS = {
 }
 
 ENGINE_SEARCHERS = {
-    "mqdb": MqdbSearcher,
-    "myscale": MqdbSearcher,
+    "myscale": MyScaleSearcher,
     "qdrant": QdrantSearcher,
     "weaviate": WeaviateSearcher,
     "milvus": MilvusSearcher,
@@ -79,7 +76,7 @@ class ClientFactory(ABC):
         engine_configurator = engine_configurator_class(
             self.host,
             # for myscale, append upload_params to collection_params
-            collection_params={**experiment.get("collection_params", {})} if experiment["engine"] not in ["myscale", "mqdb"] else {**experiment.get("collection_params", {}), **experiment.get("upload_params", {})},
+            collection_params={**experiment.get("collection_params", {})} if experiment["engine"] != "myscale" else {**experiment.get("collection_params", {}), **experiment.get("upload_params", {})},
             connection_params={**experiment.get("connection_params", {})},
         )
         return engine_configurator
@@ -90,7 +87,7 @@ class ClientFactory(ABC):
             self.host,
             # for myscale, append upload_params to collection_params
             connection_params={**experiment.get("connection_params", {})},
-            upload_params={**experiment.get("upload_params", {})} if experiment["engine"] not in ["myscale", "mqdb"] else {**experiment.get("upload_params", {}), **experiment.get("collection_params", {})},
+            upload_params={**experiment.get("upload_params", {})} if experiment["engine"] != "myscale" else {**experiment.get("upload_params", {}), **experiment.get("collection_params", {})},
         )
         return engine_uploader
 

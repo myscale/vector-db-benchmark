@@ -3,16 +3,16 @@ from typing import List, Optional, Tuple
 import clickhouse_connect
 from clickhouse_connect.driver.client import Client
 from engine.base_client import BaseSearcher
-from engine.clients.mqdb.config import *
-from engine.clients.mqdb.parser import MqdbConditionParser
+from engine.clients.myscale.config import *
+from engine.clients.myscale.parser import MyScaleConditionParser
 
 
-class MqdbSearcher(BaseSearcher):
+class MyScaleSearcher(BaseSearcher):
     search_params = {}
     client: Client = None
     distance: str = None
     host: str = None
-    parser = MqdbConditionParser()
+    parser = MyScaleConditionParser()
 
     @classmethod
     def init_client(
@@ -20,8 +20,8 @@ class MqdbSearcher(BaseSearcher):
     ):
         cls.client = clickhouse_connect.get_client(host=connection_params.get('host', '127.0.0.1'),
                                                    port=connection_params.get('port', 8123),
-                                                   username=connection_params.get("user", MQDB_DEFAULT_USER),
-                                                   password=connection_params.get("password", MQDB_DEFAULT_PASSWD))
+                                                   username=connection_params.get("user", MYSCALE_DEFAULT_USER),
+                                                   password=connection_params.get("password", MYSCALE_DEFAULT_PASSWD))
         cls.host = host
         cls.distance = DISTANCE_MAPPING[distance]
         cls.search_params = search_params
@@ -35,10 +35,10 @@ class MqdbSearcher(BaseSearcher):
         if par != "":
             par = par[2:]
 
-        search_str = f"SELECT id, distance({par})(vector, {vector}) as dis FROM {MQDB_DATABASE_NAME}"
+        search_str = f"SELECT id, distance({par})(vector, {vector}) as dis FROM {MYSCALE_DATABASE_NAME}"
 
         if meta_conditions is not None:
-            search_str += f" where {cls.parser.parse(meta_conditions=meta_conditions)}"
+            search_str += f" prewhere {cls.parser.parse(meta_conditions=meta_conditions)}"
 
         if cls.distance == "IP":
             search_str += f" order by dis DESC limit {top}"

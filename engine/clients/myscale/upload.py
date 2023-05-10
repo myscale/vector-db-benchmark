@@ -5,10 +5,10 @@ import clickhouse_connect
 from clickhouse_connect.driver.client import Client
 
 from engine.base_client import BaseUploader
-from engine.clients.mqdb.config import *
+from engine.clients.myscale.config import *
 
 
-class MqdbUploader(BaseUploader):
+class MyScaleUploader(BaseUploader):
     client: Client = None
     upload_params = {}
     distance: str = None
@@ -21,8 +21,8 @@ class MqdbUploader(BaseUploader):
         try:
             cls.client = clickhouse_connect.get_client(host=connection_params.get('host', '127.0.0.1'),
                                                        port=connection_params.get('port', 8123),
-                                                       username=connection_params.get("user", MQDB_DEFAULT_USER),
-                                                       password=connection_params.get("password", MQDB_DEFAULT_PASSWD))
+                                                       username=connection_params.get("user", MYSCALE_DEFAULT_USER),
+                                                       password=connection_params.get("password", MYSCALE_DEFAULT_PASSWD))
         except Exception as e:
             print(f"MyScale get exception: {e}")
         cls.upload_params = upload_params
@@ -31,7 +31,7 @@ class MqdbUploader(BaseUploader):
     @classmethod
     def upload_batch(cls, ids: List[int], vectors: List[list], metadata: List[Optional[dict]]):
         if len(ids) != len(vectors):
-            raise RuntimeError("mqdb batch upload unhealthy")
+            raise RuntimeError("myscale batch upload unhealthy")
         # Getting the names of structured data columns based on the first meta information.
         col_list = ['id', 'vector']
         if metadata[0] is not None:
@@ -54,7 +54,7 @@ class MqdbUploader(BaseUploader):
 
         while True:
             try:
-                cls.client.insert(MQDB_DATABASE_NAME, res, column_names=col_list)
+                cls.client.insert(MYSCALE_DATABASE_NAME, res, column_names=col_list)
                 break
             except Exception as e:
                 print(f"MyScale upload exception {e}")
@@ -73,23 +73,23 @@ class MqdbUploader(BaseUploader):
                 index_parameter_str += ("'{}={}'" if index_parameter_str == "" else ",'{}={}'").format(
                     key, cls.upload_params.get('index_params', {})[key])
 
-            index_create_str = f"alter table {MQDB_DATABASE_NAME} add vector index {MQDB_DATABASE_NAME}_{get_random_string(4)} vector type {cls.upload_params['index_type']}({index_parameter_str})"
+            index_create_str = f"alter table {MYSCALE_DATABASE_NAME} add vector index {MYSCALE_DATABASE_NAME}_{get_random_string(4)} vector type {cls.upload_params['index_type']}({index_parameter_str})"
             # optimize table
-            optimize_str = "optimize table {} final".format(MQDB_DATABASE_NAME)
+            optimize_str = "optimize table {} final".format(MYSCALE_DATABASE_NAME)
             print(f">>> {optimize_str}")
             optimize_begin_time = time.time()
             try:
                 cls.client.command(optimize_str)
             except Exception as e:
                 print(f"exp: {e}, myscale may run by multi replicates mode..")
-                optimize_str = f"optimize table replicas.{MQDB_DATABASE_NAME} on cluster '{'{cluster}'}' final"
+                optimize_str = f"optimize table replicas.{MYSCALE_DATABASE_NAME} on cluster '{'{cluster}'}' final"
                 print(f">>> {optimize_str}")
                 cls.client.command(optimize_str)
             print("optimize table finished, time consume {}".format(time.time() - optimize_begin_time))
             print(f">>> {index_create_str}")
             cls.client.command(index_create_str)
         # waiting for vector index create finished
-        check_index_status = f"select status from system.vector_indices where table='{MQDB_DATABASE_NAME}'"
+        check_index_status = f"select status from system.vector_indices where table='{MYSCALE_DATABASE_NAME}'"
         print(f">>> {check_index_status}")
         while True:
             time.sleep(5)

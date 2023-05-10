@@ -4,10 +4,10 @@ import clickhouse_connect
 from multiprocessing import get_context
 from clickhouse_connect.driver.client import Client
 from engine.base_client.configure import BaseConfigurator
-from engine.clients.mqdb.config import *
+from engine.clients.myscale.config import *
 
 
-class MqdbConfigurator(BaseConfigurator):
+class MyScaleConfigurator(BaseConfigurator):
     client: Client = None
 
     def __init__(self, host, collection_params: dict, connection_params: dict):
@@ -17,8 +17,8 @@ class MqdbConfigurator(BaseConfigurator):
     def init_client(cls, connection_params):
         cls.client = clickhouse_connect.get_client(host=connection_params.get('host', "127.0.0.1"),
                                                    port=connection_params.get('port', 8123),
-                                                   username=connection_params.get("user", MQDB_DEFAULT_USER),
-                                                   password=connection_params.get("password", MQDB_DEFAULT_PASSWD))
+                                                   username=connection_params.get("user", MYSCALE_DEFAULT_USER),
+                                                   password=connection_params.get("password", MYSCALE_DEFAULT_PASSWD))
 
     def clean(self):
         pass
@@ -40,22 +40,22 @@ class MqdbConfigurator(BaseConfigurator):
             index_parameter_str += ("'{}={}'" if index_parameter_str == "" else ",'{}={}'").format(
                 key, collection_params.get('index_params', {})[key])
 
-        vector_index_inner = f"vector index {MQDB_DATABASE_NAME}_{get_random_string(4)} vector type {collection_params['index_type']}({index_parameter_str}),"
+        vector_index_inner = f"vector index {MYSCALE_DATABASE_NAME}_{get_random_string(4)} vector type {collection_params['index_type']}({index_parameter_str}),"
         if use_optimize:
             vector_index_inner = ""
 
         # TODO Subsequently, based on the payloads data of the HDF5 dataset, this function will continue to be improved.
         if shard == 1 and replicate == 1:
-            drop_table = f"DROP TABLE IF EXISTS default.{MQDB_DATABASE_NAME} sync"
+            drop_table = f"DROP TABLE IF EXISTS default.{MYSCALE_DATABASE_NAME} sync"
             print(f">>> {drop_table}")
             cls.client.command(drop_table)
-            create_table = f"create table default.{MQDB_DATABASE_NAME}(id UInt32, vector Array(Float32), {structured_columns} {vector_index_inner} CONSTRAINT check_length CHECK length(vector) = {vector_size}) engine MergeTree order by id"
+            create_table = f"create table default.{MYSCALE_DATABASE_NAME}(id UInt32, vector Array(Float32), {structured_columns} {vector_index_inner} CONSTRAINT check_length CHECK length(vector) = {vector_size}) engine MergeTree order by id"
             print(f">>> {create_table}")
             cls.client.command(create_table)
         else:
             cluster = "{cluster}"
-            drop_table1 = f"DROP TABLE IF EXISTS replicas.{MQDB_DATABASE_NAME} on cluster '{cluster}'"
-            drop_table2 = f"DROP TABLE IF EXISTS default.{MQDB_DATABASE_NAME} on cluster '{cluster}'"
+            drop_table1 = f"DROP TABLE IF EXISTS replicas.{MYSCALE_DATABASE_NAME} on cluster '{cluster}'"
+            drop_table2 = f"DROP TABLE IF EXISTS default.{MYSCALE_DATABASE_NAME} on cluster '{cluster}'"
             drop_database = f"DROP DATABASE IF EXISTS replicas ON CLUSTER '{cluster}'"
             print("drop table replica: " + drop_table1)
             cls.client.command(drop_table1)
@@ -67,14 +67,14 @@ class MqdbConfigurator(BaseConfigurator):
             create_database = f"CREATE DATABASE IF NOT EXISTS replicas on cluster '{cluster}'"
             print("create database: " + create_database)
             cls.client.command(create_database)
-            create_table = f"create table replicas.{MQDB_DATABASE_NAME} on cluster '{cluster}' (id UInt32, vector Array(Float32), {structured_columns} {vector_index_inner} CONSTRAINT check_length CHECK length(vector) = {vector_size}) "
+            create_table = f"create table replicas.{MYSCALE_DATABASE_NAME} on cluster '{cluster}' (id UInt32, vector Array(Float32), {structured_columns} {vector_index_inner} CONSTRAINT check_length CHECK length(vector) = {vector_size}) "
             create_table += " ENGINE = ReplicatedMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/replicas/"
-            create_table += f"{MQDB_DATABASE_NAME}"
+            create_table += f"{MYSCALE_DATABASE_NAME}"
             create_table += "', '{replica}') ORDER BY id"
             print("create replicated table: " + create_table)
             cls.client.command(create_table)
             # Fixme Does distribute need vector_index_inner ？
-            create_distribute = f"create table default.{MQDB_DATABASE_NAME} on cluster '{cluster}' (id UInt32, vector Array(Float32), {structured_columns} CONSTRAINT check_length CHECK length(vector) = {vector_size}) engine Distributed('{cluster}', 'replicas', '{MQDB_DATABASE_NAME}', rand())"
+            create_distribute = f"create table default.{MYSCALE_DATABASE_NAME} on cluster '{cluster}' (id UInt32, vector Array(Float32), {structured_columns} CONSTRAINT check_length CHECK length(vector) = {vector_size}) engine Distributed('{cluster}', 'replicas', '{MYSCALE_DATABASE_NAME}', rand())"
             print("create distributed table: " + create_distribute)
             cls.client.command(create_distribute)
         print("myscale recreate finished!")

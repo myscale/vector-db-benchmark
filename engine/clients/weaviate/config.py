@@ -19,7 +19,7 @@ H5_COLUMN_TYPES_MAPPING = {
 def convert_H52WeaviateType(h5_column_type: str):
     py_type = H5_COLUMN_TYPES_MAPPING.get(h5_column_type.lower(), None)
     if py_type is None:
-        raise RuntimeWarning(f"mqdb doesn't support h5 column type: {h5_column_type}")
+        raise RuntimeWarning(f"myscale doesn't support h5 column type: {h5_column_type}")
     return py_type
 
 

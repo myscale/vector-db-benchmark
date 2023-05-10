@@ -19,6 +19,7 @@ def generate_search_params(params: dict):
     else:
         return {}
 
+
 class QdrantSearcher(BaseSearcher):
     connection_params = {}
     search_params = {}
@@ -53,6 +54,6 @@ class QdrantSearcher(BaseSearcher):
                 return [(hit.id, hit.score) for hit in res]
             except Exception as e:
                 print(e)
-                print("after 3s retry")
-                time.sleep(3)
-                # cls.client = QdrantClient(**cls.connection_params)
+                print("after 10s retry")
+                time.sleep(10)
+                cls.client = QdrantClient(**cls.connection_params)
