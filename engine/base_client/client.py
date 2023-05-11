@@ -40,7 +40,7 @@ class BaseClient:
             if self.configurator.collection_params.get("optimizers_config", None) is not None:
                 index_create_parameter["optimizers_config"] = self.configurator.collection_params.get("optimizers_config",{})
         elif self.name.startswith("pinecone"):
-            index_create_parameter = self.configurator.collection_params["pod_type"]
+            index_create_parameter = self.configurator.collection_params
         elif self.name.startswith("redis"):
             index_create_parameter = self.configurator.collection_params["hnsw_config"]
         elif self.name.startswith("weaviate"):

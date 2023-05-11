@@ -21,14 +21,14 @@ class PineconeConfigurator(BaseConfigurator):
         if PINECONE_INDEX_NAME in pinecone.list_indexes():
             pinecone.delete_index(PINECONE_INDEX_NAME)
 
-        pods_type = collection_params["pod_type"]
         # metadata_config = {
         # "indexed": index_column_list
         # }
         pinecone.create_index(name=PINECONE_INDEX_NAME,
                               dimension=vector_size,
                               metric=DISTANCE_MAPPING[distance],
-                              pod_type=pods_type,
+                              pod_type=collection_params["pod_type"],
+                              pods=collection_params.get("pods", 1)
                               # FixMe Determine whether to add an index to the Pinecone meta field.
                               # metadata_config=metadata_config
                               )
