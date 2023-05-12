@@ -70,6 +70,7 @@ class BaseUploader:
                 initializer=self.__class__.init_client,
                 initargs=(self.host,
                           distance,
+                          vector_count,
                           self.connection_params,
                           self.upload_params,
                           extra_columns_name,
