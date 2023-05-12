@@ -22,7 +22,7 @@ pip install -r requirements.txt
 
 ## Testing steps
 For any cloud vector database, the testing process follows the flowchart below.
-![](images/cloud%20test%20steps.png)
+![](images/cloud%20test%20steps.png){width=300px}
 Below are the specific testing processes for each cloud vector database.
 ### MyScale
 #### Step1. Create Cluster
