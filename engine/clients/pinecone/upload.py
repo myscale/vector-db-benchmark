@@ -76,14 +76,15 @@ class PineconeUploader(BaseUploader):
             index_description = pinecone.describe_index(name=PINECONE_INDEX_NAME)
             if index_description.status["ready"] and index_description.status["state"] == "Ready":
                 print("pinecone index status is Ready!")
-                break
             else:
                 print("{}".format(index_description.status), end=" ", flush=True)
                 time.sleep(2)
+                continue
             # make sure vector index count fit datasets
             total_vector_count = cls.index.describe_index_stats().get("total_vector_count", 0)
             if total_vector_count < cls.vector_count:
                 print(f"{total_vector_count}", end='🌳', flush=True)
+                time.sleep(2)
             else:
                 print(f"\npinecone total_vector_count: {total_vector_count}, datasets vector count: {cls.vector_count}")
                 break
