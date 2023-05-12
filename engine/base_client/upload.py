@@ -21,13 +21,14 @@ class BaseUploader:
         return None
 
     @classmethod
-    def init_client(cls, host, distance, connection_params: dict, upload_params: dict,
+    def init_client(cls, host, distance, vector_count, connection_params: dict, upload_params: dict,
                     extra_columns_name: list, extra_columns_type: list):
         raise NotImplementedError()
 
     def upload(
             self,
             distance,
+            vector_count,
             records: Iterable[Record],
             extra_columns_name: list,
             extra_columns_type: list
@@ -45,6 +46,7 @@ class BaseUploader:
                 initargs=(
                         self.host,
                         distance,
+                        vector_count,
                         self.connection_params,
                         self.upload_params,
                         extra_columns_name,

@@ -7,6 +7,7 @@ class DatasetConfig:
     name: str           # dataset name
     result_group: str   # single_search or hybrid_search
     vector_size: int    # vector size
+    vector_count: int   # vector count
     queries: int        # number of vectors used for vector search
     distance: str       # cosine、l2
     type: str           # h5 or jsonl

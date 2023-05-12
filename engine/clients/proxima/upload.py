@@ -13,7 +13,7 @@ class ProximaUploader(BaseUploader):
     extra_columns_type: list = []
 
     @classmethod
-    def init_client(cls, host, distance, connection_params, upload_params,
+    def init_client(cls, host, distance, vector_count, connection_params, upload_params,
                     extra_columns_name: list, extra_columns_type: list):
         cls.client: Client = Client(connection_params.get("host", host), PROXIMA_GRPC_PORT)
         cls.extra_columns_name = extra_columns_name

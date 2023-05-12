@@ -18,7 +18,7 @@ class MilvusUploader(BaseUploader):
     distance: str = None
 
     @classmethod
-    def init_client(cls, host, distance, connection_params, upload_params,
+    def init_client(cls, host, distance, vector_count, connection_params, upload_params,
                     extra_columns_name: list, extra_columns_type: list):
         connection_params["default_host"] = host
         cls.client = process_connection_params(connection_params_with_default_host=connection_params)

@@ -14,7 +14,7 @@ class QdrantUploader(BaseUploader):
     upload_params = {}
 
     @classmethod
-    def init_client(cls, host, distance, connection_params, upload_params,
+    def init_client(cls, host, distance, vector_count, connection_params, upload_params,
                     extra_columns_name: list, extra_columns_type: list):
         connection_params['host'] = host if connection_params.get('host', None) is None else connection_params['host']
         connection_params['prefer_grpc'] = connection_params.get('prefer_grpc', True)

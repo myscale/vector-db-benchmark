@@ -3,6 +3,7 @@
     "name": "gist-960-euclidean-l2",
     "result_group": "single_search",
     "vector_size": 960,
+    "vector_count": 1000000,
     "queries": 1000,
     "distance": "l2",
     "type": "h5",
@@ -71,6 +72,7 @@
       }
     ],
     "vector_size": 960,
+    "vector_count": 1000000,
     "queries": 1000,
     "distance": "l2",
     "type": "h5",
@@ -86,6 +88,7 @@
     "name": "arxiv-titles-384-angular-filters",
     "result_group": "hybrid_search",
     "vector_size": 384,
+    "vector_count": 2138591,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -102,6 +105,7 @@
     "name": "arxiv-titles-384-angular-no-filters",
     "result_group": "single_search",
     "vector_size": 384,
+    "vector_count": 2138591,
     "queries": 15000,
     "distance": "cosine",
     "type": "tar",
@@ -114,6 +118,7 @@
     "name": "h-and-m-2048-angular-filters",
     "result_group": "hybrid_search",
     "vector_size": 2048,
+    "vector_count": 105100,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -152,6 +157,7 @@
     "name": "h-and-m-2048-angular-no-filters",
     "result_group": "single_search",
     "vector_size": 2048,
+    "vector_count": 105100,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -164,6 +170,7 @@
     "name": "random-match-keyword-100-angular-filters",
     "result_group": "hybrid_search",
     "vector_size": 100,
+    "vector_count": 1000000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -176,10 +183,11 @@
       "b": "keyword"
     }
   },
-    {
+  {
     "name": "random-match-keyword-100-angular-no-filters",
     "result_group": "single_search",
     "vector_size": 100,
+    "vector_count": 1000000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -192,6 +200,7 @@
     "name": "random-match-int-100-angular-filters",
     "result_group": "hybrid_search",
     "vector_size": 100,
+    "vector_count": 1000000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -208,6 +217,7 @@
     "name": "random-match-int-100-angular-no-filters",
     "result_group": "single_search",
     "vector_size": 100,
+    "vector_count": 1000000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -220,6 +230,7 @@
     "name": "random-range-100-angular-filters",
     "result_group": "hybrid_search",
     "vector_size": 100,
+    "vector_count": 1000000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -236,6 +247,7 @@
     "name": "random-range-100-angular-no-filters",
     "result_group": "single_search",
     "vector_size": 100,
+    "vector_count": 1000000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -248,6 +260,7 @@
     "name": "random-geo-radius-100-angular-filters",
     "result_group": "hybrid_search",
     "vector_size": 100,
+    "vector_count": 1000000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -260,10 +273,11 @@
       "b": "geo"
     }
   },
-    {
+  {
     "name": "random-geo-radius-100-angular-no-filters",
     "result_group": "single_search",
     "vector_size": 100,
+    "vector_count": 1000000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -276,6 +290,7 @@
     "name": "random-match-keyword-2048-angular-filters",
     "result_group": "hybrid_search",
     "vector_size": 2048,
+    "vector_count": 100000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -292,6 +307,7 @@
     "name": "random-match-keyword-2048-angular-no-filters",
     "result_group": "single_search",
     "vector_size": 2048,
+    "vector_count": 100000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -304,6 +320,7 @@
     "name": "random-match-int-2048-angular-filters",
     "result_group": "hybrid_search",
     "vector_size": 2048,
+    "vector_count": 100000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -320,6 +337,7 @@
     "name": "random-match-int-2048-angular-no-filters",
     "result_group": "single_search",
     "vector_size": 2048,
+    "vector_count": 100000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -332,6 +350,7 @@
     "name": "random-range-2048-angular-filters",
     "result_group": "hybrid_search",
     "vector_size": 2048,
+    "vector_count": 100000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -344,10 +363,11 @@
       "b": "float"
     }
   },
-    {
+  {
     "name": "random-range-2048-angular-no-filters",
     "result_group": "single_search",
     "vector_size": 2048,
+    "vector_count": 100000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -360,6 +380,7 @@
     "name": "random-geo-radius-2048-angular-filters",
     "result_group": "hybrid_search",
     "vector_size": 2048,
+    "vector_count": 100000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -372,10 +393,11 @@
       "b": "geo"
     }
   },
-    {
+  {
     "name": "random-geo-radius-2048-angular-no-filters",
     "result_group": "single_search",
     "vector_size": 2048,
+    "vector_count": 100000,
     "queries": 10000,
     "distance": "cosine",
     "type": "tar",
@@ -388,6 +410,7 @@
     "name": "laion-768-1m-ip",
     "result_group": "single_search",
     "vector_size": 768,
+    "vector_count": 1000000,
     "queries": 10000,
     "distance": "dot",
     "type": "h5",
@@ -396,10 +419,11 @@
     "tag": "no-filter",
     "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-1m-test-ip.hdf5"
   },
-    {
+  {
     "name": "laion-768-5m-ip",
     "result_group": "single_search",
     "vector_size": 768,
+    "vector_count": 5000000,
     "queries": 10000,
     "distance": "dot",
     "type": "h5",
@@ -408,7 +432,7 @@
     "tag": "no-filter",
     "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-5m-test-ip.hdf5"
   },
-    {
+  {
     "name": "laion-768-5m-ip-probability",
     "result_group": "hybrid_search",
     "query_file_path": [
@@ -468,6 +492,7 @@
       }
     ],
     "vector_size": 768,
+    "vector_count": 5000000,
     "queries": 10000,
     "distance": "dot",
     "type": "h5",

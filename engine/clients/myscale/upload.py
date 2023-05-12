@@ -14,7 +14,7 @@ class MyScaleUploader(BaseUploader):
     distance: str = None
 
     @classmethod
-    def init_client(cls, host, distance, connection_params, upload_params,
+    def init_client(cls, host, distance, vector_count, connection_params, upload_params,
                     extra_columns_name: list, extra_columns_type: list):
         if cls.client is not None:
             print(cls.client.ping())

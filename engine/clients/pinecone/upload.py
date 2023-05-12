@@ -31,15 +31,17 @@ class PineconeUploader(BaseUploader):
     index: pinecone.Index = None
     upload_params = {}
     distance: str = None
+    vector_count: int = 0
 
     @classmethod
-    def init_client(cls, host, distance, connection_params, upload_params,
+    def init_client(cls, host, distance, vector_count, connection_params, upload_params,
                     extra_columns_name: list, extra_columns_type: list):
         pinecone.init(api_key=connection_params.get("api-key", PINECONE_API_KEY),
                       environment=connection_params.get("environment", PINECONE_ENVIRONMENT))
         cls.index = pinecone.Index(index_name=PINECONE_INDEX_NAME)
         cls.upload_params = upload_params
         cls.distance = DISTANCE_MAPPING[distance]
+        cls.vector_count = vector_count
 
     @classmethod
     def upload_batch(
@@ -70,10 +72,20 @@ class PineconeUploader(BaseUploader):
     def post_upload(cls, distance):
         print(f"pinecone post upload: distance {distance}, cls.distance {cls.distance}")
         while True:
+            # make sure index status is ready
             index_description = pinecone.describe_index(name=PINECONE_INDEX_NAME)
             if index_description.status["ready"] and index_description.status["state"] == "Ready":
+                print("pinecone index status is Ready!")
                 break
             else:
                 print("{}".format(index_description.status), end=" ", flush=True)
                 time.sleep(2)
+            # make sure vector index count fit datasets
+            total_vector_count = cls.index.describe_index_stats().get("total_vector_count", 0)
+            if total_vector_count < cls.vector_count:
+                print(f"{total_vector_count}", end='🌳', flush=True)
+            else:
+                print(f"\npinecone total_vector_count: {total_vector_count}, datasets vector count: {cls.vector_count}")
+                break
+
         return {}

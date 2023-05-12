@@ -14,7 +14,7 @@ class RedisUploader(BaseUploader):
     upload_params = {}
 
     @classmethod
-    def init_client(cls, host, distance, connection_params, upload_params,
+    def init_client(cls, host, distance, vector_count, connection_params, upload_params,
                     extra_columns_name: list, extra_columns_type: list):
         cls.client = redis.Redis(host=connection_params.get('host', host),
                                  port=connection_params.get('port', REDIS_PORT),

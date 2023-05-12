@@ -15,7 +15,7 @@ class WeaviateUploader(BaseUploader):
     host = "127.0.0.1"
 
     @classmethod
-    def init_client(cls, host, distance, connection_params, upload_params,
+    def init_client(cls, host, distance, vector_count, connection_params, upload_params,
                     extra_columns_name: list, extra_columns_type: list):
         cls.client = generateWeaviateClient(connection_params={**connection_params}, host=host)
         cls.upload_params = upload_params
