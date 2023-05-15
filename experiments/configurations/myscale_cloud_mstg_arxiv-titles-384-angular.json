@@ -1,0 +1,262 @@
+[
+  {
+    "name": "myscale-v22.3.7.5-single_node-MSTG-dataset-arxiv-titles-384-angular-filters-up-16-bs-64-optimize",
+    "result_group": "single_search",
+    "engine": "myscale",
+    "platform": "CloudTest_v0.0.2",
+    "index_type": "MSTG",
+    "dataset": "arxiv-titles-384-angular-filters",
+    "version": "v22.3.7.5",
+    "branch": "mqdb-dev",
+    "commit": "f9a8252ebd3c252d10b3d96d79888a6cc1d2ab23",
+    "remark": "Merge branch fix/replicated-lwd-decouple into mqdb-dev",
+    "other": "client in aws-dev",
+    "link": "https://git.moqi.ai/mqdb/ClickHouse/-/commit/f9a8252ebd3c252d10b3d96d79888a6cc1d2ab23",
+    "connection_params": {
+      "host": "your_host.aws.dev.myscale.cloud",
+      "port": 8123,
+      "http_type": "http",
+      "user": "default",
+      "password": ""
+    },
+    "collection_params": {
+      "optimizers_config": {
+        "optimize_final": true
+      },
+      "shard": 1,
+      "replicate": 1
+    },
+    "search_params": [
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "alpha": 1
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "alpha": 2
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "alpha": 3
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "alpha": 4
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "alpha": 1
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "alpha": 2
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "alpha": 3
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "alpha": 4
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "alpha": 1
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "alpha": 2
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "alpha": 3
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "alpha": 4
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "alpha": 1
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "alpha": 2
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "alpha": 3
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "alpha": 4
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "alpha": 1
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "alpha": 2
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "alpha": 3
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "alpha": 4
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "alpha": 1
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "alpha": 2
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "alpha": 3
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "alpha": 4
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "alpha": 1
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "alpha": 2
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "alpha": 3
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "alpha": 4
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "alpha": 1
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "alpha": 2
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "alpha": 3
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "alpha": 4
+        }
+      }
+    ],
+    "upload_params": {
+      "parallel": 16,
+      "batch_size": 64,
+      "index_params": {},
+      "index_type": "MSTG"
+    }
+  }
+]

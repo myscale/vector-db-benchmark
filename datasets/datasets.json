@@ -10,7 +10,7 @@
     "path": "downloaded/gist-960-euclidean/gist-960-euclidean.hdf5",
     "group_name": "gist-960-euclidean",
     "tag": "no-filter",
-    "link": "https://mqdb-public-1253802058.cos.ap-beijing.myqcloud.com/public/gist-960-euclidean.hdf5"
+    "link": "http://ann-benchmarks.com/gist-960-euclidean.hdf5"
   },
   {
     "name": "gist-960-euclidean-probability-l2",
@@ -20,55 +20,55 @@
         "name": "gist-960-euclidean-probability-0.001.hdf5",
         "meta": {"probability": 0.001},
         "path": "downloaded/gist-960-euclidean-probability/gist-960-euclidean-probability-0.001.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/gist-960-euclidean-probability-0.001.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/gist-960-euclidean-probability-0.001.hdf5"
       },
       {
         "name": "gist-960-euclidean-probability-0.005.hdf5",
         "meta": {"probability": 0.005},
         "path": "downloaded/gist-960-euclidean-probability/gist-960-euclidean-probability-0.005.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/gist-960-euclidean-probability-0.005.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/gist-960-euclidean-probability-0.005.hdf5"
       },
       {
         "name": "gist-960-euclidean-probability-0.01.hdf5",
         "meta": {"probability": 0.01},
         "path": "downloaded/gist-960-euclidean-probability/gist-960-euclidean-probability-0.01.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/gist-960-euclidean-probability-0.01.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/gist-960-euclidean-probability-0.01.hdf5"
       },
       {
         "name": "gist-960-euclidean-probability-0.05.hdf5",
         "meta": {"probability": 0.05},
         "path": "downloaded/gist-960-euclidean-probability/gist-960-euclidean-probability-0.05.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/gist-960-euclidean-probability-0.05.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/gist-960-euclidean-probability-0.05.hdf5"
       },
       {
         "name": "gist-960-euclidean-probability-0.1.hdf5",
         "meta": {"probability": 0.1},
         "path": "downloaded/gist-960-euclidean-probability/gist-960-euclidean-probability-0.1.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/gist-960-euclidean-probability-0.1.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/gist-960-euclidean-probability-0.1.hdf5"
       },
       {
         "name": "gist-960-euclidean-probability-0.3.hdf5",
         "meta": {"probability": 0.3},
         "path": "downloaded/gist-960-euclidean-probability/gist-960-euclidean-probability-0.3.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/gist-960-euclidean-probability-0.3.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/gist-960-euclidean-probability-0.3.hdf5"
       },
       {
         "name": "gist-960-euclidean-probability-0.5.hdf5",
         "meta": {"probability": 0.5},
         "path": "downloaded/gist-960-euclidean-probability/gist-960-euclidean-probability-0.5.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/gist-960-euclidean-probability-0.5.hdf5"
+          "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/gist-960-euclidean-probability-0.5.hdf5"
       },
       {
         "name": "gist-960-euclidean-probability-0.8.hdf5",
         "meta": {"probability": 0.8},
         "path": "downloaded/gist-960-euclidean-probability/gist-960-euclidean-probability-0.8.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/gist-960-euclidean-probability-0.8.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/gist-960-euclidean-probability-0.8.hdf5"
       },
       {
         "name": "gist-960-euclidean-probability-1.0.hdf5",
         "meta": {"probability": 1.0},
         "path": "downloaded/gist-960-euclidean-probability/gist-960-euclidean-probability-1.0.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/gist-960-euclidean-probability-1.0.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/gist-960-euclidean-probability-1.0.hdf5"
       }
     ],
     "vector_size": 960,
@@ -79,7 +79,7 @@
     "path": "downloaded/gist-960-euclidean-probability/gist-960-euclidean-probability.hdf5",
     "group_name": "gist-960-euclidean-probability",
     "tag": "filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/gist-960-euclidean-probability.hdf5",
+    "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/gist-960-euclidean-probability.hdf5",
     "schema": {
       "probability": "float64"
     }
@@ -95,7 +95,7 @@
     "path": "downloaded/arxiv-titles-384-angular/arxiv",
     "group_name": "arxiv-titles-384-angular",
     "tag": "filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/arxiv_small_payload.tar.gz",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/arxiv_small_payload.tar.gz",
     "schema": {
       "update_date_ts": "int",
       "label": "keyword"
@@ -112,7 +112,7 @@
     "path": "downloaded/arxiv-titles-384-angular/arxiv_no_filters",
     "group_name": "arxiv-titles-384-angular",
     "tag": "no-filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/arxiv_no_filters.tar.gz"
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/arxiv_no_filters.tar.gz"
   },
   {
     "name": "h-and-m-2048-angular-filters",
@@ -125,7 +125,7 @@
     "path": "downloaded/h-and-m-2048-angular/hnm",
     "group_name": "h-and-m-2048-angular",
     "tag": "filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/hnm.tgz",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/hnm.tgz",
     "schema": {
       "product_code": "int",
       "prod_name": "keyword",
@@ -164,7 +164,7 @@
     "path": "downloaded/h-and-m-2048-angular/hnm_no_filters",
     "group_name": "h-and-m-2048-angular",
     "tag": "no-filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/hnm_no_filters.tgz"
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/hnm_no_filters.tgz"
   },
   {
     "name": "random-match-keyword-100-angular-filters",
@@ -177,7 +177,7 @@
     "path": "downloaded/random-match-keyword-100-angular/random_keywords_1m",
     "group_name": "random-match-keyword-100-angular",
     "tag": "filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_keywords_1m.tgz",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_1m.tgz",
     "schema": {
       "a": "keyword",
       "b": "keyword"
@@ -194,7 +194,7 @@
     "path": "downloaded/random-match-keyword-100-angular/random_keywords_1m_no_filters",
     "group_name": "random-match-keyword-100-angular",
     "tag": "no-filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_keywords_1m_no_filters.tgz"
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_1m_no_filters.tgz"
   },
   {
     "name": "random-match-int-100-angular-filters",
@@ -207,7 +207,7 @@
     "path": "downloaded/random-match-int-100-angular/random_ints_1m",
     "group_name": "random-match-int-100-angular",
     "tag": "filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_ints_1m.tgz",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_ints_1m.tgz",
     "schema": {
       "a": "int",
       "b": "int"
@@ -224,7 +224,7 @@
     "path": "downloaded/random-match-int-100-angular/random_ints_1m_no_filters",
     "group_name": "random-match-int-100-angular",
     "tag": "no-filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_ints_1m_no_filters.tgz"
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_ints_1m_no_filters.tgz"
   },
   {
     "name": "random-range-100-angular-filters",
@@ -237,7 +237,7 @@
     "path": "downloaded/random-range-100-angular/random_float_1m",
     "group_name": "random-range-100-angular",
     "tag": "filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_float_1m.tgz",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_float_1m.tgz",
     "schema": {
       "a": "float",
       "b": "float"
@@ -254,7 +254,7 @@
     "path": "downloaded/random-range-100-angular/random_float_1m_no_filters",
     "group_name": "random-range-100-angular",
     "tag": "no-filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_float_1m_no_filters.tgz"
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_float_1m_no_filters.tgz"
   },
   {
     "name": "random-geo-radius-100-angular-filters",
@@ -267,7 +267,7 @@
     "path": "downloaded/random-geo-radius-100-angular/random_geo_1m",
     "group_name": "random-geo-radius-100-angular",
     "tag": "filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_geo_1m.tgz",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_geo_1m.tgz",
     "schema": {
       "a": "geo",
       "b": "geo"
@@ -284,7 +284,7 @@
     "path": "downloaded/random-geo-radius-100-angular/random_geo_1m_no_filters",
     "group_name": "random-geo-radius-100-angular",
     "tag": "no-filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_geo_1m_no_filters.tgz"
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_geo_1m_no_filters.tgz"
   },
   {
     "name": "random-match-keyword-2048-angular-filters",
@@ -297,7 +297,7 @@
     "path": "downloaded/random-match-keyword-2048-angular/random_keywords_100k",
     "group_name": "random-match-keyword-2048-angular",
     "tag": "filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_keywords_100k.tgz",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_100k.tgz",
     "schema": {
       "a": "keyword",
       "b": "keyword"
@@ -314,7 +314,7 @@
     "path": "downloaded/random-match-keyword-2048-angular/random_keywords_100k_no_filters",
     "group_name": "random-match-keyword-2048-angular",
     "tag": "no-filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_keywords_100k_no_filters.tgz"
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_100k_no_filters.tgz"
   },
   {
     "name": "random-match-int-2048-angular-filters",
@@ -327,7 +327,7 @@
     "path": "downloaded/random-match-int-2048-angular/random_ints_100k",
     "group_name": "random-match-int-2048-angular",
     "tag": "filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_ints_100k.tgz",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_ints_100k.tgz",
     "schema": {
       "a": "int",
       "b": "int"
@@ -344,7 +344,7 @@
     "path": "downloaded/random-match-int-2048-angular/random_ints_100k_no_filters",
     "group_name": "random-match-int-2048-angular",
     "tag": "no-filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_ints_100k_no_filters.tgz"
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_ints_100k_no_filters.tgz"
   },
   {
     "name": "random-range-2048-angular-filters",
@@ -357,7 +357,7 @@
     "path": "downloaded/random-range-2048-angular/random_float_100k",
     "group_name": "random-range-2048-angular",
     "tag": "filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_float_100k.tgz",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_float_100k.tgz",
     "schema": {
       "a": "float",
       "b": "float"
@@ -374,7 +374,7 @@
     "path": "downloaded/random-range-2048-angular/random_float_100k_no_filters",
     "group_name": "random-range-2048-angular",
     "tag": "no-filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_float_100k_no_filters.tgz"
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_float_100k_no_filters.tgz"
   },
   {
     "name": "random-geo-radius-2048-angular-filters",
@@ -387,7 +387,7 @@
     "path": "downloaded/random-geo-radius-2048-angular/random_geo_100k",
     "group_name": "random-geo-radius-2048-angular",
     "tag": "filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_geo_100k.tgz",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_geo_100k.tgz",
     "schema": {
       "a": "geo",
       "b": "geo"
@@ -404,7 +404,7 @@
     "path": "downloaded/random-geo-radius-2048-angular/random_geo_100k_no_filters",
     "group_name": "random-geo-radius-2048-angular",
     "tag": "no-filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/random_geo_100k_no_filters.tgz"
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_geo_100k_no_filters.tgz"
   },
   {
     "name": "laion-768-1m-ip",
@@ -417,7 +417,7 @@
     "path": "downloaded/laion-768-1m-ip/laion-1m-test-ip.hdf5",
     "group_name": "laion-768-1m-ip",
     "tag": "no-filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-1m-test-ip.hdf5"
+    "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-1m-test-ip.hdf5"
   },
   {
     "name": "laion-768-5m-ip",
@@ -430,7 +430,7 @@
     "path": "downloaded/laion-768-5m-ip/laion-5m-test-ip.hdf5",
     "group_name": "laion-768-5m-ip",
     "tag": "no-filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-5m-test-ip.hdf5"
+    "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-5m-test-ip.hdf5"
   },
   {
     "name": "laion-768-5m-ip-probability",
@@ -440,55 +440,55 @@
         "name": "laion-768-5m-ip-probability-0.001.hdf5",
         "meta": {"probability": 0.001},
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.001.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-768-5m-ip-probability-0.001.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.001.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-0.005.hdf5",
         "meta": {"probability": 0.005},
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.005.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-768-5m-ip-probability-0.005.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.005.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-0.01.hdf5",
         "meta": {"probability": 0.01},
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.01.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-768-5m-ip-probability-0.01.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.01.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-0.05.hdf5",
         "meta": {"probability": 0.05},
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.05.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-768-5m-ip-probability-0.05.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.05.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-0.1.hdf5",
         "meta": {"probability": 0.1},
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.1.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-768-5m-ip-probability-0.1.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.1.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-0.3.hdf5",
         "meta": {"probability": 0.3},
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.3.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-768-5m-ip-probability-0.3.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.3.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-0.5.hdf5",
         "meta": {"probability": 0.5},
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.5.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-768-5m-ip-probability-0.5.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.5.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-0.8.hdf5",
         "meta": {"probability": 0.8},
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.8.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-768-5m-ip-probability-0.8.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.8.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-1.0.hdf5",
         "meta": {"probability": 1.0},
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-1.0.hdf5",
-        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-768-5m-ip-probability-1.0.hdf5"
+        "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-1.0.hdf5"
       }
     ],
     "vector_size": 768,
@@ -499,7 +499,7 @@
     "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability.hdf5",
     "group_name": "laion-768-5m-ip-probability",
     "tag": "filter",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-768-5m-ip-probability.hdf5",
+    "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability.hdf5",
     "schema": {
       "probability": "float64"
     }

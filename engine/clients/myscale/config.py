@@ -11,7 +11,7 @@ MYSCALE_DEFAULT_PASSWD = ""
 DISTANCE_MAPPING = {
     Distance.L2: "L2",
     Distance.DOT: "IP",
-    Distance.COSINE: "COSINE"  # cosine 索引存在问题, 在对数据归一化后 IP=COSINE
+    Distance.COSINE: "COSINE"  # cosine problem, when normalized, IP=COSINE
 }
 
 H5_COLUMN_TYPES_MAPPING = {
@@ -21,11 +21,11 @@ H5_COLUMN_TYPES_MAPPING = {
     "int32": "Int32",
     "int": "Int32",
     "integer": "Int32",
-    "text": "Nullable(String)",  # 有些大文本字段是 null
+    "text": "Nullable(String)",  # some text can be null
     "string": "String",
     "blob": "String",
-    "geo": "Tuple(Float64, Float64)",  # 经纬度使用 Point 存储, Point == Tuple(Float64, Float64)
-    "keyword": "LowCardinality(String)",  # TODO 处理 ann-filter payload 字段是 null
+    "geo": "Tuple(Float64, Float64)",  # geo use Point to store, Point == Tuple(Float64, Float64)
+    "keyword": "LowCardinality(String)",  # TODO handle ann-filter payload is null
     "boolean": "Boolean",
 }
 

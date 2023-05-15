@@ -44,7 +44,6 @@ class ProximaConfigurator(BaseConfigurator):
             forward_column_params.append(forward_op)
 
         print(f"proxima forward_column_params is {forward_column_params}")
-        # 配置 collection
         collection_config = CollectionConfig(collection_name=PROXIMA_COLLECTION_NAME,
                                              index_column_params=[index_column],
                                              forward_column_params=forward_column_params)

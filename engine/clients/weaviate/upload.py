@@ -45,6 +45,20 @@ class WeaviateUploader(BaseUploader):
 
         return data_object
 
+    @staticmethod
+    def _update_geo_data(data_object):
+        if data_object is None:
+            return None
+        keys = data_object.keys()
+        for key in keys:
+            if isinstance(data_object[key], dict):
+                if lat := data_object[key].pop("lat", None):
+                    data_object[key]["latitude"] = lat
+                if lon := data_object[key].pop("lon", None):
+                    data_object[key]["longitude"] = lon
+
+        return data_object
+
     @classmethod
     def upload_batch(
             cls, ids: List[int], vectors: List[list], metadata: List[Optional[dict]]
