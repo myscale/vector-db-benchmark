@@ -4,13 +4,13 @@ import socket
 import tarfile
 import time
 import typer
-import warnings
 from qcloud_cos import CosClientError, CosServiceError, CosConfig, CosS3Client
 from benchmark import ROOT_DIR
 from benchmark.config_read import read_dataset_config, read_engine_configs
 from benchmark.dataset import Dataset
 from engine.base_client import IncompatibilityError
 from engine.clients.client_factory import ClientFactory
+
 app = typer.Typer()
 
 # upload benchmark results to S3
@@ -63,7 +63,7 @@ def run(
     all_engines = read_engine_configs()
     all_datasets = read_dataset_config()
 
-    # waiting server online
+    # waiting for server online
     if wait_server_online:
         wait_socket(host_=host, port=port)
 

@@ -12,7 +12,7 @@ def generate_scalar_quantization(quantization_config: dict):
     if quantization_config.get("type", "int8") == "int8":
         _type = rest.ScalarType.INT8
     else:
-        # FixMe Support more type
+        # FIXME Support more type
         raise RuntimeError("quantization_config needs fix")
     return rest.ScalarQuantization(
         scalar=rest.ScalarQuantizationConfig(
@@ -31,7 +31,7 @@ class QdrantConfigurator(BaseConfigurator):
     }
 
     def __init__(self, host, collection_params: dict, connection_params: dict):
-        # fixme 修改 host 为 connection_params 中的 host
+        # FIXME use the host in connection_params
         super().__init__(host, collection_params, connection_params)
         connection_params['host'] = host if connection_params.get('host', None) is None else connection_params['host']
         connection_params = process_connection_params(connection_params)

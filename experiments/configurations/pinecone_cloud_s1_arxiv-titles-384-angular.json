@@ -1,0 +1,45 @@
+[
+  {
+    "name": "pinecone-2023-4-3-single_node-s1-dataset-arxiv-titles-384-angular-filters-upload_parallel-16-batch_size-64",
+    "result_group": "single_search",
+    "engine": "pinecone",
+    "platform": "CloudTest_v0.0.2",
+    "index_type": "s1",
+    "dataset": "arxiv-titles-384-angular-filters",
+    "version": "2023-4-3",
+    "branch": "master",
+    "commit": "unknown",
+    "remark": "March 1, 2023 Pinecone now supports new US and EU cloud regions.",
+    "other": "Client resource: 4c 8g",
+    "link": "https://docs.pinecone.io/docs/release-notes#april-3-2023",
+    "connection_params": {
+      "api-key": "your_api_key",
+      "environment": "us-east-1-aws"
+    },
+    "collection_params": {
+      "pod_type": "s1"
+    },
+    "search_params": [
+      {
+        "parallel": 1,
+        "top": 10
+      },
+      {
+        "parallel": 2,
+        "top": 10
+      },
+      {
+        "parallel": 4,
+        "top": 10
+      },
+      {
+        "parallel": 8,
+        "top": 10
+      }
+    ],
+    "upload_params": {
+      "parallel": 16,
+      "batch_size": 64
+    }
+  }
+]

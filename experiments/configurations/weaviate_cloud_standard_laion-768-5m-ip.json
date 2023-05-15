@@ -1,0 +1,806 @@
+[
+  {
+    "name": "weaviate-v1.18.4-single_node-HNSW-m-32-efc-128-dataset-laion-768-5m-ip-upload_parallel-16-batch_size-64",
+    "result_group": "single_search",
+    "engine": "weaviate",
+    "platform": "CloudTest_v0.0.2",
+    "index_type": "HNSW",
+    "dataset": "laion-768-5m-ip",
+    "version": "v1.18.4",
+    "branch": "tag-v1.18.4",
+    "commit": "unknown",
+    "remark": "weaviate cloud standard",
+    "other": "None",
+    "link": "https://github.com/weaviate/weaviate/releases/tag/v1.18.4",
+    "connection_params": {
+      "host": "https://your_host.weaviate.cloud",
+      "port": 8090,
+      "timeout_config": 2000,
+      "api_key": "your_api_key"
+    },
+    "collection_params": {
+      "vectorIndexConfig": {
+        "ef": 100,
+        "efConstruction": 128,
+        "maxConnections": 32
+      }
+    },
+    "search_params": [
+      {
+        "parallel": 1,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      }
+    ],
+    "upload_params": {
+      "parallel": 16,
+      "batch_size": 64
+    }
+  },
+  {
+    "name": "weaviate-v1.18.4-single_node-HNSW-m-32-efc-256-dataset-laion-768-5m-ip-upload_parallel-16-batch_size-64",
+    "result_group": "single_search",
+    "engine": "weaviate",
+    "platform": "CloudTest_v0.0.2",
+    "index_type": "HNSW",
+    "dataset": "laion-768-5m-ip",
+    "version": "v1.18.4",
+    "branch": "tag-v1.18.4",
+    "commit": "unknown",
+    "remark": "weaviate cloud standard",
+    "other": "None",
+    "link": "https://github.com/weaviate/weaviate/releases/tag/v1.18.4",
+    "connection_params": {
+      "host": "https://your_host.weaviate.cloud",
+      "port": 8090,
+      "timeout_config": 2000,
+      "api_key": "your_api_key"
+    },
+    "collection_params": {
+      "vectorIndexConfig": {
+        "ef": 100,
+        "efConstruction": 256,
+        "maxConnections": 32
+      }
+    },
+    "search_params": [
+      {
+        "parallel": 1,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      }
+    ],
+    "upload_params": {
+      "parallel": 16,
+      "batch_size": 64
+    }
+  },
+  {
+    "name": "weaviate-v1.18.4-single_node-HNSW-m-64-efc-128-dataset-laion-768-5m-ip-upload_parallel-16-batch_size-64",
+    "result_group": "single_search",
+    "engine": "weaviate",
+    "platform": "CloudTest_v0.0.2",
+    "index_type": "HNSW",
+    "dataset": "laion-768-5m-ip",
+    "version": "v1.18.4",
+    "branch": "tag-v1.18.4",
+    "commit": "unknown",
+    "remark": "weaviate cloud standard",
+    "other": "None",
+    "link": "https://github.com/weaviate/weaviate/releases/tag/v1.18.4",
+    "connection_params": {
+      "host": "https://your_host.weaviate.cloud",
+      "port": 8090,
+      "timeout_config": 2000,
+      "api_key": "your_api_key"
+    },
+    "collection_params": {
+      "vectorIndexConfig": {
+        "ef": 100,
+        "efConstruction": 128,
+        "maxConnections": 64
+      }
+    },
+    "search_params": [
+      {
+        "parallel": 1,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      }
+    ],
+    "upload_params": {
+      "parallel": 16,
+      "batch_size": 64
+    }
+  },
+  {
+    "name": "weaviate-v1.18.4-single_node-HNSW-m-64-efc-256-dataset-laion-768-5m-ip-upload_parallel-16-batch_size-64",
+    "result_group": "single_search",
+    "engine": "weaviate",
+    "platform": "CloudTest_v0.0.2",
+    "index_type": "HNSW",
+    "dataset": "laion-768-5m-ip",
+    "version": "v1.18.4",
+    "branch": "tag-v1.18.4",
+    "commit": "unknown",
+    "remark": "weaviate cloud standard",
+    "other": "None",
+    "link": "https://github.com/weaviate/weaviate/releases/tag/v1.18.4",
+    "connection_params": {
+      "host": "https://your_host.weaviate.cloud",
+      "port": 8090,
+      "timeout_config": 2000,
+      "api_key": "your_api_key"
+    },
+    "collection_params": {
+      "vectorIndexConfig": {
+        "ef": 100,
+        "efConstruction": 256,
+        "maxConnections": 64
+      }
+    },
+    "search_params": [
+      {
+        "parallel": 1,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 128
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 256
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "vectorIndexConfig": {
+          "ef": 512
+        }
+      }
+    ],
+    "upload_params": {
+      "parallel": 16,
+      "batch_size": 64
+    }
+  }
+]

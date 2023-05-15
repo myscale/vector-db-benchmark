@@ -17,7 +17,6 @@ class Query:
     expected_scores: Optional[List[float]] = None
 
 
-# 提供两个基础读取数据集的函数
 class BaseReader:
     def read_data(self) -> Iterator[Record]:
         raise NotImplementedError()

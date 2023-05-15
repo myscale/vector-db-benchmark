@@ -1,0 +1,199 @@
+[
+  {
+    "name": "qdrant-v1.1.1-single_node-Quantization-type-int8-quantile-0.99-always_ram-True-dataset-laion-768-5m-ip-upload_parallel-16-batch_size-64",
+    "result_group": "single_search",
+    "engine": "qdrant",
+    "platform": "CloudTest_v0.0.2",
+    "index_type": "Quantization",
+    "dataset": "laion-768-5m-ip",
+    "version": "v1.1.1",
+    "branch": "tag-v1.1.1",
+    "commit": "unknown",
+    "remark": "qdrant resource: 2c16g_storage_optimized",
+    "other": "Client resource: 4c 8g",
+    "link": "https://github.com/qdrant/qdrant/tree/v1.1.1",
+    "connection_params": {
+      "host": "https://your_host.aws.cloud.qdrant.io",
+      "port": 6333,
+      "grpc_port": 6334,
+      "prefer_grpc": false,
+      "api_key": "your_api_key"
+    },
+    "collection_params": {
+      "optimizers_config": {
+        "memmap_threshold": 20000
+      },
+      "quantization_config": {
+        "type": "int8",
+        "quantile": 0.99,
+        "always_ram": true
+      }
+    },
+    "search_params": [
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": true
+          }
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": false
+          }
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": true
+          }
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": false
+          }
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": true
+          }
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": false
+          }
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": true
+          }
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": false
+          }
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": true
+          }
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": false
+          }
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": true
+          }
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": false
+          }
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": true
+          }
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": false
+          }
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": true
+          }
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "quantization": {
+            "ignore": false,
+            "rescore": false
+          }
+        }
+      }
+    ],
+    "upload_params": {
+      "parallel": 16,
+      "batch_size": 64
+    }
+  }
+]

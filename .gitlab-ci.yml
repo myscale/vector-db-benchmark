@@ -20,6 +20,7 @@ tar_code:
     - cp -r experiments vector-db-benchmark
     - cp -r results vector-db-benchmark
     - cp -r run.py vector-db-benchmark
+    - rm -rf vector-db-benchmark/experiments/configurations/*
     - tar -czvf vector-db-benchmark.tar.gz vector-db-benchmark
     - ls -lh vector-db-benchmark.tar.gz
     - coscmd upload vector-db-benchmark.tar.gz vector-db-benchmark-space/
