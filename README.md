@@ -57,13 +57,13 @@ Here is an example of how the modified section may look:
 },
 ```
 
-### Step 3. Run the tests
+#### Step 3. Run the tests
 
 ```shell
 python3 run.py --engines *myscale*
 ```
 
-### Step 4. View the test results
+#### Step 4. View the test results
 
 ```shell
 cd results
@@ -99,13 +99,13 @@ Here is an example of how the modified section may look:
 },
 ```
 
-### Step 3. Run the tests
+#### Step 3. Run the tests
 
 ```shell
 python3 run.py --engines *pinecone*
 ```
 
-### Step 4. View the test results
+#### Step 4. View the test results
 
 ```shell
 cd results
@@ -150,13 +150,13 @@ Here is an example of how the modified section may look:
 },
 ```
 
-### Step 3. Run the tests
+#### Step 3. Run the tests
 
 ```shell
 python3 run.py --engines *zilliz*
 ```
 
-### Step 4. View the test results
+#### Step 4. View the test results
 
 ```shell
 cd results
@@ -195,13 +195,13 @@ Here is an example of how the modified section may look:
 },
 ```
 
-### Step 3. Run the tests
+#### Step 3. Run the tests
 
 ```shell
 python3 run.py --engines *weaviate*
 ```
 
-### Step 4. View the test results
+#### Step 4. View the test results
 
 ```shell
 cd results
@@ -241,13 +241,13 @@ Here is an example of how the modified section may look:
 },
 ```
 
-### Step 3. Run the tests
+#### Step 3. Run the tests
 
 ```shell
 python3 run.py --engines *qdrant*
 ```
 
-### Step 4. View the test results
+#### Step 4. View the test results
 
 ```shell
 cd results
