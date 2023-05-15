@@ -57,13 +57,13 @@ Here is an example of how the modified section may look:
 },
 ```
 
-### Step 3. Run the tests
+#### Step 3. Run the tests
 
 ```shell
 python3 run.py --engines *myscale*
 ```
 
-### Step 4. View the test results
+#### Step 4. View the test results
 
 ```shell
 cd results
@@ -87,10 +87,7 @@ We have provided two configuration files for testing Pinecone:
 - [pinecone_cloud_s1_laion-768-5m-ip.json](experiments/configurations/pinecone_cloud_s1_laion-768-5m-ip.json)
 - [pinecone_cloud_s1_arxiv-titles-384-angular.json](experiments/configurations/pinecone_cloud_s1_arxiv-titles-384-angular.json)
 
-- You need to write the cluster connection information obtained in Step 1 into the configuration files.
-- Modify the `connection_params` section of the files and update the values for `environment` and `api_key`.
-
-Here is an example of how the modified section may look:
+You need to write the cluster connection information obtained in Step 1 into the configuration files. Modify the `connection_params` section of the files and update the values for `environment` and `api_key`.  Here is an example of how the modified section may look:
 
 ```shell
 "connection_params": {
@@ -99,13 +96,13 @@ Here is an example of how the modified section may look:
 },
 ```
 
-### Step 3. Run the tests
+#### Step 3. Run the tests
 
 ```shell
 python3 run.py --engines *pinecone*
 ```
 
-### Step 4. View the test results
+#### Step 4. View the test results
 
 ```shell
 cd results
@@ -150,13 +147,13 @@ Here is an example of how the modified section may look:
 },
 ```
 
-### Step 3. Run the tests
+#### Step 3. Run the tests
 
 ```shell
 python3 run.py --engines *zilliz*
 ```
 
-### Step 4. View the test results
+#### Step 4. View the test results
 
 ```shell
 cd results
@@ -177,8 +174,8 @@ Record the cluster connection information: `cluster URL` and `Authentication`.
 
 We have provided two configuration files for testing Weaviate Cloud:
 
-- [weaviate_cloud_standard_arxiv-titles-384-angular.json](experiments/configurations/weaviate_cloud_standard_arxiv-titles-384-angular.json)
 - [weaviate_cloud_standard_laion-768-5m-ip.json](experiments/configurations/weaviate_cloud_standard_laion-768-5m-ip.json)
+- [weaviate_cloud_standard_arxiv-titles-384-angular.json](experiments/configurations/weaviate_cloud_standard_arxiv-titles-384-angular.json)
 
 You need to write the cluster connection information obtained in Step 1 into the configuration files.
 Modify the `connection_params` section of the files and update the values for `host` and `api_key`.
@@ -195,13 +192,13 @@ Here is an example of how the modified section may look:
 },
 ```
 
-### Step 3. Run the tests
+#### Step 3. Run the tests
 
 ```shell
 python3 run.py --engines *weaviate*
 ```
 
-### Step 4. View the test results
+#### Step 4. View the test results
 
 ```shell
 cd results
@@ -223,8 +220,8 @@ Record the cluster connection information: `URL` and `API key`.
 We have provided three configuration files for testing Qdrant:
 
 - [qdrant_cloud_hnsw_2c16g_storage_optimized_laion-768-5m-ip.json](experiments/configurations/qdrant_cloud_hnsw_2c16g_storage_optimized_laion-768-5m-ip.json)
-- [qdrant_cloud_hnsw_2c16g_storage_optimized_arxiv-titles-384-angular.json](experiments/configurations/qdrant_cloud_hnsw_2c16g_storage_optimized_arxiv-titles-384-angular.json)
 - [qdrant_cloud_quantization_2c16g_storage_optimized_laion-768-5m-ip.json](experiments/configurations/qdrant_cloud_quantization_2c16g_storage_optimized_laion-768-5m-ip.json)
+- [qdrant_cloud_hnsw_2c16g_storage_optimized_arxiv-titles-384-angular.json](experiments/configurations/qdrant_cloud_hnsw_2c16g_storage_optimized_arxiv-titles-384-angular.json)
 
 You need to write the cluster connection information obtained in Step 1 into the configuration files.
 Modify the `connection_params` section of the files and update the values for `host` and `api_key`.
@@ -241,13 +238,13 @@ Here is an example of how the modified section may look:
 },
 ```
 
-### Step 3. Run the tests
+#### Step 3. Run the tests
 
 ```shell
 python3 run.py --engines *qdrant*
 ```
 
-### Step 4. View the test results
+#### Step 4. View the test results
 
 ```shell
 cd results
