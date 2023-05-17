@@ -43,8 +43,7 @@ We have provided two configuration files for testing MyScale:
 - [myscale_cloud_mstg_laion-768-5m-ip.json](experiments/needs_editing/myscale_cloud_mstg_laion-768-5m-ip.json)
 - [myscale_cloud_mstg_arxiv-titles-384-angular.json](experiments/needs_editing/myscale_cloud_mstg_arxiv-titles-384-angular.json)
 
-You need to write the cluster connection information obtained in Step 1 into the configuration files.  To modify the configuration files for testing, open each file and locate the `connection_params` section.  Update the values for `host`, `port`, `user`, and `password` with the appropriate cluster connection information obtained in Step 1.
-
+You need to write the cluster connection information obtained in Step 1 into the configuration files.  To modify the configuration files for testing, open each file and locate the `connection_params` section.  Update the values for `host`, `port`, `user`, and `password` with the appropriate cluster connection information obtained in Step 1. Finally, move the modified configuration file into the `experiments/configurations` directory.
 Here is an example of how the modified section may look:
 
 ```shell
@@ -87,7 +86,7 @@ We have provided two configuration files for testing Pinecone:
 - [pinecone_cloud_s1_laion-768-5m-ip.json](experiments/needs_editing/pinecone_cloud_s1_laion-768-5m-ip.json)
 - [pinecone_cloud_s1_arxiv-titles-384-angular.json](experiments/needs_editing/pinecone_cloud_s1_arxiv-titles-384-angular.json)
 
-You need to write the cluster connection information obtained in Step 1 into the configuration files. Modify the `connection_params` section of the files and update the values for `environment` and `api_key`.  Here is an example of how the modified section may look:
+You need to write the cluster connection information obtained in Step 1 into the configuration files. Modify the `connection_params` section of the files and update the values for `environment` and `api_key`. Finally, move the modified configuration file into the `experiments/configurations` directory. Here is an example of how the modified section may look:
 
 ```shell
 "connection_params": {
@@ -130,6 +129,7 @@ We have provided two configuration files for testing Zilliz:
 You need to write the cluster connection information obtained in Step 1 into the configuration files.
 To modify the configuration files for testing, open each file and locate the `connection_params` section.
 Update the values for `end_point`, `cloud_user`, and `cloud_password` with the appropriate cluster connection information obtained in Step 1.
+Finally, move the modified configuration file into the `experiments/configurations` directory.
 
 Here is an example of how the modified section may look:
 
@@ -180,6 +180,7 @@ We have provided two configuration files for testing Weaviate Cloud:
 You need to write the cluster connection information obtained in Step 1 into the configuration files.
 Modify the `connection_params` section of the files and update the values for `host` and `api_key`.
 The `host` corresponds to the `cluster URL`, and the `api_key` is the `Authentication`.
+Finally, move the modified configuration file into the `experiments/configurations` directory.
 
 Here is an example of how the modified section may look:
 
@@ -226,6 +227,7 @@ We have provided three configuration files for testing Qdrant:
 You need to write the cluster connection information obtained in Step 1 into the configuration files.
 Modify the `connection_params` section of the files and update the values for `host` and `api_key`.
 Please note that for the `connection_params` section, you need to remove the `port` from the end of the `host` string.
+Finally, move the modified configuration file into the `experiments/configurations` directory.
 Here is an example of how the modified section may look:
 
 ```shell

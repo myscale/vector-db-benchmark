@@ -493,7 +493,7 @@
     ],
     "vector_size": 768,
     "vector_count": 5000000,
-    "queries": 10000,
+    "queries": 1000,
     "distance": "dot",
     "type": "h5",
     "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability.hdf5",

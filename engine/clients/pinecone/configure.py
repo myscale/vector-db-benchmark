@@ -1,3 +1,5 @@
+import time
+
 from engine.base_client.configure import BaseConfigurator
 from engine.clients.pinecone.config import *
 import pinecone
@@ -32,6 +34,18 @@ class PineconeConfigurator(BaseConfigurator):
                               # FixMe Determine whether to add an index to the Pinecone meta field.
                               # metadata_config=metadata_config
                               )
+        # waiting for index ready
+        while True:
+            try:
+                index_description = pinecone.describe_index(name=PINECONE_INDEX_NAME)
+                if index_description.status["ready"] and index_description.status["state"] == "Ready":
+                    print("pinecone index status is Ready!")
+                    break
+                else:
+                    print(f"index status is not Ready: {index_description.status}")
+                    time.sleep(2)
+            except Exception as e:
+                print(f"waiting pinecone index ready: {e}")
 
     def execution_params(self, distance, vector_size) -> dict:
         return {"normalize": DISTANCE_MAPPING[distance] == Distance.COSINE}

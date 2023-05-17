@@ -72,14 +72,6 @@ class PineconeUploader(BaseUploader):
     def post_upload(cls, distance):
         print(f"pinecone post upload: distance {distance}, cls.distance {cls.distance}")
         while True:
-            # make sure index status is ready
-            index_description = pinecone.describe_index(name=PINECONE_INDEX_NAME)
-            if index_description.status["ready"] and index_description.status["state"] == "Ready":
-                print("pinecone index status is Ready!")
-            else:
-                print("{}".format(index_description.status), end=" ", flush=True)
-                time.sleep(2)
-                continue
             # make sure vector index count fit datasets
             total_vector_count = cls.index.describe_index_stats().get("total_vector_count", 0)
             if total_vector_count < cls.vector_count:
