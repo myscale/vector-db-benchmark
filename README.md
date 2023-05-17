@@ -2,7 +2,7 @@
 
 ![Benchmark Results](images/benchmark_results.jpg)
 
-> [View results](https://blog.myscale.com/2023/05/12/myscale-outperform-special-vectordb/)
+> [View results](https://blog.myscale.com/2023/05/17/myscale-outperform-special-vectordb/)
 
 ## Introduction
 
