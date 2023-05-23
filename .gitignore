@@ -4,8 +4,8 @@ __pycache__
 *.pyc
 NOTES.md
 .DS_Store
-datasets/.DS_Store
 results/*.json
 code_workspace
 experiments/test
 experiments/configurations
+venv/
