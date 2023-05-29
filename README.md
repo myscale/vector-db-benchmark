@@ -15,4 +15,4 @@ First, install the necessary libraries on the client used for the benchmark.
 pip install -r requirements.txt
 ```
 
-Afterwards, follow the [Step-by-Step Guide for Benchmark](docs/step-by-step-guide-for-benchmark.md) to execute the benchmark for each cloud service.
+Afterwards, follow the [Step-by-Step Guide for Benchmark](docs/step-by-step-guide-for-benchmark.md) to execute the benchmark for each cloud service. You can refer to [Results Visualize](docs/results-visualize.md) for visualizing the test results.

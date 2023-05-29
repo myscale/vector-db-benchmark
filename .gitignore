@@ -6,6 +6,7 @@ NOTES.md
 .DS_Store
 results/*.json
 code_workspace
+scripts/__pycache__
 experiments/test
 experiments/configurations
 venv/
