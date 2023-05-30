@@ -4,9 +4,6 @@ This benchmark evaluates typical workloads on cloud services for vector database
 
 A summary of the benchmark results can be found in our [blog post](https://blog.myscale.com/2023/05/17/myscale-outperform-special-vectordb/). For setup, datasets and detailed results, visit: <https://myscale.github.io/benchmark>.
 
-![Throughput](images/preview-throughput.png)
-![Cost](images/preview-cost.png)
-
 ## Run the Benchmark
 
 First, install the necessary libraries on the client used for the benchmark.
