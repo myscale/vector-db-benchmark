@@ -70,7 +70,7 @@ class AnnH5Reader(BaseReader):
                     extra_columns_data[col_name] = convert_H52py(col_type)(train_data[col_name][idx])
 
                 yield Record(id=idx,
-                             vector=vector.tolist(),
+                             vector = vector.tolist() if (len(vector)==self.dataset_config.vector_size) else np.random.uniform(0, 1, self.dataset_config.vector_size).tolist(),
                              metadata=None if len(extra_columns_data.keys()) == 0 else extra_columns_data)
 
     def read_column_name_type(self) -> Tuple[list, list]:

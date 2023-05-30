@@ -516,5 +516,18 @@
     "schema": {
       "probability": "float64"
     }
+  },
+  {
+    "name": "taptap_fake_200m_l2",
+    "result_group": "single_search",
+    "vector_size": 512,
+    "vector_count": 200000000,
+    "queries": 1000,
+    "distance": "l2",
+    "type": "h5",
+    "path": "downloaded/taptap_fake_200m_l2/taptap_fake_200m_l2.hdf5",
+    "group_name": "taptap_fake_200m_l2",
+    "tag": "no-filter",
+    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/taptap_fake_200m_l2.hdf5"
   }
 ]
