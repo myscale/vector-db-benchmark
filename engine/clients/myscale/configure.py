@@ -54,9 +54,9 @@ class MyScaleConfigurator(BaseConfigurator):
             cls.client.command(create_table)
         else:
             cluster = "{cluster}"
-            drop_table1 = f"DROP TABLE IF EXISTS replicas.{MYSCALE_DATABASE_NAME} on cluster '{cluster}'"
-            drop_table2 = f"DROP TABLE IF EXISTS default.{MYSCALE_DATABASE_NAME} on cluster '{cluster}'"
-            drop_database = f"DROP DATABASE IF EXISTS replicas ON CLUSTER '{cluster}'"
+            drop_table1 = f"DROP TABLE IF EXISTS replicas.{MYSCALE_DATABASE_NAME} on cluster '{cluster}' sync"
+            drop_table2 = f"DROP TABLE IF EXISTS default.{MYSCALE_DATABASE_NAME} on cluster '{cluster}' sync"
+            drop_database = f"DROP DATABASE IF EXISTS replicas ON CLUSTER '{cluster}' sync"
             print("drop table replica: " + drop_table1)
             cls.client.command(drop_table1)
             print("drop table distribute: " + drop_table2)
@@ -64,7 +64,7 @@ class MyScaleConfigurator(BaseConfigurator):
             print("drop database replicas: " + drop_database)
             cls.client.command(drop_database)
             time.sleep(2)
-            create_database = f"CREATE DATABASE IF NOT EXISTS replicas on cluster '{cluster}'"
+            create_database = f"CREATE DATABASE IF NOT EXISTS replicas on cluster '{cluster}' sync"
             print("create database: " + create_database)
             cls.client.command(create_database)
             create_table = f"create table replicas.{MYSCALE_DATABASE_NAME} on cluster '{cluster}' (id UInt32, vector Array(Float32), {structured_columns} {vector_index_inner} CONSTRAINT check_length CHECK length(vector) = {vector_size}) "

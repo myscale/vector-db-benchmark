@@ -89,7 +89,12 @@ class MyScaleUploader(BaseUploader):
             print(f">>> {index_create_str}")
             cls.client.command(index_create_str)
         # waiting for vector index create finished
+        shard = cls.upload_params.get("shard", 1)
+        replicate = cls.upload_params.get("replicate", 1)
         check_index_status = f"select status from system.vector_indices where table='{MYSCALE_DATABASE_NAME}'"
+        if shard!=1 or replicate!=1:
+            cluster="{cluster}"
+            check_index_status = f"select status from clusterAllReplicas('{cluster}', system.vector_indices) where table = '{MYSCALE_DATABASE_NAME}'"
         print(f">>> {check_index_status}")
         while True:
             time.sleep(5)
