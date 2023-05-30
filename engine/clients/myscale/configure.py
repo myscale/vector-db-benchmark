@@ -64,7 +64,7 @@ class MyScaleConfigurator(BaseConfigurator):
             print("drop database replicas: " + drop_database)
             cls.client.command(drop_database)
             time.sleep(2)
-            create_database = f"CREATE DATABASE IF NOT EXISTS replicas on cluster '{cluster}' sync"
+            create_database = f"CREATE DATABASE IF NOT EXISTS replicas on cluster '{cluster}'"
             print("create database: " + create_database)
             cls.client.command(create_database)
             create_table = f"create table replicas.{MYSCALE_DATABASE_NAME} on cluster '{cluster}' (id UInt32, vector Array(Float32), {structured_columns} {vector_index_inner} CONSTRAINT check_length CHECK length(vector) = {vector_size}) "
