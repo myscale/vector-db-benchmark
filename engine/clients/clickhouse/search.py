@@ -21,7 +21,8 @@ class ClickHouseSearcher(BaseSearcher):
         cls.client = clickhouse_connect.get_client(host=connection_params.get('host', '127.0.0.1'),
                                                    port=connection_params.get('port', 8123),
                                                    username=connection_params.get("user", CLICKHOUSE_DEFAULT_USER),
-                                                   password=connection_params.get("password", CLICKHOUSE_DEFAULT_PASSWD))
+                                                   password=connection_params.get("password",
+                                                                                  CLICKHOUSE_DEFAULT_PASSWD))
         cls.host = host
         cls.distance = DISTANCE_MAPPING[distance]
         cls.search_params = search_params
@@ -37,14 +38,18 @@ class ClickHouseSearcher(BaseSearcher):
         if par != "":
             par = par[2:]
 
-        search_str = f"SELECT id FROM {CLICKHOUSE_DATABASE_NAME}"
+        search_str = f"SELECT id, {cls.distance}(vector, {vector}) as score FROM {CLICKHOUSE_DATABASE_NAME}"
 
         if meta_conditions is not None:
             search_str += f" where {cls.parser.parse(meta_conditions=meta_conditions)}"
 
         # Code: 115. DB::Exception: Unknown setting annoy_index_search_k_nodes. (UNKNOWN_SETTING) (version 23.4.2.11 (official build))
         # search_str += f" order by {cls.distance}(vector, {vector}) limit {top} SETTINGS {par}"
-        search_str += f" order by {cls.distance}(vector, {vector}) limit {top}"
+        # search_str += f" order by {cls.distance}(vector, {vector}) limit {top}"
+        if cls.distance == "L2Distance":
+            search_str += f" order by score ASC limit {top}"
+        else:
+            search_str += f" order by score DESC limit {top}"
 
         res_list = []
         while True:
