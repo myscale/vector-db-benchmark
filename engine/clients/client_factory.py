@@ -14,6 +14,9 @@ from engine.clients.milvus import MilvusConfigurator, MilvusSearcher, MilvusUplo
 from engine.clients.myscale.configure import MyScaleConfigurator
 from engine.clients.myscale.search import MyScaleSearcher
 from engine.clients.myscale.upload import MyScaleUploader
+from engine.clients.clickhouse.configure import ClickHouseConfigurator
+from engine.clients.clickhouse.search import ClickHouseSearcher
+from engine.clients.clickhouse.upload import ClickHouseUploader
 from engine.clients.pinecone.configure import PineconeConfigurator
 from engine.clients.pinecone.search import PineconeSearcher
 from engine.clients.pinecone.upload import PineconeUploader
@@ -32,6 +35,7 @@ from engine.clients.weaviate import (
 
 ENGINE_CONFIGURATORS = {
     "myscale": MyScaleConfigurator,
+    "clickhouse": ClickHouseConfigurator,
     "qdrant": QdrantConfigurator,
     "weaviate": WeaviateConfigurator,
     "milvus": MilvusConfigurator,
@@ -44,6 +48,7 @@ ENGINE_CONFIGURATORS = {
 
 ENGINE_UPLOADERS = {
     "myscale": MyScaleUploader,
+    "clickhouse": ClickHouseUploader,
     "qdrant": QdrantUploader,
     "weaviate": WeaviateUploader,
     "milvus": MilvusUploader,
@@ -56,6 +61,7 @@ ENGINE_UPLOADERS = {
 
 ENGINE_SEARCHERS = {
     "myscale": MyScaleSearcher,
+    "clickhouse": ClickHouseSearcher,
     "qdrant": QdrantSearcher,
     "weaviate": WeaviateSearcher,
     "milvus": MilvusSearcher,
@@ -75,8 +81,8 @@ class ClientFactory(ABC):
         engine_configurator_class = ENGINE_CONFIGURATORS[experiment["engine"]]
         engine_configurator = engine_configurator_class(
             self.host,
-            # for myscale, append upload_params to collection_params
-            collection_params={**experiment.get("collection_params", {})} if experiment["engine"] != "myscale" else {**experiment.get("collection_params", {}), **experiment.get("upload_params", {})},
+            # for myscale and clickhouse, append upload_params to collection_params
+            collection_params={**experiment.get("collection_params", {})} if experiment["engine"] not in ["myscale", "clickhouse"] else {**experiment.get("collection_params", {}), **experiment.get("upload_params", {})},
             connection_params={**experiment.get("connection_params", {})},
         )
         return engine_configurator
@@ -85,9 +91,9 @@ class ClientFactory(ABC):
         engine_uploader_class = ENGINE_UPLOADERS[experiment["engine"]]
         engine_uploader = engine_uploader_class(
             self.host,
-            # for myscale, append upload_params to collection_params
+            # for myscale and clickhouse, append upload_params to collection_params
             connection_params={**experiment.get("connection_params", {})},
-            upload_params={**experiment.get("upload_params", {})} if experiment["engine"] != "myscale" else {**experiment.get("upload_params", {}), **experiment.get("collection_params", {})},
+            upload_params={**experiment.get("upload_params", {})} if experiment["engine"] not in ["myscale", "clickhouse"] else {**experiment.get("upload_params", {}), **experiment.get("collection_params", {})},
         )
         return engine_uploader
 
