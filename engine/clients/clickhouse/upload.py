@@ -73,7 +73,7 @@ class ClickHouseUploader(BaseUploader):
 
             index_create_str = f"alter table {CLICKHOUSE_DATABASE_NAME} " \
                                f"add index {CLICKHOUSE_DATABASE_NAME} " \
-                               f"vector type {cls.upload_params['index_type']}({num_trees}) GRANULARITY {granularity}"
+                               f"vector type {cls.upload_params['index_type']}('{index_distance}') GRANULARITY {granularity}"
             # optimize table
             optimize_str = f"optimize table {CLICKHOUSE_DATABASE_NAME} final"
             print(f">>> {optimize_str}")
