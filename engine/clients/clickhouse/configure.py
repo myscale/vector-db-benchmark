@@ -42,7 +42,7 @@ class ClickHouseConfigurator(BaseConfigurator):
 
         # referhttps://github.com/ClickHouse/ClickHouse/blob/42914484b3cd42208d32d983d2a7d7d670541edb/tests/queries/0_stateless/02354_annoy_index.sql#L111
         # vector_index_inner = f"index {CLICKHOUSE_DATABASE_NAME} vector type {collection_params['index_type']}('{index_distance}', {num_trees}) GRANULARITY {granularity},"
-        vector_index_inner = f"index {CLICKHOUSE_DATABASE_NAME} vector type {collection_params['index_type']}('{index_distance}') GRANULARITY {granularity},"
+        vector_index_inner = f"index {CLICKHOUSE_DATABASE_NAME} vector type {collection_params['index_type']}({num_trees}) GRANULARITY {granularity},"
         if use_optimize:
             vector_index_inner = ""
 

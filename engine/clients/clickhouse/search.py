@@ -45,11 +45,11 @@ class ClickHouseSearcher(BaseSearcher):
 
         # Code: 115. DB::Exception: Unknown setting annoy_index_search_k_nodes. (UNKNOWN_SETTING) (version 23.4.2.11 (official build))
         # search_str += f" order by {cls.distance}(vector, {vector}) limit {top} SETTINGS {par}"
-        search_str += f" order by {cls.distance}(vector, {vector}) ASC limit {top}"
-        # if cls.distance == "L2Distance":
-        #     search_str += f" order by score ASC limit {top}"
-        # else:
-        #     search_str += f" order by score ASC limit {top}"
+        # search_str += f" order by {cls.distance}(vector, {vector}) ASC limit {top}"
+        if cls.distance == "L2Distance":
+            search_str += f" order by score ASC limit {top}"
+        else:
+            search_str += f" order by score ASC limit {top}"
 
         res_list = []
         while True:
