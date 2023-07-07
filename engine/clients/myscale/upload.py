@@ -96,6 +96,7 @@ class MyScaleUploader(BaseUploader):
                 except Exception as e:
                     print(f"exp: {e}, while checking data parts count...")
                     data_parts = -1
+                time.sleep(3)
 
             print("optimize table finished, time consume {}".format(time.time() - optimize_begin_time))
             print(f">>> {index_create_str}")
