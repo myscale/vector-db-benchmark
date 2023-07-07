@@ -22,7 +22,8 @@ class MyScaleUploader(BaseUploader):
             cls.client = clickhouse_connect.get_client(host=connection_params.get('host', '127.0.0.1'),
                                                        port=connection_params.get('port', 8123),
                                                        username=connection_params.get("user", MYSCALE_DEFAULT_USER),
-                                                       password=connection_params.get("password", MYSCALE_DEFAULT_PASSWD))
+                                                       password=connection_params.get("password",
+                                                                                      MYSCALE_DEFAULT_PASSWD))
         except Exception as e:
             print(f"MyScale get exception: {e}")
         cls.upload_params = upload_params
@@ -78,13 +79,24 @@ class MyScaleUploader(BaseUploader):
             optimize_str = "optimize table {} final".format(MYSCALE_DATABASE_NAME)
             print(f">>> {optimize_str}")
             optimize_begin_time = time.time()
-            try:
-                cls.client.command(optimize_str)
-            except Exception as e:
-                print(f"exp: {e}, myscale may run by multi replicates mode..")
-                optimize_str = f"optimize table replicas.{MYSCALE_DATABASE_NAME} on cluster '{'{cluster}'}' final"
-                print(f">>> {optimize_str}")
-                cls.client.command(optimize_str)
+            check_optimize_str = f"select count(*) from system.parts where table='{MYSCALE_DATABASE_NAME}' and active=1"
+            data_parts = -1
+            while data_parts != 1:
+                # trying to optimize final
+                try:
+                    cls.client.command(optimize_str)
+                except Exception as e:
+                    print(f"exp: {e}, myscale may run by multi replicates mode..")
+                    optimize_str = f"optimize table replicas.{MYSCALE_DATABASE_NAME} on cluster '{'{cluster}'}' final"
+                    print(f">>> {optimize_str}")
+                    cls.client.command(optimize_str)
+                # checking data parts count
+                try:
+                    data_parts = cls.client.query(check_optimize_str).result_rows[0][0]
+                except Exception as e:
+                    print(f"exp: {e}, while checking data parts count...")
+                    data_parts = -1
+
             print("optimize table finished, time consume {}".format(time.time() - optimize_begin_time))
             print(f">>> {index_create_str}")
             cls.client.command(index_create_str)
@@ -92,8 +104,8 @@ class MyScaleUploader(BaseUploader):
         shard = cls.upload_params.get("shard", 1)
         replicate = cls.upload_params.get("replicate", 1)
         check_index_status = f"select status from system.vector_indices where table='{MYSCALE_DATABASE_NAME}'"
-        if shard!=1 or replicate!=1:
-            cluster="{cluster}"
+        if shard != 1 or replicate != 1:
+            cluster = "{cluster}"
             check_index_status = f"select status from clusterAllReplicas('{cluster}', system.vector_indices) where table = '{MYSCALE_DATABASE_NAME}'"
         print(f">>> {check_index_status}")
         while True:
