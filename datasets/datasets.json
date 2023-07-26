@@ -445,6 +445,19 @@
     "tag": "no-filter",
     "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-20m-test-ip.hdf5"
   },
+    {
+    "name": "laion-768-100m-ip",
+    "result_group": "single_search",
+    "vector_size": 768,
+    "vector_count": 100000000,
+    "queries": 1000,
+    "distance": "dot",
+    "type": "h5",
+    "path": "downloaded/laion-768-100m-ip/laion-100m-test-ip.hdf5",
+    "group_name": "laion-768-100m-ip",
+    "tag": "no-filter",
+    "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-100m-test-ip.hdf5"
+  },
   {
     "name": "laion-768-5m-ip-probability",
     "result_group": "hybrid_search",
