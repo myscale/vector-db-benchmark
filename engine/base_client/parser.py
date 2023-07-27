@@ -6,6 +6,7 @@ class FilterType(str, Enum):
     FULL_MATCH = "match"
     RANGE = "range"
     GEO = "geo"
+    IN = "in"
 
 
 FieldValue = Union[str, int, float]
@@ -89,6 +90,10 @@ class BaseConditionParser:
                 lat=expression_value_dict.get("lat"),
                 radius=expression_value_dict.get("radius"),
             )
+        if FilterType.IN == expression_type:
+            return self.build_in_filter(
+                column_name, expression_value=expression_value_dict.get("value")
+            )
         raise NotImplementedError
 
     def build_exact_match_filter(self, column_name: str, expression_value: FieldValue) -> Any:
@@ -106,5 +111,10 @@ class BaseConditionParser:
 
     def build_geo_filter(
         self, column_name: str, lat: float, lon: float, radius: float
+    ) -> Any:
+        raise NotImplementedError
+
+    def build_in_filter(
+        self, column_name: str, expression_value: FieldValue
     ) -> Any:
         raise NotImplementedError

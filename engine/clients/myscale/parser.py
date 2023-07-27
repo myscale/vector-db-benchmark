@@ -46,3 +46,7 @@ class MyScaleConditionParser(BaseConditionParser):
     ) -> Any:
         return f"geoDistance( {lon}, {lat}, {column_name}.1, {column_name}.2 )<{radius}"
 
+    def build_in_filter(self, column_name: str, expression_value: FieldValue) -> Any:
+        # expression_value type is str
+        return f"{column_name} in ({expression_value[1:-1]})"
+

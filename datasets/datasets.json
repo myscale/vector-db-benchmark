@@ -542,5 +542,48 @@
     "group_name": "taptap_fake_200m_l2",
     "tag": "no-filter",
     "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/taptap_fake_200m_l2.hdf5"
+  },
+  {
+    "name": "laion-768-100m-ip",
+    "result_group": "single_search",
+    "vector_size": 768,
+    "vector_count": 100000000,
+    "queries": 1000,
+    "distance": "dot",
+    "type": "h5",
+    "path": "downloaded/laion-768-100m-ip/laion-100m-test-ip.hdf5",
+    "group_name": "laion-768-100m-ip",
+    "tag": "no-filter",
+    "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-100m-test-ip.hdf5"
+  },
+  {
+    "name": "laion-768-5m-ip-group-id",
+    "result_group": "hybrid_search",
+    "query_file_path": [
+      {
+        "name": "laion-768-5m-ip-probability-0.001.hdf5",
+        "meta": {"group_id": 1000},
+        "path": "downloaded/laion-768-5m-ip-group-id/laion-5m-test-ip-group-query-1k.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-5m-test-ip-group-query-1k.hdf5"
+      },
+      {
+        "name": "laion-768-5m-ip-probability-0.005.hdf5",
+        "meta": {"group_id": 10000},
+        "path": "downloaded/laion-768-5m-ip-group-id/laion-5m-test-ip-group-query-10k.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-5m-test-ip-group-query-10k.hdf5"
+      }
+    ],
+    "vector_size": 768,
+    "vector_count": 5000000,
+    "queries": 1000,
+    "distance": "dot",
+    "type": "h5",
+    "path": "downloaded/laion-768-5m-ip-group-id/laion-5m-test-ip-group.hdf5",
+    "group_name": "laion-768-5m-ip-group-id",
+    "tag": "filter",
+    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/laion-5m-test-ip-group.hdf5",
+    "schema": {
+      "group_id": "int"
+    }
   }
 ]
