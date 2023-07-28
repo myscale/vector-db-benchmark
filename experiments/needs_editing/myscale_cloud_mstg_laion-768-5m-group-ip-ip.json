@@ -1,0 +1,838 @@
+[
+  {
+    "name": "myscale-myscale-v0.9.7-single_node-MSTG-dataset-laion-768-5m-ip-group-id-up-16-bs-64-optimize",
+    "result_group": "single_search",
+    "engine": "myscale",
+    "platform": "AWS_DEV",
+    "index_type": "MSTG",
+    "dataset": "laion-768-5m-ip-group-id",
+    "version": "myscale-v0.9.7",
+    "branch": "mqdb-dev",
+    "commit": "bfd5acc99ea803c6950bdfd465fd87d71b2b35eb",
+    "remark": "bump version to v0.9.7",
+    "other": "optimize, disk mode",
+    "link": "https://git.moqi.ai/mqdb/ClickHouse/-/commit/bfd5acc99ea803c6950bdfd465fd87d71b2b35eb",
+    "connection_params": {
+      "host": "your_host.aws.dev.myscale.cloud",
+      "port": 443,
+      "http_type": "http",
+      "user": "your_user_name",
+      "password": "your_password"
+    },
+    "collection_params": {
+      "optimizers_config": {
+        "optimize_final": true
+      },
+      "shard": 1,
+      "replicate": 1
+    },
+    "search_params": [
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 10,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 10,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 10,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 10,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 10,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 10,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 10,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 10,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 100,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 100,
+        "params": {
+          "alpha": 1
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 100,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 100,
+        "params": {
+          "alpha": 2
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 100,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 100,
+        "params": {
+          "alpha": 3
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 100,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 1000
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 100,
+        "params": {
+          "alpha": 4
+        },
+        "query_meta": {
+          "group_id": 10000
+        }
+      }
+    ],
+    "upload_params": {
+      "parallel": 16,
+      "batch_size": 64,
+      "index_params": {},
+      "index_type": "MSTG"
+    }
+  }
+]
