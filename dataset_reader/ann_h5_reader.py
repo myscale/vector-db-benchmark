@@ -9,7 +9,9 @@ from benchmark.dataset_config import DatasetConfig
 from dataset_reader.base_reader import BaseReader, Query, Record
 from dataset_reader.utils import convert_H52py
 
-HDF5_BATCH_PART_SIZE = 1000000
+HDF5_BATCH_PART_SIZE = 500000
+
+
 class AnnH5Reader(BaseReader):
     def __init__(self, dataset_dir, dataset_config: DatasetConfig, normalize=False):
         self.dataset_dir = dataset_dir
@@ -69,8 +71,10 @@ class AnnH5Reader(BaseReader):
                 batch_parts = math.ceil(data_size / HDF5_BATCH_PART_SIZE)
             block_size = data_size // batch_parts
 
+            global_idx = 0  # Add this line to initialize the global index.
             for i in range(batch_parts):
-                print(f"\nbatch_part: cur-{i+1}/total-{batch_parts}, data_size:{data_size}, HDF5_BATCH_PART_SIZE: {HDF5_BATCH_PART_SIZE}")
+                print(
+                    f"\nbatch_part: cur-{i + 1}/total-{batch_parts}, data_size:{data_size}, HDF5_BATCH_PART_SIZE: {HDF5_BATCH_PART_SIZE}")
                 start = i * block_size
                 # To handle the case of uneven data sizes, we allow the last block to contain all the remaining data.
                 if i == batch_parts - 1:
@@ -80,7 +84,7 @@ class AnnH5Reader(BaseReader):
                 # avoid mess memory consume
                 data_block = train_data["train"][start:end]
 
-                for idx, vector in enumerate(data_block):
+                for vector in data_block:
                     # normalize the vector for some distance
                     if self.normalize:
                         vector /= np.linalg.norm(vector)
@@ -88,13 +92,14 @@ class AnnH5Reader(BaseReader):
                     # read payload data
                     extra_columns_data = {}
                     for col_name, col_type in zip(extra_columns, extra_columns_type):
-                        extra_columns_data[col_name] = convert_H52py(col_type)(train_data[col_name][idx])
+                        extra_columns_data[col_name] = convert_H52py(col_type)(train_data[col_name][global_idx])
 
-                    yield Record(id=idx,
+                    yield Record(id=global_idx,
                                  vector=vector.tolist()
                                  if (len(vector) == self.dataset_config.vector_size)
                                  else np.random.uniform(0, 1, self.dataset_config.vector_size).tolist(),
                                  metadata=None if len(extra_columns_data.keys()) == 0 else extra_columns_data)
+                    global_idx += 1
 
     def read_column_name_type(self) -> Tuple[list, list]:
         """ Get the payloads data name and type """
