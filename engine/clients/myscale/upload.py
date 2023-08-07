@@ -80,22 +80,35 @@ class MyScaleUploader(BaseUploader):
             print(f">>> {optimize_str}")
             optimize_begin_time = time.time()
             check_optimize_str = f"select count(*) from system.parts where table='{MYSCALE_DATABASE_NAME}' and active=1"
+            check_merges_str = f"select count(*) from system.merges where table='{MYSCALE_DATABASE_NAME}'"
             data_parts = -1
             while data_parts != 1:
                 # trying to optimize final
                 try:
                     cls.client.command(optimize_str)
-                except Exception as e:
-                    print(f"exp: {e}, myscale may run by multi replicates mode..")
+                except Exception as e1:
+                    # checking if parts are merging
+                    is_merging = True
+                    while is_merging:
+                        try:
+                            is_merging = (cls.client.query(check_merges_str).result_rows[0][0] > 0)
+                        except Exception as e2:
+                            print(f"exp: {e2}, while checking data parts are merging...")
+                            is_merging = True
+                            time.sleep(3)
+                    # checking if in replicate mode
+                    print(f"exp: {e1}, MyScale may run by multi replicates mode..")
                     optimize_str = f"optimize table replicas.{MYSCALE_DATABASE_NAME} on cluster '{'{cluster}'}' final"
                     print(f">>> {optimize_str}")
                     cls.client.command(optimize_str)
+
                 # checking data parts count
                 try:
                     data_parts = cls.client.query(check_optimize_str).result_rows[0][0]
                 except Exception as e:
                     print(f"exp: {e}, while checking data parts count...")
                     data_parts = -1
+                    time.sleep(3)
                 time.sleep(3)
 
             print("optimize table finished, time consume {}".format(time.time() - optimize_begin_time))
