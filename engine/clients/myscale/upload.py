@@ -13,6 +13,7 @@ class MyScaleUploader(BaseUploader):
     upload_params = {}
     distance: str = None
 
+    # def get_other_client(self):
     @classmethod
     def init_client(cls, host, distance, vector_count, connection_params, upload_params,
                     extra_columns_name: list, extra_columns_type: list):
@@ -76,32 +77,37 @@ class MyScaleUploader(BaseUploader):
 
             index_create_str = f"alter table {MYSCALE_DATABASE_NAME} add vector index {MYSCALE_DATABASE_NAME}_{get_random_string(4)} vector type {cls.upload_params['index_type']}({index_parameter_str})"
             # optimize table
-            optimize_str = "optimize table {} final".format(MYSCALE_DATABASE_NAME)
-            print(f">>> {optimize_str}")
             optimize_begin_time = time.time()
             check_optimize_str = f"select count(*) from system.parts where table='{MYSCALE_DATABASE_NAME}' and active=1"
             check_merges_str = f"select count(*) from system.merges where table='{MYSCALE_DATABASE_NAME}'"
             data_parts = -1
+            is_merging = True
             while data_parts != 1:
-                # trying to optimize final
                 try:
-                    cls.client.command(optimize_str)
-                except Exception as e1:
-                    # checking if parts are merging
-                    is_merging = True
-                    while is_merging:
-                        try:
-                            is_merging = (cls.client.query(check_merges_str).result_rows[0][0] > 0)
-                        except Exception as e2:
-                            print(f"exp: {e2}, while checking data parts are merging...")
-                            is_merging = True
-                            time.sleep(3)
-                    # checking if in replicate mode
-                    print(f"exp: {e1}, MyScale may run by multi replicates mode..")
-                    optimize_str = f"optimize table replicas.{MYSCALE_DATABASE_NAME} on cluster '{'{cluster}'}' final"
+                    optimize_str = "optimize table {} final".format(MYSCALE_DATABASE_NAME)
                     print(f">>> {optimize_str}")
                     cls.client.command(optimize_str)
-
+                except Exception as e1:
+                    if is_merging:
+                        # checking if parts are merging, wait for merging finished
+                        while is_merging:
+                            try:
+                                is_merging = (cls.client.query(check_merges_str).result_rows[0][0] > 0)
+                            except Exception as e2:
+                                print(f"exp: {e2}, while checking data parts are merging...")
+                                is_merging = True
+                                time.sleep(3)
+                    else:
+                        # optimize in replicate mode
+                        try:
+                            print(f"exp: {e1}, MyScale may run by multi replicates mode..")
+                            optimize_str = f"optimize table replicas.{MYSCALE_DATABASE_NAME} on cluster '{'{cluster}'}' final"
+                            print(f">>> {optimize_str}")
+                            cls.client.command(optimize_str)
+                        except Exception as e3:
+                            print(f"exp: {e3}, optimize table in re...")
+                            is_merging = True
+                            time.sleep(3)
                 # checking data parts count
                 try:
                     data_parts = cls.client.query(check_optimize_str).result_rows[0][0]
