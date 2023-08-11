@@ -68,6 +68,7 @@ class MyScaleConfigurator(BaseConfigurator):
             print("create database: " + create_database)
             cls.client.command(create_database)
             create_table = f"create table replicas.{MYSCALE_DATABASE_NAME} (id UInt32, vector Array(Float32), {structured_columns} {vector_index_inner} CONSTRAINT check_length CHECK length(vector) = {vector_size}) "
+            create_table += " ENGINE = ReplicatedMergeTree("
             # create_table += " ENGINE = ReplicatedMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/replicas/"
             # create_table += f"{MYSCALE_DATABASE_NAME}"
             # create_table += "', '{replica}') ORDER BY id"
