@@ -54,8 +54,8 @@ class MyScaleConfigurator(BaseConfigurator):
             cls.client.command(create_table)
         else:
             cluster = "{cluster}"
-            drop_table1 = f"DROP TABLE IF EXISTS replicas.{MYSCALE_DATABASE_NAME} on cluster '{cluster}' sync"
-            drop_table2 = f"DROP TABLE IF EXISTS default.{MYSCALE_DATABASE_NAME} on cluster '{cluster}' sync"
+            drop_table1 = f"DROP TABLE IF EXISTS replicas.{MYSCALE_DATABASE_NAME} sync"
+            drop_table2 = f"DROP TABLE IF EXISTS default.{MYSCALE_DATABASE_NAME} sync"
             drop_database = f"DROP DATABASE IF EXISTS replicas ON CLUSTER '{cluster}' sync"
             print("drop table replica: " + drop_table1)
             cls.client.command(drop_table1)
@@ -67,14 +67,15 @@ class MyScaleConfigurator(BaseConfigurator):
             create_database = f"CREATE DATABASE IF NOT EXISTS replicas on cluster '{cluster}'"
             print("create database: " + create_database)
             cls.client.command(create_database)
-            create_table = f"create table replicas.{MYSCALE_DATABASE_NAME} on cluster '{cluster}' (id UInt32, vector Array(Float32), {structured_columns} {vector_index_inner} CONSTRAINT check_length CHECK length(vector) = {vector_size}) "
-            create_table += " ENGINE = ReplicatedMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/replicas/"
-            create_table += f"{MYSCALE_DATABASE_NAME}"
-            create_table += "', '{replica}') ORDER BY id"
+            create_table = f"create table replicas.{MYSCALE_DATABASE_NAME} (id UInt32, vector Array(Float32), {structured_columns} {vector_index_inner} CONSTRAINT check_length CHECK length(vector) = {vector_size}) "
+            # create_table += " ENGINE = ReplicatedMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/replicas/"
+            # create_table += f"{MYSCALE_DATABASE_NAME}"
+            # create_table += "', '{replica}') ORDER BY id"
+            create_table += ") ORDER BY id"
             print("create replicated table: " + create_table)
             cls.client.command(create_table)
             # Fixme Does distribute need vector_index_inner ？
-            create_distribute = f"create table default.{MYSCALE_DATABASE_NAME} on cluster '{cluster}' (id UInt32, vector Array(Float32), {structured_columns} CONSTRAINT check_length CHECK length(vector) = {vector_size}) engine Distributed('{cluster}', 'replicas', '{MYSCALE_DATABASE_NAME}', rand())"
+            create_distribute = f"create table default.{MYSCALE_DATABASE_NAME} (id UInt32, vector Array(Float32), {structured_columns} CONSTRAINT check_length CHECK length(vector) = {vector_size}) engine Distributed('{cluster}', 'replicas', '{MYSCALE_DATABASE_NAME}', rand())"
             print("create distributed table: " + create_distribute)
             cls.client.command(create_distribute)
         print("myscale recreate finished!")
