@@ -11,7 +11,7 @@ MYSCALE_DEFAULT_PASSWD = ""
 DISTANCE_MAPPING = {
     Distance.L2: "L2",
     Distance.DOT: "IP",
-    Distance.COSINE: "COSINE"  # cosine problem, when normalized, IP=COSINE
+    Distance.COSINE: "Cosine"  # cosine problem, when normalized, IP=COSINE
 }
 
 H5_COLUMN_TYPES_MAPPING = {
