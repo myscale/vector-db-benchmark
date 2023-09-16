@@ -16,13 +16,6 @@ H5_COLUMN_TYPES_MAPPING = {
 }
 
 
-def convert_H52ClickHouseType(h5_column_type: str):
-    myscale_type = H5_COLUMN_TYPES_MAPPING.get(h5_column_type.lower(), None)
-    if myscale_type is None:
-        raise RuntimeError(f"🐛 elastic doesn't support h5 column type: {h5_column_type}")
-    return myscale_type
-
-
 def process_connection_params(connection_params: dict, default_host: str):
     host = connection_params.get("host", default_host)
     port = connection_params.get("port", ELASTIC_PORT)
