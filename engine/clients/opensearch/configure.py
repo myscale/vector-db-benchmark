@@ -46,7 +46,8 @@ class OpenSearchConfigurator(BaseConfigurator):
                     "settings": {
                         "index": {
                             "knn": True,
-                        }
+                        },
+                        "number_of_replicas": 0
                     },
                     "mappings": {
                         "properties": {

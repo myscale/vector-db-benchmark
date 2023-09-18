@@ -40,45 +40,46 @@ class OpenSearchSearcher(BaseSearcher):
 
     @classmethod
     def search_one(cls, vector, meta_conditions, top, schema) -> List[Tuple[int, float]]:
-        try:
-            query = {
-                "knn": {
-                    "vector": {
-                        "vector": vector,
-                        "k": top,
-                    }
-                }
-            }
-
-            meta_conditions = cls.parser.parse(meta_conditions)
-            if meta_conditions:
+        while True:
+            try:
                 query = {
-                    "bool": {
-                        "must": [query],
-                        "filter": meta_conditions,
+                    "knn": {
+                        "vector": {
+                            "vector": vector,
+                            "k": top,
+                        }
                     }
                 }
-            source_excludes = ['vector']
-            if schema is not None:
-                source_excludes.extend(list(schema.keys()))
-            res = cls.client.search(
-                index=OPENSEARCH_INDEX,
-                body={
-                    "query": query,
-                    "size": top,
-                },
-                _source_excludes=source_excludes,
-                params={
-                    "timeout": 60,
-                },
-            )
-            # print(cls.client.indices.get_settings(index="bench"))
-            return [
-                (uuid.UUID(hex=hit["_id"]).int, hit["_score"])
-                for hit in res["hits"]["hits"]
-            ]
-        except Exception as e:
-            raise RuntimeError(f"🐛 open search exception in search_one, {e}")
+
+                meta_conditions = cls.parser.parse(meta_conditions)
+                if meta_conditions:
+                    query = {
+                        "bool": {
+                            "must": [query],
+                            "filter": meta_conditions,
+                        }
+                    }
+                source_excludes = ['vector']
+                if schema is not None:
+                    source_excludes.extend(list(schema.keys()))
+                res = cls.client.search(
+                    index=OPENSEARCH_INDEX,
+                    body={
+                        "query": query,
+                        "size": top,
+                    },
+                    _source_excludes=source_excludes,
+                    params={
+                        "timeout": 60,
+                    },
+                )
+                # print(cls.client.indices.get_settings(index="bench"))
+                return [
+                    (uuid.UUID(hex=hit["_id"]).int, hit["_score"])
+                    for hit in res["hits"]["hits"]
+                ]
+            except Exception as e:
+                print(f"🐛 open search exception in search_one, {e}")
 
     def setup_search(self, host, distance, connection_params: dict, search_params: dict):
         if search_params and search_params['params']:

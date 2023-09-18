@@ -25,7 +25,8 @@ class OpenSearchUploader(BaseUploader):
     @classmethod
     def init_client(cls, host, distance, vector_count, connection_params, upload_params,
                     extra_columns_name: list, extra_columns_type: list):
-        host, port, user, password, aws_secret_access_key, aws_access_key_id, region, service, init_params = process_connection_params(connection_params, host)
+        host, port, user, password, aws_secret_access_key, aws_access_key_id, region, service, init_params = process_connection_params(
+            connection_params, host)
         session = boto3.Session(aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
         credentials = session.get_credentials()
         auth = AWSV4SignerAuth(credentials, region, service)
@@ -68,7 +69,6 @@ class OpenSearchUploader(BaseUploader):
                 time.sleep(3)
                 print(f"Exception happened while upload_batch:{e}")
 
-
     @classmethod
     def post_upload(cls, _distance):
         time_start = time.time()
@@ -78,5 +78,5 @@ class OpenSearchUploader(BaseUploader):
                 break
             except Exception as e:
                 print(f"Exception happened while merging:{e}")
-        print(f"OpenSearch merging finished, time:{time.time()-time_start}")
+        print(f"OpenSearch merging finished, time:{time.time() - time_start}")
         return {}
