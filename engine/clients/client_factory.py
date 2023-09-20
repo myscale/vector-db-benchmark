@@ -38,6 +38,12 @@ from engine.clients.weaviate import (
     WeaviateUploader,
 )
 
+from engine.clients.pgvector import (
+    PGVectorSearcher,
+    PGVectorConfigurator,
+    PGVectorUploader,
+)
+
 ENGINE_CONFIGURATORS = {
     "myscale": MyScaleConfigurator,
     "clickhouse": ClickHouseConfigurator,
@@ -50,6 +56,7 @@ ENGINE_CONFIGURATORS = {
     "redis": RedisConfigurator,
     "pinecone": PineconeConfigurator,
     "proxima": ProximaConfigurator,
+    "pgvector": PGVectorConfigurator
 }
 
 ENGINE_UPLOADERS = {
@@ -64,6 +71,7 @@ ENGINE_UPLOADERS = {
     "redis": RedisUploader,
     "pinecone": PineconeUploader,
     "proxima": ProximaUploader,
+    "pgvector": PGVectorUploader
 }
 
 ENGINE_SEARCHERS = {
@@ -78,6 +86,7 @@ ENGINE_SEARCHERS = {
     "redis": RedisSearcher,
     "pinecone": PineconeSearcher,
     "proxima": ProximaSearcher,
+    "pgvector": PGVectorSearcher
 }
 
 
