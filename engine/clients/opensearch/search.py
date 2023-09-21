@@ -1,7 +1,9 @@
+import random
 import uuid
 from typing import List, Tuple
 
 import boto3
+import tqdm
 from opensearchpy import OpenSearch
 from opensearchpy import RequestsHttpConnection, AWSV4SignerAuth
 
@@ -40,6 +42,8 @@ class OpenSearchSearcher(BaseSearcher):
 
     @classmethod
     def search_one(cls, vector, meta_conditions, top, schema) -> List[Tuple[int, float]]:
+        if not cls.client:
+            raise RuntimeError("cls.client has not been initialized. Please call init_client first.")
         while True:
             try:
                 query = {
@@ -81,12 +85,23 @@ class OpenSearchSearcher(BaseSearcher):
             except Exception as e:
                 print(f"🐛 open search exception in search_one, {e}")
 
-    def setup_search(self, host, distance, connection_params: dict, search_params: dict):
+    def setup_search(self, host, distance, connection_params: dict, search_params: dict, dataset_config):
         if search_params and search_params['params']:
             self.init_client(host=host,
                              distance=distance,
                              connection_params=connection_params,
                              search_params=search_params)
-            self.client.indices.put_settings(
-                body=search_params['params'], index=OPENSEARCH_INDEX
-            )
+            while True:
+                try:
+                    self.client.indices.put_settings(
+                        body=search_params['params'], index=OPENSEARCH_INDEX
+                    )
+                    vectors = [[random.uniform(-1, 1) for _ in range(dataset_config.vector_size)] for _ in range(64)]
+                    print("Trying to use 64 random search to warm up OpenSearch")
+                    for vector in tqdm.tqdm(vectors):
+                        results = OpenSearchSearcher.search_one(vector, None, 100, None)
+                        if not results:
+                            raise Exception(f"Can't get any results when warm up OpenSearch")
+                    break
+                except Exception as e:
+                    print(f"Exception happened when warming up search for OpenSearch:{e}")

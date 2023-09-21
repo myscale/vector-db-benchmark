@@ -64,7 +64,7 @@ class WeaviateSearcher(BaseSearcher):
             except Exception as e:
                 print(f"weaviate search exception is {e}")
 
-    def setup_search(self, host, distance, connection_params: dict, search_params: dict):
+    def setup_search(self, host, distance, connection_params: dict, search_params: dict, dataset_config):
         search_params = {
             'vectorIndexConfig': search_params.get("vectorIndexConfig", {})
         }

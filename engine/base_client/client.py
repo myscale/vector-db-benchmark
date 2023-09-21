@@ -136,7 +136,7 @@ class BaseClient:
             get_queries = functools.partial(reader.read_queries)
 
             search_stats = searcher.search_all(
-                dataset.config.distance, get_queries, dataset.config.queries, dataset.config.schema
+                dataset.config.distance, get_queries, dataset.config.queries, dataset.config.schema, dataset.config
             )
 
             self.save_search_and_upload_results(

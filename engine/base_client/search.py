@@ -62,13 +62,14 @@ class BaseSearcher:
             distance,
             get_queries,
             queries,  # The number of vectors used for search in each round of testing.
-            schema    # Payload fields of dataset
+            schema,    # Payload fields of dataset
+            dataset_config
     ):
         parallel = self.search_params.get("parallel", 1)
         top = self.search_params.get("top", None)
 
         # weaviate-client setup_search may require initialized client
-        self.setup_search(self.host, distance, self.connection_params, self.search_params)
+        self.setup_search(self.host, distance, self.connection_params, self.search_params, dataset_config)
 
         search_one = functools.partial(self.__class__._search_one, top=top, schema=schema)
 
@@ -110,7 +111,7 @@ class BaseSearcher:
             "latencies": latencies,
         }
 
-    def setup_search(self, host, distance, connection_params: dict, search_params: dict):
+    def setup_search(self, host, distance, connection_params: dict, search_params: dict, dataset_config):
         pass
 
     def post_search(self):
