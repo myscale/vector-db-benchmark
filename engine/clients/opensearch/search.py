@@ -1,4 +1,5 @@
 import random
+import time
 import uuid
 from typing import List, Tuple
 
@@ -84,15 +85,16 @@ class OpenSearchSearcher(BaseSearcher):
                 ]
             except Exception as e:
                 print(f"🐛 open search exception in search_one, {e}")
+                time.sleep(1)
 
     def setup_search(self, host, distance, connection_params: dict, search_params: dict, dataset_config):
         if search_params and search_params['params']:
-            self.init_client(host=host,
-                             distance=distance,
-                             connection_params=connection_params,
-                             search_params=search_params)
             while True:
                 try:
+                    self.init_client(host=host,
+                                     distance=distance,
+                                     connection_params=connection_params,
+                                     search_params=search_params)
                     self.client.indices.put_settings(
                         body=search_params['params'], index=OPENSEARCH_INDEX
                     )
@@ -105,3 +107,4 @@ class OpenSearchSearcher(BaseSearcher):
                     break
                 except Exception as e:
                     print(f"Exception happened when warming up search for OpenSearch:{e}")
+                    time.sleep(10)
