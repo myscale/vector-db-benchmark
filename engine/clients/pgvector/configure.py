@@ -51,7 +51,7 @@ class PGVectorConfigurator(BaseConfigurator):
         # Add extra columns if provided
         if extra_columns_name and extra_columns_type and len(extra_columns_name) == len(extra_columns_type) and len(
                 extra_columns_name) > 0:
-            columns = ", ".join([f"{name} {_type}" for name, _type in zip(extra_columns_name, extra_columns_type)])
+            columns = ", ".join([f"{name} {H5_COLUMN_TYPES_MAPPING.get(_type, _type)}" for name, _type in zip(extra_columns_name, extra_columns_type)])
             command = command[:-1] + f", {columns});"
 
         extensions = []
@@ -61,23 +61,39 @@ class PGVectorConfigurator(BaseConfigurator):
         except Exception as e:
             print(f"Failed to get PGVector extensions: {e}")
         # create extension
-        if 'vector' in extensions:
+        if 'vector' in extensions or 'vectors' in extensions:
             try:
                 self.cur.execute("ALTER EXTENSION vector UPDATE;")
                 self.conn.commit()
             except Exception as e:
+                self.conn.rollback()
                 print(f"Failed to update the 'vector' extension:{e}")
+            try:
+                self.cur.execute("ALTER EXTENSION vectors UPDATE;")
+                self.conn.commit()
+            except Exception as e:
+                self.conn.rollback()
+                print(f"Failed to update the 'vectors' extension:{e}")
         else:
             try:
                 self.cur.execute("CREATE EXTENSION vector;")
                 self.conn.commit()
             except Exception as e:
+                self.conn.rollback()
                 print(f"Failed to create the 'vector' extension:{e}")
+            try:
+                self.cur.execute("CREATE EXTENSION vectors;")
+                self.conn.commit()
+            except Exception as e:
+                self.conn.rollback()
+                print(f"Failed to create the 'vectors' extension:{e}")
         # create table
         try:
+            print(f"try create table: {command}")
             self.cur.execute(command)
             self.conn.commit()
         except Exception as e:
+            self.conn.rollback()
             print(f"Exception happened when recreate table[{PGVECTOR_INDEX}], exp:{e}")
         finally:
             self.release_client()

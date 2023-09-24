@@ -13,6 +13,12 @@ DISTANCE_MAPPING_CREATE = {
     Distance.DOT: "vector_ip_ops",
 }
 
+DISTANCE_MAPPING_CREATE_RUST = {
+    Distance.L2: "l2_ops",
+    Distance.COSINE: "cosine_ops",
+    Distance.DOT: "dot_ops",
+}
+
 DISTANCE_MAPPING_SEARCH = {
     Distance.L2: "<->",
     Distance.COSINE: "<=>",
@@ -24,6 +30,7 @@ H5_COLUMN_TYPES_MAPPING = {
     # TODO support geo extension
     "float64": "double precision",
     "float32": "real",
+    "float": "real",
     "text": "text",
     "string": "varchar(256)",
     "keyword": "varchar(256)",
