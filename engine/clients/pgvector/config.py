@@ -1,6 +1,5 @@
 from engine.base_client.distances import Distance
 
-
 PGVECTOR_PORT = 5432
 PGVECTOR_INDEX = "bench"
 PGVECTOR_DATABASE = "postgres"
