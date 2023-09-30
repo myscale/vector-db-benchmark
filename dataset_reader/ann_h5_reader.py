@@ -72,6 +72,8 @@ class AnnH5Reader(BaseReader):
             block_size = data_size // batch_parts
 
             global_idx = 0  # Add this line to initialize the global index.
+            vectors_limit = -1
+            vector_count = 0
             for i in range(batch_parts):
                 print(
                     f"\nbatch_part: cur-{i + 1}/total-{batch_parts}, data_size:{data_size}, HDF5_BATCH_PART_SIZE: {HDF5_BATCH_PART_SIZE}")
@@ -84,6 +86,9 @@ class AnnH5Reader(BaseReader):
                 # avoid mess memory consume
                 data_block = train_data["train"][start:end]
 
+                if 0 < vectors_limit <= vector_count:
+                    break
+
                 for vector in data_block:
                     # normalize the vector for some distance
                     if self.normalize:
@@ -94,12 +99,15 @@ class AnnH5Reader(BaseReader):
                     for col_name, col_type in zip(extra_columns, extra_columns_type):
                         extra_columns_data[col_name] = convert_H52py(col_type)(train_data[col_name][global_idx])
 
+                    if 0 < vectors_limit <= vector_count:
+                        break
                     yield Record(id=global_idx,
                                  vector=vector.tolist()
                                  if (len(vector) == self.dataset_config.vector_size)
                                  else np.random.uniform(0, 1, self.dataset_config.vector_size).tolist(),
                                  metadata=None if len(extra_columns_data.keys()) == 0 else extra_columns_data)
                     global_idx += 1
+                    vector_count += 1
 
     def read_column_name_type(self) -> Tuple[list, list]:
         """ Get the payloads data name and type """

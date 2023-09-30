@@ -49,6 +49,10 @@ class BaseClient:
             index_create_parameter = self.configurator.collection_params["index_options"]
         elif self.name.startswith("proxima"):
             index_create_parameter = self.uploader.upload_params.get("index_params", {})
+        elif self.name.startswith("opensearch"):
+            index_create_parameter = self.configurator.collection_params["index_options"]
+        elif self.name.startswith("pgvector"):
+            index_create_parameter = self.uploader.upload_params.get("index_params", {})
         self.index_create_parameter = index_create_parameter
         print(f"experiment information: [name ⚙️ {name}, init {len(self.searchers)} searchers, {1} uploader]")
 
@@ -136,7 +140,7 @@ class BaseClient:
             get_queries = functools.partial(reader.read_queries)
 
             search_stats = searcher.search_all(
-                dataset.config.distance, get_queries, dataset.config.queries, dataset.config.schema
+                dataset.config.distance, get_queries, dataset.config.queries, dataset.config.schema, dataset.config
             )
 
             self.save_search_and_upload_results(
