@@ -14,9 +14,11 @@ class PGVectorSearcher(BaseSearcher):
     distance: str = None
     host: str = None
     parser = PGVectorConditionParser()
+    engine_type: str = None
 
     @classmethod
     def init_client(cls, host: str, distance, connection_params: dict, search_params: dict):
+        cls.engine_type = connection_params.get("engine_type", "c")
         database, host, port, user, password = process_connection_params(connection_params, host)
         cls.conn = psycopg2.connect(database=database, user=user, password=password, host=host, port=port)
         cls.cur = cls.conn.cursor()
@@ -31,7 +33,12 @@ class PGVectorSearcher(BaseSearcher):
             cur.execute("BEGIN;")
             # set index create parameter
             for key in cls.search_params["params"].keys():
-                cur.execute(f"SET LOCAL {key} = {cls.search_params['params'][key]};")
+                if cls.engine_type == "c":
+                    cur.execute(f"SET LOCAL {key} = {cls.search_params['params'][key]};")
+                else:
+                    # pgvector_rs only support hnsw
+                    cur.execute(f"SET LOCAL vectors.k = {cls.search_params['params']['hnsw.ef_search']};")
+                    break
 
             meta_conditions = cls.parser.parse(meta_conditions)
             if meta_conditions:

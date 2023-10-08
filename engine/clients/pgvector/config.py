@@ -1,6 +1,5 @@
 from engine.base_client.distances import Distance
 
-
 PGVECTOR_PORT = 5432
 PGVECTOR_INDEX = "bench"
 PGVECTOR_DATABASE = "postgres"
@@ -11,6 +10,12 @@ DISTANCE_MAPPING_CREATE = {
     Distance.L2: "vector_l2_ops",
     Distance.COSINE: "vector_cosine_ops",
     Distance.DOT: "vector_ip_ops",
+}
+
+DISTANCE_MAPPING_CREATE_RUST = {
+    Distance.L2: "l2_ops",
+    Distance.COSINE: "cosine_ops",
+    Distance.DOT: "dot_ops",
 }
 
 DISTANCE_MAPPING_SEARCH = {
@@ -24,6 +29,7 @@ H5_COLUMN_TYPES_MAPPING = {
     # TODO support geo extension
     "float64": "double precision",
     "float32": "real",
+    "float": "real",
     "text": "text",
     "string": "varchar(256)",
     "keyword": "varchar(256)",

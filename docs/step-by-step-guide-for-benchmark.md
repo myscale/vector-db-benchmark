@@ -26,6 +26,11 @@
     - [Step 2. Modify the configuration](#step-2-modify-the-configuration-4)
     - [Step 3. Run the tests](#step-3-run-the-tests-4)
     - [Step 4. View the test results](#step-4-view-the-test-results-4)
+  - [OpenSearch](#opensearch)
+    - [Step 1. Create Cluster](#step-1-create-cluster-5)
+    - [Step 2. Modify the configuration](#step-2-modify-the-configuration-5)
+    - [Step 3. Run the tests](#step-3-run-the-tests-5)
+    - [Step 4. View the test results](#step-4-view-the-test-results-5)
 
 For any cloud vector database, the testing process follows the flowchart below:
 
@@ -259,3 +264,52 @@ grep -E 'rps|mean_precision' $(ls -t)
 ```
 
 ![QdrantResults.jpg](../images/QdrantResults.jpg)
+
+## OpenSearch
+
+### Step 1. Create Cluster
+
+Create an [OpenSearch domain](https://us-east-2.console.aws.amazon.com/aos/home?region=us-east-2#opensearch/domains) in your AWS console.
+When filling in the Fine-Grained Access Control information, select "Set IAM ARN as Master User" for the Master User and enter your ARN information.
+Record the cluster domain endpoint (without `https://`).
+![OpenSearch.jpg](../images/OpenSearchConsole.png)
+
+### Step 2. Modify the configuration
+
+We have provided two configuration files for testing Qdrant:
+
+- [opensearch_hnsw_laion-768-5m-ip.json](../experiments/needs_editing/opensearch_hnsw_laion-768-5m-ip.json)
+- [opensearch_hnsw_laion-768-5m-probability-ip.json](../experiments/needs_editing/opensearch_hnsw_laion-768-5m-probability-ip.json)
+
+You need to write the cluster connection information obtained in Step 1 into the configuration files.
+Modify the `connection_params` section of the files and update the values for `host`, `aws_access_key_id` and `aws_secret_access_key`.
+Finally, move the modified configuration file into the `experiments/configurations` directory.
+Here is an example of how the modified section may look:
+
+```shell
+"connection_params": {
+  "host": "your opensearch cluster domain endpoint",
+  "port": 443,
+  "user": "elastic",
+  "password": "passwd",
+  "aws_access_key_id": "your aws access key id",
+  "aws_secret_access_key": "your aws secret access key",
+  "region": "us-east-2",
+  "service": "es"
+},
+```
+
+### Step 3. Run the tests
+
+```shell
+python3 run.py --engines *opensearch*
+```
+
+### Step 4. View the test results
+
+```shell
+cd results
+grep -E 'rps|mean_precision' $(ls -t)
+```
+
+![OpenSearchResults.jpg](../images/OpenSearchResults.png)

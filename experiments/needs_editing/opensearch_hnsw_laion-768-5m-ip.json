@@ -1,0 +1,318 @@
+[
+  {
+    "name": "opensearch-v2.7-single_node-HNSW-m-12-efc-100-dataset-laion-768-5m-ip-upload_parallel-16-batch_size-64",
+    "result_group": "single_search",
+    "engine": "opensearch",
+    "platform": "CloudTest_v0.0.4",
+    "index_type": "HNSW",
+    "dataset": "laion-768-5m-ip",
+    "version": "v2.7",
+    "branch": "tag-v2.7",
+    "commit": "unknown",
+    "remark": "OpenSearch_2_7_R20230706-P1",
+    "other": "r6g.2xlarge AWS us-east-2; client us-east-2",
+    "link": "none none",
+    "connection_params": {
+      "host": "search-XXXXXX.us-east-2.es.amazonaws.com",
+      "port": 443,
+      "user": "elastic",
+      "password": "passwd",
+      "aws_access_key_id": "your_key_id",
+      "aws_secret_access_key": "your_access_key",
+      "region": "us-east-2",
+      "service": "es"
+    },
+    "collection_params": {
+      "index_options": {
+        "m": 12,
+        "ef_construction": 100
+      }
+    },
+    "search_params": [
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 100
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 128
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 256
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 512
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 100
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 128
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 256
+        }
+      },
+      {
+        "parallel": 1,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 512
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 100
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 128
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 256
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 512
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 100
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 128
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 256
+        }
+      },
+      {
+        "parallel": 2,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 512
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 100
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 128
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 256
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 512
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 100
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 128
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 256
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 512
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 100
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 128
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 256
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 512
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 100
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 128
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 256
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 512
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 100
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 128
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 256
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 10,
+        "params": {
+          "knn.algo_param.ef_search": 512
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 100
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 128
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 256
+        }
+      },
+      {
+        "parallel": 16,
+        "top": 100,
+        "params": {
+          "knn.algo_param.ef_search": 512
+        }
+      }
+    ],
+    "upload_params": {
+      "parallel": 16,
+      "batch_size": 64
+    }
+  }
+]
