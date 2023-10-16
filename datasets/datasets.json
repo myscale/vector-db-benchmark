@@ -585,5 +585,90 @@
     "schema": {
       "group_id": "int"
     }
+  },
+  {
+    "name": "openai-1536-50w-cosine-probability",
+    "result_group": "hybrid_search",
+    "query_file_path": [
+      {
+        "name": "openai-1536-50w-cosine-probability-0.001.hdf5",
+        "meta": {"probability": 0.001},
+        "path": "downloaded/openai-1536-50w-cosine-probability/openai-1536-50w-cosine-probability-0.001.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine-probability-0.001.hdf5"
+      },
+      {
+        "name": "openai-1536-50w-cosine-probability-0.005.hdf5",
+        "meta": {"probability": 0.005},
+        "path": "downloaded/openai-1536-50w-cosine-probability/openai-1536-50w-cosine-probability-0.005.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine-probability-0.005.hdf5"
+      },
+      {
+        "name": "openai-1536-50w-cosine-probability-0.01.hdf5",
+        "meta": {"probability": 0.01},
+        "path": "downloaded/openai-1536-50w-cosine-probability/openai-1536-50w-cosine-probability-0.01.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine-probability-0.01.hdf5"
+      },
+      {
+        "name": "openai-1536-50w-cosine-probability-0.05.hdf5",
+        "meta": {"probability": 0.05},
+        "path": "downloaded/openai-1536-50w-cosine-probability/openai-1536-50w-cosine-probability-0.05.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine-probability-0.05.hdf5"
+      },
+      {
+        "name": "openai-1536-50w-cosine-probability-0.1.hdf5",
+        "meta": {"probability": 0.1},
+        "path": "downloaded/openai-1536-50w-cosine-probability/openai-1536-50w-cosine-probability-0.1.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine-probability-0.1.hdf5"
+      },
+      {
+        "name": "openai-1536-50w-cosine-probability-0.3.hdf5",
+        "meta": {"probability": 0.3},
+        "path": "downloaded/openai-1536-50w-cosine-probability/openai-1536-50w-cosine-probability-0.3.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine-probability-0.3.hdf5"
+      },
+      {
+        "name": "openai-1536-50w-cosine-probability-0.5.hdf5",
+        "meta": {"probability": 0.5},
+        "path": "downloaded/openai-1536-50w-cosine-probability/openai-1536-50w-cosine-probability-0.5.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine-probability-0.5.hdf5"
+      },
+      {
+        "name": "openai-1536-50w-cosine-probability-0.8.hdf5",
+        "meta": {"probability": 0.8},
+        "path": "downloaded/openai-1536-50w-cosine-probability/openai-1536-50w-cosine-probability-0.8.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine-probability-0.8.hdf5"
+      },
+      {
+        "name": "openai-1536-50w-cosine-probability-1.0.hdf5",
+        "meta": {"probability": 1.0},
+        "path": "downloaded/openai-1536-50w-cosine-probability/openai-1536-50w-cosine-probability-1.0.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine-probability-1.0.hdf5"
+      }
+    ],
+    "vector_size": 1536,
+    "vector_count": 500000,
+    "queries": 1000,
+    "distance": "cosine",
+    "type": "h5",
+    "path": "downloaded/openai-1536-50w-cosine-probability/openai-1536-50w-cosine.hdf5",
+    "group_name": "openai-1536-50w-cosine-probability",
+    "tag": "filter",
+    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine.hdf5",
+    "schema": {
+      "probability": "float64"
+    }
+  },
+  {
+    "name": "openai-1536-50w-cosine",
+    "result_group": "single_search",
+    "vector_size": 1536,
+    "vector_count": 500000,
+    "queries": 1000,
+    "distance": "cosine",
+    "type": "h5",
+    "path": "downloaded/openai-1536-50w-cosine/openai-1536-50w-cosine.hdf5",
+    "group_name": "openai-1536-50w-cosine",
+    "tag": "no-filter",
+    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine.hdf5"
   }
 ]

@@ -60,8 +60,8 @@ class AnnH5Reader(BaseReader):
 
     def read_data(self) -> Iterator[Record]:
         with h5py.File(self.dataset_dir / self.dataset_config.path, "r") as train_data:
-            extra_columns = train_data.attrs.get("extra_columns", [])
-            extra_columns_type = train_data.attrs.get("extra_columns_type", [])
+            extra_columns = train_data.attrs.get("extra_columns", []) if self.dataset_config.result_group == "hybrid_search" else []
+            extra_columns_type = train_data.attrs.get("extra_columns_type", []) if self.dataset_config.result_group == "hybrid_search" else []
             # get origin train datasets length
             data_size = train_data["train"].shape[0]
             # default use one batch_part
