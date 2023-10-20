@@ -591,6 +591,24 @@
     "result_group": "hybrid_search",
     "query_file_path": [
       {
+        "name": "openai-1536-50w-cosine-probability-0.00001.hdf5",
+        "meta": {"probability": 0.00001},
+        "path": "downloaded/openai-1536-50w-cosine-probability/openai-1536-50w-cosine-probability-0.00001.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine-probability-0.00001.hdf5"
+      },
+      {
+        "name": "openai-1536-50w-cosine-probability-0.0001.hdf5",
+        "meta": {"probability": 0.0001},
+        "path": "downloaded/openai-1536-50w-cosine-probability/openai-1536-50w-cosine-probability-0.0001.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine-probability-0.0001.hdf5"
+      },
+      {
+        "name": "openai-1536-50w-cosine-probability-0.0003.hdf5",
+        "meta": {"probability": 0.0003},
+        "path": "downloaded/openai-1536-50w-cosine-probability/openai-1536-50w-cosine-probability-0.0003.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine-probability-0.0003.hdf5"
+      },
+      {
         "name": "openai-1536-50w-cosine-probability-0.001.hdf5",
         "meta": {"probability": 0.001},
         "path": "downloaded/openai-1536-50w-cosine-probability/openai-1536-50w-cosine-probability-0.001.hdf5",
