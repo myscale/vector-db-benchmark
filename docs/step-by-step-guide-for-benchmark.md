@@ -31,6 +31,11 @@
     - [Step 2. Modify the configuration](#step-2-modify-the-configuration-5)
     - [Step 3. Run the tests](#step-3-run-the-tests-5)
     - [Step 4. View the test results](#step-4-view-the-test-results-5)
+  - [Postgres (Pgvector \& Pgvecto.rs)](#postgres-pgvector--pgvectors)
+    - [Step 1. Create Server](#step-1-create-server)
+    - [Step 2. Modify the configuration](#step-2-modify-the-configuration-6)
+    - [Step 3. Run the tests](#step-3-run-the-tests-6)
+    - [Step 4. View the test results](#step-4-view-the-test-results-6)
 
 For any cloud vector database, the testing process follows the flowchart below:
 
@@ -314,12 +319,11 @@ grep -E 'rps|mean_precision' $(ls -t)
 
 ![OpenSearchResults.jpg](../images/OpenSearchResults.png)
 
-
-## PGVector
+## Postgres (Pgvector & Pgvecto.rs)
 
 ### Step 1. Create Server
 
-For deploying PGVector implemented in C, you can use Docker. Below is an example docker-compose.yaml configuration:
+For deploying Postgres with [pgvector](https://github.com/pgvector/pgvector) (a Postgres plugin written in C), you can use Docker. Below is an example `docker-compose.yaml` configuration:
 
 ```yaml
 version: '3'
@@ -335,7 +339,7 @@ services:
       - "5432:5432"
 ```
 
-Similarly, for PGVector written in Rust, Docker can also be utilized. Here's a corresponding docker-compose.yaml example:
+Similarly, for Postgres with [pgvecto.rs](https://github.com/tensorchord/pgvecto.rs) (a Postgres plugin written in Rust), Docker can also be utilized. Here's a corresponding `docker-compose.yaml` example:
 
 ```yaml
 version: '3'
@@ -353,16 +357,20 @@ services:
 
 ### Step 2. Modify the configuration
 
-We have provided four configuration files for testing PGVector:
-for PGVector written in C:
+We have provided four configuration files for testing.
+
+For pgvector:
+
 - [pgvector_c_HNSW_single_node_laion-768-5m-ip.json](../experiments/needs_editing/pgvector_c_HNSW_single_node_laion-768-5m-ip.json)
 - [pgvector_c_HNSW_single_node_laion-768-5m-probability-ip.json](../experiments/needs_editing/pgvector_c_HNSW_single_node_laion-768-5m-probability-ip.json)
-for PGVector written in Rust:
+
+For pgvecto.rs:
+
 - [pgvector_rust_HNSW_single_node_laion-768-5m-ip.json](../experiments/needs_editing/pgvector_rust_HNSW_single_node_laion-768-5m-ip.json)
 - [pgvector_rust_HNSW_single_node_laion-768-5m-probability-ip.json](../experiments/needs_editing/pgvector_rust_HNSW_single_node_laion-768-5m-probability-ip.json)
 
-After deploying your own PGVector service, you need to modify the `connection_params` fields in the configuration file. 
-Additionally, you can append custom `search_params` for testing purposes. 
+After deploying your own Postgres service, you need to modify the `connection_params` fields in the configuration file.
+Additionally, you can append custom `search_params` for testing purposes.
 You can also alter `upload_params` to modify the parameters for index creation.
 
 ```shell
