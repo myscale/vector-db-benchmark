@@ -1,0 +1,63 @@
+[
+  {
+    "name": "pgvector-v0.1.3-single_node-HNSW-m-12-efc-100-dataset-laion-768-5m-ip-upload_parallel-16-batch_size-64",
+    "result_group": "single_search",
+    "engine": "pgvector",
+    "platform": "CloudTest_v0.0.4",
+    "index_type": "HNSW",
+    "dataset": "laion-768-5m-ip",
+    "version": "pg15-latest",
+    "branch": "master",
+    "commit": "sha256:38c7e5c4fa3afd48fb4911b3f96489ac287b59f8bfdd9b7b55c0eca898ffec21",
+    "remark": "pgvector implemented in RUST",
+    "other": "Client resource: 4c 8g, Server resource: 4c 32g",
+    "link": "https://github.com/tensorchord/pgvecto.rs",
+    "connection_params": {
+      "host": "127.0.0.1",
+      "port": 5432,
+      "user": "root",
+      "password": "123456"
+    },
+    "collection_params": {},
+    "search_params": [
+      {
+        "parallel": 4,
+        "top": 10,
+        "params": {
+          "hnsw.ef_search": 100
+        }
+      },
+      {
+        "parallel": 4,
+        "top": 100,
+        "params": {
+          "hnsw.ef_search": 100
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 10,
+        "params": {
+          "hnsw.ef_search": 100
+        }
+      },
+      {
+        "parallel": 8,
+        "top": 100,
+        "params": {
+          "hnsw.ef_search": 100
+        }
+      }
+    ],
+    "upload_params": {
+      "parallel": 16,
+      "batch_size": 64,
+      "index_params": {
+        "m": 12,
+        "ef_construction": 100
+      },
+      "index_type": "hnsw",
+      "engine_type": "rust"
+    }
+  }
+]
