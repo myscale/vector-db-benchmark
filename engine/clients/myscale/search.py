@@ -38,7 +38,7 @@ class MyScaleSearcher(BaseSearcher):
         search_str = f"SELECT id, distance({par})(vector, {vector}) as dis FROM {MYSCALE_DATABASE_NAME}"
 
         if meta_conditions is not None:
-            search_str += f" where {cls.parser.parse(meta_conditions=meta_conditions)}"
+            search_str += f" prewhere {cls.parser.parse(meta_conditions=meta_conditions)}"
 
         if cls.distance == "IP":
             search_str += f" order by dis DESC limit {top}"
