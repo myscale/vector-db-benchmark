@@ -313,3 +313,78 @@ grep -E 'rps|mean_precision' $(ls -t)
 ```
 
 ![OpenSearchResults.jpg](../images/OpenSearchResults.png)
+
+
+## PGVector
+
+### Step 1. Create Server
+
+For deploying PGVector implemented in C, you can use Docker. Below is an example docker-compose.yaml configuration:
+
+```yaml
+version: '3'
+
+services:
+  pgvector:
+    image: ankane/pgvector:latest
+    container_name: pgvector
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=123456
+    ports:
+      - "5432:5432"
+```
+
+Similarly, for PGVector written in Rust, Docker can also be utilized. Here's a corresponding docker-compose.yaml example:
+
+```yaml
+version: '3'
+
+services:
+  pgvector:
+    image: tensorchord/pgvecto-rs:latest
+    container_name: pgvector
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=123456
+    ports:
+      - "5432:5432"
+```
+
+### Step 2. Modify the configuration
+
+We have provided four configuration files for testing PGVector:
+for PGVector written in C:
+- [pgvector_c_HNSW_single_node_laion-768-5m-ip.json](../experiments/needs_editing/pgvector_c_HNSW_single_node_laion-768-5m-ip.json)
+- [pgvector_c_HNSW_single_node_laion-768-5m-probability-ip.json](../experiments/needs_editing/pgvector_c_HNSW_single_node_laion-768-5m-probability-ip.json)
+for PGVector written in Rust:
+- [pgvector_rust_HNSW_single_node_laion-768-5m-ip.json](../experiments/needs_editing/pgvector_rust_HNSW_single_node_laion-768-5m-ip.json)
+- [pgvector_rust_HNSW_single_node_laion-768-5m-probability-ip.json](../experiments/needs_editing/pgvector_rust_HNSW_single_node_laion-768-5m-probability-ip.json)
+
+After deploying your own PGVector service, you need to modify the `connection_params` fields in the configuration file. 
+Additionally, you can append custom `search_params` for testing purposes. 
+You can also alter `upload_params` to modify the parameters for index creation.
+
+```shell
+"connection_params": {
+    "host": "127.0.0.1",
+    "port": 5432,
+    "user": "root",
+    "password": "123456"
+}
+```
+
+### Step 3. Run the tests
+
+```shell
+python3 run.py --engines *pgvector*
+```
+
+### Step 4. View the test results
+
+```shell
+cd results
+grep -E 'rps|mean_precision' $(ls -t)
+```
+
+![PGVectorResults.png](../images/PGVectorResults.png)
