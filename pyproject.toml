@@ -18,6 +18,12 @@ redis = "^4.3.4"
 ipdb = "^0.13.9"
 stopit = "^1.1.2"
 opensearch-py = "^2.2.0"
+cos-python-sdk-v5 = "^1.9.26"
+clickhouse-connect = "^0.6.23"
+pinecone-client = "^2.2.4"
+pyproximase = "^0.7.0"
+boto3 = "^1.34.15"
+psycopg2-binary = "^2.9.9"
 
 
 [tool.poetry.dev-dependencies]
