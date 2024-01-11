@@ -24,28 +24,28 @@
         "parallel": 4,
         "top": 10,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         }
       },
       {
         "parallel": 4,
         "top": 100,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         }
       },
       {
         "parallel": 8,
         "top": 10,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         }
       },
       {
         "parallel": 8,
         "top": 100,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         }
       }
     ],

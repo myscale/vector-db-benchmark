@@ -24,7 +24,7 @@
         "parallel": 4,
         "top": 10,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         },
         "query_meta": {
           "probability": 0.01
@@ -34,7 +34,7 @@
         "parallel": 4,
         "top": 10,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         },
         "query_meta": {
           "probability": 0.1
@@ -44,7 +44,7 @@
         "parallel": 4,
         "top": 100,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         },
         "query_meta": {
           "probability": 0.01
@@ -54,7 +54,7 @@
         "parallel": 4,
         "top": 100,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         },
         "query_meta": {
           "probability": 0.1
@@ -64,7 +64,7 @@
         "parallel": 8,
         "top": 10,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         },
         "query_meta": {
           "probability": 0.01
@@ -74,7 +74,7 @@
         "parallel": 8,
         "top": 10,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         },
         "query_meta": {
           "probability": 0.1
@@ -84,7 +84,7 @@
         "parallel": 8,
         "top": 100,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         },
         "query_meta": {
           "probability": 0.01
@@ -94,7 +94,7 @@
         "parallel": 8,
         "top": 100,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         },
         "query_meta": {
           "probability": 0.1
