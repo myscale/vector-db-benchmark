@@ -13,9 +13,9 @@ DISTANCE_MAPPING_CREATE = {
 }
 
 DISTANCE_MAPPING_CREATE_RUST = {
-    Distance.L2: "l2_ops",
-    Distance.COSINE: "cosine_ops",
-    Distance.DOT: "dot_ops",
+    Distance.L2: "vector_l2_ops",
+    Distance.COSINE: "vector_dot_ops",
+    Distance.DOT: "vector_cos_ops",
 }
 
 DISTANCE_MAPPING_SEARCH = {
