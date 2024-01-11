@@ -46,8 +46,11 @@ class OpenSearchConfigurator(BaseConfigurator):
                     "settings": {
                         "index": {
                             "knn": True,
+                            "number_of_shards": 1,
+                            "number_of_replicas": 0,
                         },
-                        "number_of_replicas": 0
+                        # move to index
+                        # "number_of_replicas": 0
                     },
                     "mappings": {
                         "properties": {
@@ -56,8 +59,11 @@ class OpenSearchConfigurator(BaseConfigurator):
                                 "dimension": vector_size,
                                 "method": {
                                     **{
-                                        "name": "hnsw",
-                                        "engine": "nmslib",  # supports: lucene faiss nmslib
+                                        # "name": "hnsw",
+                                        "name": collection_params.get("index_type", "hnsw").lower(),
+                                        # faiss hnsw and ivf can perform efficient search.
+                                        # "engine": "faiss",  # supports: lucene faiss nmslib
+                                        "engine": collection_params.get("engine", "faiss").lower(),
                                         "space_type": DISTANCE_MAPPING[distance],
                                         "parameters": {
                                             "m": 16,

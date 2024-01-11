@@ -74,7 +74,7 @@ class OpenSearchUploader(BaseUploader):
         time_start = time.time()
         while True:
             try:
-                # cls.client.indices.forcemerge(index=OPENSEARCH_INDEX)
+                cls.client.indices.forcemerge(index=OPENSEARCH_INDEX)
                 break
             except Exception as e:
                 print(f"Exception happened while merging:{e}")
