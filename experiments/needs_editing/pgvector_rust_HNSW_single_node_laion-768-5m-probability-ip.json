@@ -105,8 +105,12 @@
       "parallel": 16,
       "batch_size": 64,
       "index_params": {
-        "m": 12,
-        "ef_construction": 100
+        "indexing": {
+          "hnsw": {
+            "m": 12,
+            "ef_construction": 100
+          }
+        }
       },
       "index_type": "hnsw",
       "engine_type": "rust"
