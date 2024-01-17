@@ -9,7 +9,7 @@ from engine.clients.weaviate.config import WEAVIATE_CLASS_NAME, WEAVIATE_DEFAULT
 
 
 class WeaviateUploader(BaseUploader):
-    client = None
+    client: Client = None
     upload_params = {}
     connection_params = {}
     host = "127.0.0.1"
@@ -63,8 +63,8 @@ class WeaviateUploader(BaseUploader):
     def upload_batch(
             cls, ids: List[int], vectors: List[list], metadata: List[Optional[dict]]
     ):
-        # cls.client.batch.configure(batch_size=cls.upload_params.get("batch_size", 100), timeout_retries=3, dynamic=True)
-        cls.client.batch.configure(batch_size=None, timeout_retries=3, dynamic=False)
+        cls.client.batch.configure(batch_size=cls.upload_params.get("batch_size", 100), timeout_retries=3, dynamic=True)
+        # cls.client.batch.configure(batch_size=None, timeout_retries=3, dynamic=False)
         while True:
             try:
                 with cls.client.batch as batch:
