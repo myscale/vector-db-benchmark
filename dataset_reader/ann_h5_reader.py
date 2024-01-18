@@ -9,7 +9,7 @@ from benchmark.dataset_config import DatasetConfig
 from dataset_reader.base_reader import BaseReader, Query, Record
 from dataset_reader.utils import convert_H52py
 
-HDF5_BATCH_PART_SIZE = 500000
+HDF5_BATCH_PART_SIZE = 200000
 
 
 class AnnH5Reader(BaseReader):

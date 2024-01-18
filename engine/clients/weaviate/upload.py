@@ -63,7 +63,7 @@ class WeaviateUploader(BaseUploader):
     def upload_batch(
             cls, ids: List[int], vectors: List[list], metadata: List[Optional[dict]]
     ):
-        cls.client.batch.configure(batch_size=cls.upload_params.get("batch_size", 100), timeout_retries=3, dynamic=True)
+        cls.client.batch.configure(batch_size=cls.upload_params.get("batch_size", 100), timeout_retries=20, dynamic=False)
         # cls.client.batch.configure(batch_size=None, timeout_retries=3, dynamic=False)
         while True:
             try:
