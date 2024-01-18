@@ -33,12 +33,8 @@ class PGVectorSearcher(BaseSearcher):
             cur.execute("BEGIN;")
             # set index create parameter
             for key in cls.search_params["params"].keys():
-                if cls.engine_type == "c":
-                    cur.execute(f"SET LOCAL {key} = {cls.search_params['params'][key]};")
-                else:
-                    # pgvector_rs only support hnsw
-                    cur.execute(f"SET LOCAL vectors.k = {cls.search_params['params']['hnsw.ef_search']};")
-                    break
+                cur.execute(f"SET LOCAL {key} = {cls.search_params['params'][key]};")
+
 
             meta_conditions = cls.parser.parse(meta_conditions)
             if meta_conditions:
