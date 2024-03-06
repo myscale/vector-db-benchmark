@@ -1,3 +1,4 @@
+import time
 import uuid
 from typing import List, Optional
 
@@ -50,4 +51,16 @@ class ElasticUploader(BaseUploader):
     @classmethod
     def post_upload(cls, _distance):
         cls.client.indices.forcemerge(index=ELASTIC_INDEX, wait_for_completion=True)
+        # There may be issues with `wait_for_completion`, so we need wait it manually.
+        print("Waiting for lucene merges finished....")
+        while True:
+            stats = cls.client.indices.stats(index=ELASTIC_INDEX)
+            merges = stats["indices"][ELASTIC_INDEX]["primaries"]["merges"]
+            current_merges = merges["current"]
+
+            if current_merges == 0:
+                break
+            else:
+                time.sleep(3)
+        print("Lucene merges completed. No segments are currently merging.")
         return {}
