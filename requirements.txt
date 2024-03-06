@@ -8,7 +8,7 @@ click==7.1.2
 clickhouse-connect==0.6.23
 cos-python-sdk-v5==1.9.26
 elastic-transport==8.11.0
-elasticsearch==8.11.1
+elasticsearch==8.12.1
 grpcio==1.58.0
 grpcio-tools==1.58.0
 h5py>=3.10.0

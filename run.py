@@ -96,7 +96,7 @@ def run(
                 print("trying to run experiment")
                 client.run_experiment(dataset, skip_upload)
             except IncompatibilityError as e:
-                print(f"Skipping {engine_name} - {dataset_name}, incompatible params")
+                print(f"Skipping {engine_name} - {dataset_name} - exception: {e}")
                 continue
 
     if s3_auto_upload:

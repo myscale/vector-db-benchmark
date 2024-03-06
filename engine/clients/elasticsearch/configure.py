@@ -7,20 +7,16 @@ from engine.clients.elasticsearch.config import (
     ELASTIC_INDEX,
     ELASTIC_PASSWORD,
     ELASTIC_PORT,
-    ELASTIC_USER, H5_COLUMN_TYPES_MAPPING, process_connection_params,
+    ELASTIC_USER, H5_COLUMN_TYPES_MAPPING, process_connection_params, DISTANCE_MAPPING,
 )
 
 
 class ElasticConfigurator(BaseConfigurator):
-    DISTANCE_MAPPING = {
-        Distance.L2: "l2_norm",
-        Distance.COSINE: "cosine",
-        Distance.DOT: "dot_product",
-    }
 
     def __init__(self, host, collection_params: dict, connection_params: dict):
         super().__init__(host, collection_params, connection_params)
         host, port, user, password, init_params = process_connection_params(connection_params, host)
+        print(f"\nhost:{host}\nport:{port}\nuser:{user}\npassword:{password}\ninit_params:{init_params}")
         self.client = Elasticsearch(f"http://{host}:{port}", basic_auth=(user, password), **init_params)
 
     def clean(self):
@@ -31,8 +27,6 @@ class ElasticConfigurator(BaseConfigurator):
 
     def recreate(self, distance, vector_size, collection_params, connection_params, extra_columns_name,
                  extra_columns_type):
-        if distance == Distance.DOT:
-            raise IncompatibilityError
 
         self.client.indices.create(
             index=ELASTIC_INDEX,
@@ -42,7 +36,7 @@ class ElasticConfigurator(BaseConfigurator):
                         "type": "dense_vector",
                         "dims": vector_size,
                         "index": True,
-                        "similarity": self.DISTANCE_MAPPING[distance],
+                        "similarity": DISTANCE_MAPPING[distance],
                         "index_options": {
                             **{
                                 "type": "hnsw",
@@ -64,3 +58,7 @@ class ElasticConfigurator(BaseConfigurator):
                 }
             },
         )
+
+    def execution_params(self, distance, vector_size) -> dict:
+        print(f"execution_params:{DISTANCE_MAPPING[distance]}")
+        return {"normalize": DISTANCE_MAPPING[distance] == 'dot_product'}

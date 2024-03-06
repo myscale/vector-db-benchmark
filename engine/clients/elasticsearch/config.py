@@ -1,8 +1,15 @@
+from engine.base_client.distances import Distance
+
 ELASTIC_PORT = 9200
 ELASTIC_INDEX = "bench"
 ELASTIC_USER = "elastic"
 ELASTIC_PASSWORD = "passwd"
 
+DISTANCE_MAPPING = {
+    Distance.L2: "l2_norm",
+    Distance.COSINE: "cosine",
+    Distance.DOT: "dot_product",
+}
 
 H5_COLUMN_TYPES_MAPPING = {
     "int": "long",
