@@ -15,9 +15,8 @@ class ElasticConfigurator(BaseConfigurator):
 
     def __init__(self, host, collection_params: dict, connection_params: dict):
         super().__init__(host, collection_params, connection_params)
-        host, port, user, password, init_params = process_connection_params(connection_params, host)
-        print(f"\nhost:{host}\nport:{port}\nuser:{user}\npassword:{password}\ninit_params:{init_params}")
-        self.client = Elasticsearch(f"http://{host}:{port}", basic_auth=(user, password), **init_params)
+        user, password, init_params = process_connection_params(connection_params, host)
+        self.client = Elasticsearch(basic_auth=(user, password), **init_params)
 
     def clean(self):
         try:

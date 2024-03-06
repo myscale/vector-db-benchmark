@@ -23,8 +23,8 @@ class ElasticSearcher(BaseSearcher):
 
     @classmethod
     def init_client(cls, host, distance, connection_params: dict, search_params: dict):
-        host, port, user, password, init_params = process_connection_params(connection_params, host)
-        cls.client: Elasticsearch = Elasticsearch(f"http://{host}:{port}", basic_auth=(user, password), **init_params)
+        user, password, init_params = process_connection_params(connection_params, host)
+        cls.client: Elasticsearch = Elasticsearch(basic_auth=(user, password), **init_params)
         cls.search_params = search_params['params']
 
     @classmethod

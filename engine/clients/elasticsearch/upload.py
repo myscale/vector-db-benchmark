@@ -23,8 +23,8 @@ class ElasticUploader(BaseUploader):
     @classmethod
     def init_client(cls, host, distance, vector_count, connection_params, upload_params,
                     extra_columns_name: list, extra_columns_type: list):
-        host, port, user, password, init_params = process_connection_params(connection_params, host)
-        cls.client = Elasticsearch(f"http://{host}:{port}", basic_auth=(user, password), **init_params)
+        user, password, init_params = process_connection_params(connection_params, host)
+        cls.client: Elasticsearch = Elasticsearch(basic_auth=(user, password), **init_params)
         cls.upload_params = upload_params
 
     @classmethod
