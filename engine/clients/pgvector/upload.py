@@ -30,7 +30,7 @@ class PGVectorUploader(BaseUploader):
             raise RuntimeError("PGVector batch upload unhealthy")
         # Getting the names of structured data columns based on the first meta information.
         col_name_tuple = ('id', 'vector')
-        col_type_tuple = ('%s', '%s::real[]')
+        col_type_tuple = ('%s', '%s')
         if metadata[0] is not None:
             for col_name in list(metadata[0].keys()):
                 col_name_tuple += (col_name,)
@@ -38,7 +38,7 @@ class PGVectorUploader(BaseUploader):
 
         insert_data = []
         for i in range(0, len(ids)):
-            temp_tuple = (ids[i], vectors[i])
+            temp_tuple = (ids[i], str(vectors[i]))
             if metadata[i] is not None:
                 for col_name in list(metadata[i].keys()):
                     value = metadata[i][col_name]
@@ -74,11 +74,6 @@ class PGVectorUploader(BaseUploader):
         if cls.engine_type == "rust":
             create_index_command = f"""
 CREATE INDEX ON {PGVECTOR_INDEX} USING vectors (vector {cls.distance}) WITH (options=$$
-capacity = {int(cls.vector_count*1.2)}
-[vectors]
-memmap = "ram"
-[algorithm.hnsw]
-memmap = "ram"
 {index_options_rust}
 $$);
 """
@@ -92,3 +87,10 @@ $$);
         with cls.conn.cursor() as cur:
             cur.execute("SELECT phase, tuples_done, tuples_total FROM pg_stat_progress_create_index;")
             cls.conn.commit()
+        if cls.engine_type == "rust":
+            with cls.conn.cursor() as cur:
+                indexing = True
+                while indexing:
+                    cur.execute("SELECT idx_indexing FROM pg_vector_index_stat;")
+                    indexing = cur.fetchone()[0]
+                cls.conn.commit()
