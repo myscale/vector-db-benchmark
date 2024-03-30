@@ -2,6 +2,8 @@ import time
 from typing import List, Optional, Tuple
 import clickhouse_connect
 from clickhouse_connect.driver.client import Client
+
+from dataset_reader.base_reader import Query
 from engine.base_client import BaseSearcher
 from engine.clients.clickhouse.config import *
 from engine.clients.clickhouse.parser import ClickHouseConditionParser
@@ -28,7 +30,9 @@ class ClickHouseSearcher(BaseSearcher):
         cls.search_params = search_params
 
     @classmethod
-    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema) -> List[Tuple[int, float]]:
+    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema, query: Query) -> List[Tuple[int, float]]:
+        if query.query_text is not None:
+            raise NotImplementedError
         # ClickHouse annoy index only support search parameter: annoy_index_search_k_nodes
         search_params_dict = cls.search_params["params"]
 

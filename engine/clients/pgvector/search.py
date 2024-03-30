@@ -2,6 +2,7 @@ import time
 from typing import List, Optional, Tuple
 import psycopg2
 
+from dataset_reader.base_reader import Query
 from engine.base_client import BaseSearcher
 from engine.clients.pgvector.config import *
 from engine.clients.pgvector.parser import PGVectorConditionParser
@@ -27,7 +28,9 @@ class PGVectorSearcher(BaseSearcher):
         cls.search_params = search_params
 
     @classmethod
-    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema) -> List[Tuple[int, float]]:
+    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema, query: Query) -> List[Tuple[int, float]]:
+        if query.query_text is not None:
+            raise NotImplementedError
         with cls.conn.cursor() as cur:
             # start transaction
             cur.execute("BEGIN;")

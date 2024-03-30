@@ -2,6 +2,7 @@ from typing import List, Tuple
 
 from pymilvus import Collection, Connections
 
+from dataset_reader.base_reader import Query
 from engine.base_client.search import BaseSearcher
 from engine.clients.milvus.config import (
     DISTANCE_MAPPING,
@@ -28,7 +29,9 @@ class MilvusSearcher(BaseSearcher):
         cls.distance = DISTANCE_MAPPING[distance]
 
     @classmethod
-    def search_one(cls, vector, meta_conditions, top, schema) -> List[Tuple[int, float]]:
+    def search_one(cls, vector, meta_conditions, top, schema, query: Query) -> List[Tuple[int, float]]:
+        if query.query_text is not None:
+            raise NotImplementedError
         param = {"metric_type": cls.distance, "params": cls.search_params["params"]}
         while True:
             try:

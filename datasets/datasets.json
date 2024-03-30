@@ -688,5 +688,32 @@
     "group_name": "openai-1536-50w-cosine",
     "tag": "no-filter",
     "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine.hdf5"
+  },
+  {
+    "name": "ms-macro-768-8m-cosine",
+    "result_group": "hybrid_search",
+    "vector_size": 768,
+    "vector_count": 8841823,
+    "queries": 43,
+    "distance": "cosine",
+    "type": "h5",
+    "path": "downloaded/ms-macro-768-8m-cosine/ms-macro-768-8m-cosine.hdf5",
+    "group_name": "ms-macro-768-8m-cosine",
+    "tag": "hybrid",
+    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro-768-8m-cosine.hdf5"
+  },
+  {
+    "name": "ms-macro-768-5m-cosine",
+    "result_group": "hybrid_search",
+    "vector_size": 768,
+    "vector_count": 5000000,
+    "queries": 43,
+    "score_type": "default",
+    "distance": "cosine",
+    "type": "h5",
+    "path": "downloaded/ms-macro-768-5m-cosine/ms-macro-768-5m-cosine.hdf5",
+    "group_name": "ms-macro-768-5m-cosine",
+    "tag": "hybrid",
+    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro-768-5m-cosine.hdf5"
   }
 ]

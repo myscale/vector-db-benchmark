@@ -8,6 +8,7 @@ import tqdm
 from opensearchpy import OpenSearch
 from opensearchpy import RequestsHttpConnection, AWSV4SignerAuth
 
+from dataset_reader.base_reader import Query
 from engine.base_client.search import BaseSearcher
 from engine.clients.opensearch.config import (
     OPENSEARCH_INDEX, process_connection_params,
@@ -42,7 +43,9 @@ class OpenSearchSearcher(BaseSearcher):
         cls.search_params = search_params['params']
 
     @classmethod
-    def search_one(cls, vector, meta_conditions, top, schema) -> List[Tuple[int, float]]:
+    def search_one(cls, vector, meta_conditions, top, schema, query: Query) -> List[Tuple[int, float]]:
+        if query.query_text is not None:
+            raise NotImplementedError
         if not cls.client:
             raise RuntimeError("cls.client has not been initialized. Please call init_client first.")
         while True:

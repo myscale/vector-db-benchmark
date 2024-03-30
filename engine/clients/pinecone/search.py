@@ -2,6 +2,7 @@ from typing import List, Optional, Tuple
 
 import pinecone
 
+from dataset_reader.base_reader import Query
 from engine.base_client import BaseSearcher
 from engine.clients.pinecone.config import *
 from engine.clients.pinecone.parser import PineconeConditionParser
@@ -22,7 +23,9 @@ class PineconeSearcher(BaseSearcher):
         cls.index = pinecone.Index(index_name=PINECONE_INDEX_NAME)
 
     @classmethod
-    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema) -> List[Tuple[int, float]]:
+    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema, query: Query) -> List[Tuple[int, float]]:
+        if query.query_text is not None:
+            raise NotImplementedError
         while True:
             try:
                 query_response = cls.index.query(

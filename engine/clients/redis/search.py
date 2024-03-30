@@ -5,6 +5,7 @@ import numpy as np
 import redis
 from redis.commands.search.query import Query
 
+from dataset_reader import base_reader
 from engine.base_client.search import BaseSearcher
 from engine.clients.redis.config import REDIS_PORT
 from engine.clients.redis.parser import RedisConditionParser
@@ -25,7 +26,9 @@ class RedisSearcher(BaseSearcher):
         cls.client.info()
 
     @classmethod
-    def search_one(cls, vector, meta_conditions, top, schema) -> List[Tuple[int, float]]:
+    def search_one(cls, vector, meta_conditions, top, schema, query: base_reader.Query) -> List[Tuple[int, float]]:
+        if query.query_text is not None:
+            raise NotImplementedError
         conditions = cls.parser.parse(meta_conditions)
         if conditions is None:
             prefilter_condition = "*"

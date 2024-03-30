@@ -4,6 +4,7 @@ from typing import List, Tuple
 
 from weaviate import Client
 
+from dataset_reader.base_reader import Query
 from engine.base_client.search import BaseSearcher
 from engine.clients.weaviate.config import WEAVIATE_CLASS_NAME, WEAVIATE_DEFAULT_PORT, generateWeaviateClient
 from engine.clients.weaviate.parser import WeaviateConditionParser
@@ -25,7 +26,9 @@ class WeaviateSearcher(BaseSearcher):
         return None
 
     @classmethod
-    def search_one(cls, vector, meta_conditions, top, schema) -> List[Tuple[int, float]]:
+    def search_one(cls, vector, meta_conditions, top, schema, query: Query) -> List[Tuple[int, float]]:
+        if query.query_text is not None:
+            raise NotImplementedError
         while True:
             try:
                 where_conditions = cls.parser.parse(meta_conditions)

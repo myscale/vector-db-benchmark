@@ -4,6 +4,7 @@ from typing import List, Tuple
 
 from elasticsearch import Elasticsearch
 
+from dataset_reader.base_reader import Query
 from engine.base_client.search import BaseSearcher
 from engine.clients.elasticsearch.config import (
     ELASTIC_INDEX, process_connection_params,
@@ -28,7 +29,9 @@ class ElasticSearcher(BaseSearcher):
         cls.search_params = search_params['params']
 
     @classmethod
-    def search_one(cls, vector, meta_conditions, top, schema) -> List[Tuple[int, float]]:
+    def search_one(cls, vector, meta_conditions, top, schema, query: Query) -> List[Tuple[int, float]]:
+        if query.query_text is not None:
+            raise NotImplementedError
         try:
             knn = {
                 "field": "vector",

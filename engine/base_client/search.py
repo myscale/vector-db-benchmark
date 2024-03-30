@@ -6,6 +6,8 @@ from typing import List, Optional, Tuple
 import numpy as np
 import tqdm
 
+from dataset_reader.base_reader import Query
+
 DEFAULT_TOP = 100
 
 
@@ -27,12 +29,12 @@ class BaseSearcher:
 
     @classmethod
     def search_one(
-            cls, vector: List[float], meta_conditions, top: Optional[int], schema: Optional[dict]
+            cls, vector: List[float], meta_conditions, top: Optional[int], schema: Optional[dict], query: Query
     ) -> List[Tuple[int, float]]:
         raise NotImplementedError()
 
     @classmethod
-    def _search_one(cls, query, top: Optional[int] = None, schema: Optional[dict] = None):
+    def _search_one(cls, query: Query, top: Optional[int] = None, schema: Optional[dict] = None):
         if top is None:
             top = (
                 len(query.expected_result)
@@ -41,7 +43,7 @@ class BaseSearcher:
             )
 
         start = time.perf_counter()
-        search_res = cls.search_one(query.vector, query.meta_conditions, top, schema)
+        search_res = cls.search_one(query.vector, query.meta_conditions, top, schema, query)
         end = time.perf_counter()
 
         # Updating the TopK, the number of standard answers contained in the dataset may be less than TopK
@@ -62,7 +64,7 @@ class BaseSearcher:
             distance,
             get_queries,
             queries,  # The number of vectors used for search in each round of testing.
-            schema,    # Payload fields of dataset
+            schema,  # Payload fields of dataset
             dataset_config
     ):
         parallel = self.search_params.get("parallel", 1)

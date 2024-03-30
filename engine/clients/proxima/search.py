@@ -3,6 +3,7 @@ from typing import List, Optional, Tuple
 
 from pyproximase import Client, QueryRequest, DataType, SqlQueryRequest
 
+from dataset_reader.base_reader import Query
 from engine.base_client import BaseSearcher
 from engine.clients.proxima.config import *
 from engine.clients.proxima.parser import ProximaConditionParser
@@ -19,7 +20,9 @@ class ProximaSearcher(BaseSearcher):
         cls.client: Client = Client(connection_params.get("host", host), PROXIMA_GRPC_PORT)
 
     @classmethod
-    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema) -> List[Tuple[int, float]]:
+    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema, query: Query) -> List[Tuple[int, float]]:
+        if query.query_text is not None:
+            raise NotImplementedError
         knn_param = QueryRequest.KnnQueryParam(column_name='vector',
                                                features=vector,
                                                data_type=DataType.VECTOR_FP32)

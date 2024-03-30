@@ -12,6 +12,15 @@ from dataset_reader.utils import convert_H52py
 HDF5_BATCH_PART_SIZE = 200000
 
 
+def convert_bytes_to_str(raw_str):
+    text = ""
+    if isinstance(raw_str, bytes):
+        text = raw_str.decode('utf-8')
+    if not isinstance(text, str):
+        text = str(text)
+    return text
+
+
 class AnnH5Reader(BaseReader):
     def __init__(self, dataset_dir, dataset_config: DatasetConfig, normalize=False):
         self.dataset_dir = dataset_dir
@@ -32,13 +41,50 @@ class AnnH5Reader(BaseReader):
                 continue
             with h5py.File(query_path["path"], "r") as query_data:
                 # initialize the filtering criteria
-                filter_conditions = query_data["filter"] \
-                    if "filter" in list(query_data.keys()) else [None for i in range(0, len(query_data["test"]))]
+                if "filter" in list(query_data.keys()):
+                    filter_conditions = query_data["filter"]
+                else:
+                    filter_conditions = [None] * len(query_data["test"])
+
+                if "neighbors" in list(query_data.keys()):
+                    neighbors = query_data["neighbors"]
+                else:
+                    neighbors = [None] * len(query_data["test"])
+
+                if "distances" in list(query_data.keys()):
+                    distances = query_data["distances"]
+                else:
+                    distances = [None] * len(query_data["test"])
+
+                if "target_ids" in list(query_data.keys()):
+                    target_ids = query_data["target_ids"]
+                else:
+                    target_ids = [None] * len(query_data["test"])
+
+                score_type = [self.dataset_config.score_type] * len(query_data["test"])
+
+                # for hybrid_query, currently, only support single column query.
+                query_columns_in_hdf5 = query_data.attrs.get("query_columns_in_hdf5", [])
+                query_columns_type = query_data.attrs.get("query_columns_type", [])
+                query_columns_in_table = query_data.attrs.get("query_columns_in_table", [])
+
+                if len(query_columns_in_hdf5) != 0:
+                    query_texts = [convert_bytes_to_str(bytes_str) for bytes_str in query_data[query_columns_in_hdf5[0]]]
+                else:
+                    query_texts = [None] * len(query_data["test"])
+
+                if len(query_columns_in_table) != 0:
+                    query_text_columns = [query_columns_in_table[0]] * len(query_data["test"])
+                else:
+                    query_text_columns = [None] * len(query_data["test"])
+
                 count = 0
                 while True:
                     exit_flag = 0
-                    for vector, expected_result, expected_scores, filter_condition in zip(
-                            query_data["test"], query_data["neighbors"], query_data["distances"], filter_conditions):
+
+                    for vector, expected_result, expected_scores, target_id, score_type, filter_condition, query_text, query_text_column in zip(
+                            query_data["test"], neighbors, distances, target_ids, score_type, filter_conditions,
+                            query_texts, query_text_columns):
                         if self.normalize:
                             vector /= np.linalg.norm(vector)
                         count += 1
@@ -51,8 +97,12 @@ class AnnH5Reader(BaseReader):
                                 filter_condition.decode("ascii",
                                                         "ignore")).get("conditions",
                                                                        None) if filter_condition is not None else None,
-                            expected_result=expected_result.tolist(),
-                            expected_scores=expected_scores.tolist(),
+                            expected_result=expected_result.tolist() if expected_result is not None else [],
+                            expected_scores=expected_scores.tolist() if expected_scores is not None else [],
+                            target_id=target_id,
+                            score_type=score_type,
+                            query_text=query_text,
+                            query_text_column=query_text_column,
                         )
                     if exit_flag == 1:
                         break
@@ -60,8 +110,10 @@ class AnnH5Reader(BaseReader):
 
     def read_data(self) -> Iterator[Record]:
         with h5py.File(self.dataset_dir / self.dataset_config.path, "r") as train_data:
-            extra_columns = train_data.attrs.get("extra_columns", []) if self.dataset_config.result_group == "hybrid_search" else []
-            extra_columns_type = train_data.attrs.get("extra_columns_type", []) if self.dataset_config.result_group == "hybrid_search" else []
+            extra_columns = train_data.attrs.get("extra_columns",
+                                                 []) if self.dataset_config.result_group == "hybrid_search" else []
+            extra_columns_type = train_data.attrs.get("extra_columns_type",
+                                                      []) if self.dataset_config.result_group == "hybrid_search" else []
             # get origin train datasets length
             data_size = train_data["train"].shape[0]
             # default use one batch_part
@@ -97,7 +149,10 @@ class AnnH5Reader(BaseReader):
                     # read payload data
                     extra_columns_data = {}
                     for col_name, col_type in zip(extra_columns, extra_columns_type):
-                        extra_columns_data[col_name] = convert_H52py(col_type)(train_data[col_name][global_idx])
+                        if col_type == "text" or "string":
+                            extra_columns_data[col_name] = convert_bytes_to_str(train_data[col_name][global_idx])
+                        else:
+                            extra_columns_data[col_name] = convert_H52py(col_type)(train_data[col_name][global_idx])
 
                     if 0 < vectors_limit <= vector_count:
                         break

@@ -2,6 +2,8 @@ import time
 from typing import List, Optional, Tuple
 import clickhouse_connect
 from clickhouse_connect.driver.client import Client
+
+from dataset_reader.base_reader import Query
 from engine.base_client import BaseSearcher
 from engine.clients.myscale.config import *
 from engine.clients.myscale.parser import MyScaleConditionParser
@@ -27,7 +29,9 @@ class MyScaleSearcher(BaseSearcher):
         cls.search_params = search_params
 
     @classmethod
-    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema) -> List[Tuple[int, float]]:
+    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema, query: Query) -> List[Tuple[int, float]]:
+        if query.query_text is not None:
+            return cls.hybrid_search(meta_conditions, top, query)
         search_params_dict = cls.search_params["params"]
         par = ""
         for key in search_params_dict.keys():
@@ -51,6 +55,31 @@ class MyScaleSearcher(BaseSearcher):
                 res = cls.client.query(search_str)
                 break
             except Exception as e:
+                raise RuntimeError(e)
+
+        for res_id_dis in res.result_rows:
+            res_list.append((res_id_dis[0], res_id_dis[1]))
+
+        return res_list
+
+    @classmethod
+    def hybrid_search(cls, meta_conditions, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
+        search_str = f"""
+        SELECT
+            id,
+            HybridSearch('fusion_type=RRF')(vector, {query.query_text_column}, %s, %s) AS dis
+        FROM {MYSCALE_DATABASE_NAME}
+        ORDER BY dis DESC
+        LIMIT {top}
+        """
+        params = [query.vector, query.query_text]
+        res_list = []
+        while True:
+            try:
+                res = cls.client.query(search_str, params)
+                break
+            except Exception as e:
+                print(search_str)
                 raise RuntimeError(e)
 
         for res_id_dis in res.result_rows:
