@@ -49,9 +49,9 @@ class Dataset:
         # download train data
         download_core(config_path=self.config.path, link=self.config.link)
         # download multi queries data
-        if self.config.query_file_path is not None:
-            for query_config in self.config.query_file_path:
-                download_core(config_path=query_config['path'], link=query_config['link'])
+        if self.config.query_files is not None:
+            for query_config in self.config.query_files:
+                download_core(config_path=query_config["path"], link=query_config["link"])
 
     def get_reader(self, normalize: bool, dataset_config: DatasetConfig) -> BaseReader:
         reader_class = READER_TYPE[self.config.type]

@@ -29,7 +29,8 @@ class MyScaleSearcher(BaseSearcher):
         cls.search_params = search_params
 
     @classmethod
-    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema, query: Query) -> List[Tuple[int, float]]:
+    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema, query: Query) -> List[
+        Tuple[int, float]]:
         if query.query_text is not None:
             return cls.hybrid_search(meta_conditions, top, query)
         search_params_dict = cls.search_params["params"]
@@ -64,14 +65,20 @@ class MyScaleSearcher(BaseSearcher):
 
     @classmethod
     def hybrid_search(cls, meta_conditions, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
+        search_params_dict = cls.search_params["params"]
+        dense_alpha = search_params_dict.get("dense_alpha", 1)
+        fusion_type = search_params_dict.get("fusion_type", "RRF")
+        fusion_weight = search_params_dict.get("fusion_weight", 0.5)
+
         search_str = f"""
         SELECT
             id,
-            HybridSearch('fusion_type=RRF')(vector, {query.query_text_column}, %s, %s) AS dis
+            HybridSearch('dense_alpha={dense_alpha}', 'fusion_type={fusion_type}', 'fusion_weight={fusion_weight}')(vector, {query.query_text_column}, %s, %s) AS dis
         FROM {MYSCALE_DATABASE_NAME}
         ORDER BY dis DESC
         LIMIT {top}
         """
+        # print(search_str)
         params = [query.vector, query.query_text]
         res_list = []
         while True:

@@ -68,3 +68,12 @@ def ndcg(actual_ids: List[int], expected_ids: List[int], limit: int):
     if idcg_score == 0:
         return 0
     return dcg_score / idcg_score
+
+
+# MRR
+def mrr(actual_ids: List[int], expected_ids: List[int], limit: int):
+    actual_ids = actual_ids[:limit]
+    if expected_ids[0] in actual_ids:
+        return 1 / (actual_ids.index(expected_ids[0])+1)
+    else:
+        return 0

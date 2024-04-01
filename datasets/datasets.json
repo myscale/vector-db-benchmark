@@ -15,7 +15,7 @@
   {
     "name": "gist-960-euclidean-probability-l2",
     "result_group": "hybrid_search",
-    "query_file_path": [
+    "query_files": [
       {
         "name": "gist-960-euclidean-probability-0.001.hdf5",
         "meta": {"probability": 0.001},
@@ -461,7 +461,7 @@
   {
     "name": "laion-768-5m-ip-probability",
     "result_group": "hybrid_search",
-    "query_file_path": [
+    "query_files": [
       {
         "name": "laion-768-5m-ip-probability-0.001.hdf5",
         "meta": {"probability": 0.001},
@@ -559,7 +559,7 @@
   {
     "name": "laion-768-5m-ip-group-id",
     "result_group": "hybrid_search",
-    "query_file_path": [
+    "query_files": [
       {
         "name": "laion-768-5m-ip-probability-0.001.hdf5",
         "meta": {"group_id": 1000},
@@ -589,7 +589,7 @@
   {
     "name": "openai-1536-50w-cosine-probability",
     "result_group": "hybrid_search",
-    "query_file_path": [
+    "query_files": [
       {
         "name": "openai-1536-50w-cosine-probability-0.00001.hdf5",
         "meta": {"probability": 0.00001},
@@ -690,30 +690,96 @@
     "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/openai-50w-cosine.hdf5"
   },
   {
-    "name": "ms-macro-768-8m-cosine",
+    "name": "ms-macro-768-full-cosine",
     "result_group": "hybrid_search",
+    "query_files":[
+      {
+        "name": "ms-macro-768-full-cosine-test-query.hdf5",
+        "meta": {"type": "test"},
+        "queries": 43,
+        "score_type": "default",
+        "path": "downloaded/ms-macro-768-full-cosine/ms-macro-768-full-cosine-test-query.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro-768-full-cosine-test-query.hdf5"
+      },
+      {
+        "name": "ms-macro-768-full-cosine-dev-query.hdf5",
+        "meta": {"type": "dev"},
+        "queries": 6980,
+        "score_type": "mrr",
+        "path": "downloaded/ms-macro-768-full-cosine/ms-macro-768-full-cosine-dev-query.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro-768-full-cosine-dev-query.hdf5"
+      }
+    ],
     "vector_size": 768,
     "vector_count": 8841823,
     "queries": 43,
     "distance": "cosine",
     "type": "h5",
-    "path": "downloaded/ms-macro-768-8m-cosine/ms-macro-768-8m-cosine.hdf5",
-    "group_name": "ms-macro-768-8m-cosine",
+    "path": "downloaded/ms-macro-768-full-cosine/ms-macro-768-full-cosine.hdf5",
+    "group_name": "ms-macro-768-full-cosine",
     "tag": "hybrid",
-    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro-768-8m-cosine.hdf5"
+    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro-768-full-cosine.hdf5"
   },
   {
     "name": "ms-macro-768-5m-cosine",
     "result_group": "hybrid_search",
+    "query_files":[
+      {
+        "name": "ms-macro-768-5m-cosine-test-query.hdf5",
+        "meta": {"type": "test"},
+        "queries": 43,
+        "score_type": "default",
+        "path": "downloaded/ms-macro-768-5m-cosine/ms-macro-768-5m-cosine-test-query.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro-768-5m-cosine-test-query.hdf5"
+      },
+      {
+        "name": "ms-macro-768-5m-cosine-dev-query.hdf5",
+        "meta": {"type": "dev"},
+        "queries": 847,
+        "score_type": "mrr",
+        "path": "downloaded/ms-macro-768-5m-cosine/ms-macro-768-5m-cosine-dev-query.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro-768-5m-cosine-dev-query.hdf5"
+      }
+    ],
     "vector_size": 768,
     "vector_count": 5000000,
     "queries": 43,
-    "score_type": "default",
     "distance": "cosine",
     "type": "h5",
     "path": "downloaded/ms-macro-768-5m-cosine/ms-macro-768-5m-cosine.hdf5",
     "group_name": "ms-macro-768-5m-cosine",
     "tag": "hybrid",
     "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro-768-5m-cosine.hdf5"
+  },
+  {
+    "name": "ms-macro-768-1m-cosine",
+    "result_group": "hybrid_search",
+    "query_files":[
+      {
+        "name": "ms-macro-768-1m-cosine-test-query.hdf5",
+        "meta": {"type": "test"},
+        "queries": 43,
+        "score_type": "default",
+        "path": "downloaded/ms-macro-768-1m-cosine/ms-macro-768-1m-cosine-test-query.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro-768-1m-cosine-test-query.hdf5"
+      },
+      {
+        "name": "ms-macro-768-1m-cosine-dev-query.hdf5",
+        "meta": {"type": "dev"},
+        "queries": 238,
+        "score_type": "mrr",
+        "path": "downloaded/ms-macro-768-1m-cosine/ms-macro-768-1m-cosine-dev-query.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro-768-1m-cosine-dev-query.hdf5"
+      }
+    ],
+    "vector_size": 768,
+    "vector_count": 1000000,
+    "queries": 43,
+    "distance": "cosine",
+    "type": "h5",
+    "path": "downloaded/ms-macro-768-1m-cosine/ms-macro-768-1m-cosine.hdf5",
+    "group_name": "ms-macro-768-1m-cosine",
+    "tag": "hybrid",
+    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro-768-1m-cosine.hdf5"
   }
 ]

@@ -12,10 +12,9 @@ from dataset_reader.utils import convert_H52py
 HDF5_BATCH_PART_SIZE = 200000
 
 
-def convert_bytes_to_str(raw_str):
-    text = ""
-    if isinstance(raw_str, bytes):
-        text = raw_str.decode('utf-8')
+def convert_bytes_to_str(text):
+    if isinstance(text, bytes):
+        text = text.decode('utf-8')
     if not isinstance(text, str):
         text = str(text)
     return text
@@ -26,16 +25,21 @@ class AnnH5Reader(BaseReader):
         self.dataset_dir = dataset_dir
         self.dataset_config = dataset_config
         self.normalize = normalize
-        # 初始化 query_file_path
-        if self.dataset_config.query_file_path is not None:
-            query_file_path = [{"path": self.dataset_dir / query_file_op["path"], "meta": query_file_op["meta"]} for
-                               query_file_op in self.dataset_config.query_file_path]
+        # 初始化 query_files
+        if self.dataset_config.query_files is not None:
+            query_files = [
+                {
+                    "path": self.dataset_dir / query_file_op["path"],
+                    "meta": query_file_op["meta"],
+                    "score_type": query_file_op["score_type"]
+                } for
+                query_file_op in self.dataset_config.query_files]
         else:
-            query_file_path = [{"path": self.dataset_dir / self.dataset_config.path, "meta": None}]
-        self.query_file_path = query_file_path
+            query_files = [{"path": self.dataset_dir / self.dataset_config.path, "meta": None}]
+        self.query_files = query_files
 
     def read_queries(self, times: Optional[int] = 1000, query_meta: Optional[dict] = None) -> Iterator[Query]:
-        for query_path in self.query_file_path:
+        for query_path in self.query_files:
             # skip mismatched query path
             if query_meta is not None and query_meta != query_path["meta"]:
                 continue
@@ -56,12 +60,13 @@ class AnnH5Reader(BaseReader):
                 else:
                     distances = [None] * len(query_data["test"])
 
-                if "target_ids" in list(query_data.keys()):
-                    target_ids = query_data["target_ids"]
+                if query_path["score_type"] is not None:
+                    st = query_path["score_type"]
+                elif self.dataset_config.score_type is not None:
+                    st = self.dataset_config.score_type
                 else:
-                    target_ids = [None] * len(query_data["test"])
-
-                score_type = [self.dataset_config.score_type] * len(query_data["test"])
+                    st = "default"
+                score_type = [st] * len(query_data["test"])
 
                 # for hybrid_query, currently, only support single column query.
                 query_columns_in_hdf5 = query_data.attrs.get("query_columns_in_hdf5", [])
@@ -69,7 +74,8 @@ class AnnH5Reader(BaseReader):
                 query_columns_in_table = query_data.attrs.get("query_columns_in_table", [])
 
                 if len(query_columns_in_hdf5) != 0:
-                    query_texts = [convert_bytes_to_str(bytes_str) for bytes_str in query_data[query_columns_in_hdf5[0]]]
+                    query_texts = [convert_bytes_to_str(bytes_str) for bytes_str in
+                                   query_data[query_columns_in_hdf5[0]]]
                 else:
                     query_texts = [None] * len(query_data["test"])
 
@@ -82,8 +88,8 @@ class AnnH5Reader(BaseReader):
                 while True:
                     exit_flag = 0
 
-                    for vector, expected_result, expected_scores, target_id, score_type, filter_condition, query_text, query_text_column in zip(
-                            query_data["test"], neighbors, distances, target_ids, score_type, filter_conditions,
+                    for vector, expected_result, expected_scores, score_type, filter_condition, query_text, query_text_column in zip(
+                            query_data["test"], neighbors, distances, score_type, filter_conditions,
                             query_texts, query_text_columns):
                         if self.normalize:
                             vector /= np.linalg.norm(vector)
@@ -99,7 +105,6 @@ class AnnH5Reader(BaseReader):
                                                                        None) if filter_condition is not None else None,
                             expected_result=expected_result.tolist() if expected_result is not None else [],
                             expected_scores=expected_scores.tolist() if expected_scores is not None else [],
-                            target_id=target_id,
                             score_type=score_type,
                             query_text=query_text,
                             query_text_column=query_text_column,

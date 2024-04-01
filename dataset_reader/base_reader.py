@@ -15,7 +15,6 @@ class Query:
     meta_conditions: Optional[dict]
     expected_result: Optional[List[int]]
     expected_scores: Optional[List[float]] = None
-    target_id: Optional[int] = None
     score_type: Optional[str] = "default"
     query_text: Optional[str] = None,
     query_text_column: Optional[str] = None,

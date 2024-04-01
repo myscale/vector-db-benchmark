@@ -32,6 +32,16 @@ class BaseClient:
         if self.name.startswith("myscale") or self.name.startswith("milvus") or self.name.startswith("zilliz"):
             index_create_parameter = {**self.uploader.upload_params["index_params"],
                                       "optimizers_config": {**self.configurator.collection_params.get("optimizers_config",{})}}
+            if self.uploader.upload_params.get("tantivy_idx_cols", None) is not None:
+                index_create_parameter = {
+                    **index_create_parameter,
+                    "tantivy_idx_cols": self.uploader.upload_params.get("tantivy_idx_cols", None)
+                }
+            if self.uploader.upload_params.get("tantivy_idx_params", None) is not None:
+                index_create_parameter = {
+                    **index_create_parameter,
+                    "tantivy_idx_params": self.uploader.upload_params.get("tantivy_idx_params", None)
+                }
         elif self.name.startswith("qdrant"):
             # TODO Integrating Two Types of Indexes
             index_create_parameter = {**self.configurator.collection_params.get("hnsw_config", {})}

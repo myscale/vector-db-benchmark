@@ -7,6 +7,7 @@ import numpy as np
 import tqdm
 
 from dataset_reader.base_reader import Query
+from engine.base_client.utils import mrr, intersect_precision
 
 DEFAULT_TOP = 100
 
@@ -52,11 +53,17 @@ class BaseSearcher:
         top = (top > ans_len and ans_len or top)
 
         precision = 1.0
+        # if query.expected_result is not None:
+        #     # Retrieve the top K results of vector search
+        #     ids = set([x[0] for x in search_res][:top])
+        #     # Calculate accuracy
+        #     precision = len(ids.intersection(query.expected_result[:top])) / top
+        actual_ids = [x[0] for x in search_res]
         if query.expected_result is not None:
-            # Retrieve the top K results of vector search
-            ids = set([x[0] for x in search_res][:top])
-            # Calculate accuracy
-            precision = len(ids.intersection(query.expected_result[:top])) / top
+            if query.score_type == "mrr":
+                precision = mrr(actual_ids, query.expected_result, top)
+            else:
+                precision = intersect_precision(actual_ids, query.expected_result, top)
         return precision, end - start
 
     def search_all(
