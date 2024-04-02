@@ -66,6 +66,10 @@ class MyScaleSearcher(BaseSearcher):
     @classmethod
     def hybrid_search(cls, meta_conditions, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
         search_params_dict = cls.search_params["params"]
+        text_search = search_params_dict.get("text_search", False)
+        if text_search:
+            return cls.text_search(meta_conditions, top, query)
+
         dense_alpha = search_params_dict.get("dense_alpha", 1)
         fusion_type = search_params_dict.get("fusion_type", "RRF")
         fusion_weight = search_params_dict.get("fusion_weight", 0.5)
@@ -84,6 +88,30 @@ class MyScaleSearcher(BaseSearcher):
         while True:
             try:
                 res = cls.client.query(search_str, params)
+                break
+            except Exception as e:
+                print(search_str)
+                raise RuntimeError(e)
+
+        for res_id_dis in res.result_rows:
+            res_list.append((res_id_dis[0], res_id_dis[1]))
+
+        return res_list
+
+    @classmethod
+    def text_search(cls, meta_conditions, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
+        search_str = f"""
+        SELECT
+            id,
+            TextSearch({query.query_text_column},{query.query_text}) AS dis
+        FROM {MYSCALE_DATABASE_NAME}
+        ORDER BY dis DESC
+        LIMIT {top}
+        """
+        res_list = []
+        while True:
+            try:
+                res = cls.client.query(search_str)
                 break
             except Exception as e:
                 print(search_str)
