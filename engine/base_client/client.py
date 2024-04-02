@@ -148,9 +148,8 @@ class BaseClient:
         for search_id, searcher in enumerate(self.searchers):
             search_params = {**searcher.search_params}
             get_queries = functools.partial(reader.read_queries)
-
             search_stats = searcher.search_all(
-                dataset.config.distance, get_queries, dataset.config.queries, dataset.config.schema, dataset.config
+                dataset.config.distance, get_queries, reader.get_query_files(), dataset.config.queries, dataset.config.schema, dataset.config
             )
 
             self.save_search_and_upload_results(

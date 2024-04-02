@@ -1,6 +1,6 @@
 import ast
 import math
-from typing import Iterator, Optional, Tuple
+from typing import Iterator, Optional, Tuple, List
 
 import h5py
 import numpy as np
@@ -31,11 +31,14 @@ class AnnH5Reader(BaseReader):
                 {
                     "path": self.dataset_dir / query_file_op["path"],
                     "meta": query_file_op["meta"],
-                    "score_type": query_file_op["score_type"]
+                    "score_type": query_file_op["score_type"],
+                    "queries": query_file_op["queries"],
                 } for
                 query_file_op in self.dataset_config.query_files]
         else:
-            query_files = [{"path": self.dataset_dir / self.dataset_config.path, "meta": None}]
+            query_files = [{"path": self.dataset_dir / self.dataset_config.path,
+                            "meta": None,
+                            "queries": self.dataset_config.queries}]
         self.query_files = query_files
 
     def read_queries(self, times: Optional[int] = 1000, query_meta: Optional[dict] = None) -> Iterator[Query]:
@@ -175,3 +178,6 @@ class AnnH5Reader(BaseReader):
             extra_columns = train_data.attrs.get("extra_columns", [])
             extra_columns_type = train_data.attrs.get("extra_columns_type", [])
             return extra_columns, extra_columns_type
+
+    def get_query_files(self) -> List[dict]:
+        return self.query_files

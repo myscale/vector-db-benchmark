@@ -70,6 +70,7 @@ class BaseSearcher:
             self,
             distance,
             get_queries,
+            query_files,  # A dict, represent query files config.
             queries,  # The number of vectors used for search in each round of testing.
             schema,  # Payload fields of dataset
             dataset_config
@@ -81,6 +82,15 @@ class BaseSearcher:
         self.setup_search(self.host, distance, self.connection_params, self.search_params, dataset_config)
 
         search_one = functools.partial(self.__class__._search_one, top=top, schema=schema)
+
+        query_meta = self.search_params.get("query_meta", None)
+
+        if query_meta is not None:
+            for query_file in query_files:
+                # skip mismatched query path
+                if query_meta == query_file["meta"]:
+                    queries = query_file["queries"]
+                    break
 
         queries_need = 1000 * parallel
         # Ensure each process searches at least 1K vectors and all test vectors provided by the dataset are searched.

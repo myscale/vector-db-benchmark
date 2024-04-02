@@ -33,3 +33,6 @@ class BaseReader:
 
     def read_column_name_type(self) -> Tuple[list, list]:
         raise NotImplementedError()
+
+    def get_query_files(self) -> List[dict]:
+        raise NotImplementedError()
