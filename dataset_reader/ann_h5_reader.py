@@ -47,49 +47,48 @@ class AnnH5Reader(BaseReader):
             if query_meta is not None and query_meta != query_path["meta"]:
                 continue
             with h5py.File(query_path["path"], "r") as query_data:
-                # initialize the filtering criteria
-                if "filter" in list(query_data.keys()):
-                    filter_conditions = query_data["filter"]
-                else:
-                    filter_conditions = [None] * len(query_data["test"])
-
-                if "neighbors" in list(query_data.keys()):
-                    neighbors = query_data["neighbors"]
-                else:
-                    neighbors = [None] * len(query_data["test"])
-
-                if "distances" in list(query_data.keys()):
-                    distances = query_data["distances"]
-                else:
-                    distances = [None] * len(query_data["test"])
-
-                if query_path["score_type"] is not None:
-                    st = query_path["score_type"]
-                elif self.dataset_config.score_type is not None:
-                    st = self.dataset_config.score_type
-                else:
-                    st = "default"
-                score_type = [st] * len(query_data["test"])
-
-                # for hybrid_query, currently, only support single column query.
-                query_columns_in_hdf5 = query_data.attrs.get("query_columns_in_hdf5", [])
-                query_columns_type = query_data.attrs.get("query_columns_type", [])
-                query_columns_in_table = query_data.attrs.get("query_columns_in_table", [])
-
-                if len(query_columns_in_hdf5) != 0:
-                    query_texts = [convert_bytes_to_str(bytes_str) for bytes_str in
-                                   query_data[query_columns_in_hdf5[0]]]
-                else:
-                    query_texts = [None] * len(query_data["test"])
-
-                if len(query_columns_in_table) != 0:
-                    query_text_columns = [query_columns_in_table[0]] * len(query_data["test"])
-                else:
-                    query_text_columns = [None] * len(query_data["test"])
-
                 count = 0
                 while True:
                     exit_flag = 0
+                    # initialize the filtering criteria
+                    if "filter" in list(query_data.keys()):
+                        filter_conditions = query_data["filter"]
+                    else:
+                        filter_conditions = [None] * len(query_data["test"])
+
+                    if "neighbors" in list(query_data.keys()):
+                        neighbors = query_data["neighbors"]
+                    else:
+                        neighbors = [None] * len(query_data["test"])
+
+                    if "distances" in list(query_data.keys()):
+                        distances = query_data["distances"]
+                    else:
+                        distances = [None] * len(query_data["test"])
+
+                    if query_path["score_type"] is not None:
+                        st = query_path["score_type"]
+                    elif self.dataset_config.score_type is not None:
+                        st = self.dataset_config.score_type
+                    else:
+                        st = "default"
+                    score_type = [st] * len(query_data["test"])
+
+                    # for hybrid_query, currently, only support single column query.
+                    query_columns_in_hdf5 = query_data.attrs.get("query_columns_in_hdf5", [])
+                    query_columns_type = query_data.attrs.get("query_columns_type", [])
+                    query_columns_in_table = query_data.attrs.get("query_columns_in_table", [])
+
+                    if len(query_columns_in_hdf5) != 0:
+                        query_texts = [convert_bytes_to_str(bytes_str) for bytes_str in
+                                       query_data[query_columns_in_hdf5[0]]]
+                    else:
+                        query_texts = [None] * len(query_data["test"])
+
+                    if len(query_columns_in_table) != 0:
+                        query_text_columns = [query_columns_in_table[0]] * len(query_data["test"])
+                    else:
+                        query_text_columns = [None] * len(query_data["test"])
 
                     for vector, expected_result, expected_scores, score_type, filter_condition, query_text, query_text_column in zip(
                             query_data["test"], neighbors, distances, score_type, filter_conditions,
