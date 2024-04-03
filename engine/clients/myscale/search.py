@@ -15,6 +15,7 @@ class MyScaleSearcher(BaseSearcher):
     distance: str = None
     host: str = None
     parser = MyScaleConditionParser()
+    connection_params: dict = {}
 
     @classmethod
     def init_client(
@@ -27,11 +28,12 @@ class MyScaleSearcher(BaseSearcher):
         cls.host = host
         cls.distance = DISTANCE_MAPPING[distance]
         cls.search_params = search_params
+        cls.connection_params = connection_params
 
     @classmethod
     def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema, query: Query) -> List[
         Tuple[int, float]]:
-        if query.query_text is not None:
+        if query.query_text is not None and cls.connection_params.get("tantivy_idx_cols", None) is not None:
             return cls.hybrid_search(meta_conditions, top, query)
         search_params_dict = cls.search_params["params"]
         par = ""
