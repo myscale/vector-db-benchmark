@@ -68,6 +68,7 @@ class MyScaleUploader(BaseUploader):
         # Create vector index
         # index_parameter_str = "\'metric_type={}\'".format('IP' if cls.distance == 'COSINE' else cls.distance)
         use_optimize = cls.upload_params.get("optimizers_config").get("optimize_final", True)
+        only_text_search = cls.upload_params.get("only_text_search", False)
         if use_optimize:
             # prepare index create str
             index_parameter_str = f"\'metric_type={cls.distance}\'"
@@ -118,7 +119,6 @@ class MyScaleUploader(BaseUploader):
                 time.sleep(3)
 
             print("optimize table finished, time consume {}".format(time.time() - optimize_begin_time))
-            only_text_search = cls.upload_params.get("only_text_search", False)
             if not only_text_search:
                 print(f">>> {index_create_str}")
                 cls.client.command(index_create_str)
@@ -129,20 +129,21 @@ class MyScaleUploader(BaseUploader):
         if shard != 1 or replicate != 1:
             cluster = "{cluster}"
             check_index_status = f"select status from clusterAllReplicas('{cluster}', system.vector_indices) where table = '{MYSCALE_DATABASE_NAME}'"
-        print(f">>> {check_index_status}")
-        while True:
-            time.sleep(5)
-            try:
-                res = cls.client.query(check_index_status)
-                if len(res.result_rows) == 0:
-                    print("you haven't build index")
-                print("{}".format(res.result_rows[0][0]), end=".", flush=True)
-                if str(res.result_rows[0][0]) == "Built":
-                    break
-            except Exception as e:
-                print(e)
-                time.sleep(3)
-                continue
+        if not only_text_search:
+            print(f">>> {check_index_status}")
+            while True:
+                time.sleep(5)
+                try:
+                    res = cls.client.query(check_index_status)
+                    if len(res.result_rows) == 0:
+                        print("you haven't build index")
+                    print("{}".format(res.result_rows[0][0]), end=".", flush=True)
+                    if str(res.result_rows[0][0]) == "Built":
+                        break
+                except Exception as e:
+                    print(e)
+                    time.sleep(3)
+                    continue
 
         # for other index builds.
         tantivy_idx_cols = cls.upload_params.get('tantivy_idx_cols', [])
