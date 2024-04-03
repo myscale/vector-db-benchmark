@@ -118,8 +118,10 @@ class MyScaleUploader(BaseUploader):
                 time.sleep(3)
 
             print("optimize table finished, time consume {}".format(time.time() - optimize_begin_time))
-            print(f">>> {index_create_str}")
-            cls.client.command(index_create_str)
+            only_text_search = cls.upload_params.get("only_text_search", False)
+            if not only_text_search:
+                print(f">>> {index_create_str}")
+                cls.client.command(index_create_str)
         # waiting for vector index create finished
         shard = cls.upload_params.get("shard", 1)
         replicate = cls.upload_params.get("replicate", 1)
