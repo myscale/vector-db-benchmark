@@ -122,9 +122,9 @@ class ClientFactory(ABC):
         engine_searchers = [
             engine_searcher_class(
                 self.host,
-                # for pgvector, append upload_params to connection_params
+                # for pgvector, myscale, append upload_params to connection_params
                 connection_params={**experiment.get("connection_params", {})} if experiment["engine"] not in [
-                    "pgvector"] else {**experiment.get("connection_params", {}), **experiment.get("upload_params", {})},
+                    "pgvector", "myscale"] else {**experiment.get("connection_params", {}), **experiment.get("upload_params", {})},
                 search_params=search_params,
             )
             for search_params in experiment.get("search_params", [{}])
