@@ -1,3 +1,4 @@
+import re
 import time
 from typing import List, Optional, Tuple
 import clickhouse_connect
@@ -7,6 +8,11 @@ from dataset_reader.base_reader import Query
 from engine.base_client import BaseSearcher
 from engine.clients.myscale.config import *
 from engine.clients.myscale.parser import MyScaleConditionParser
+
+
+def remove_punctuation(input_string):
+    translator = str.maketrans('', '', string.punctuation)
+    return input_string.translate(translator)
 
 
 class MyScaleSearcher(BaseSearcher):
@@ -85,7 +91,7 @@ class MyScaleSearcher(BaseSearcher):
         LIMIT {top}
         """
         # print(search_str)
-        params = [query.vector, query.query_text]
+        params = [query.vector, remove_punctuation(query.query_text)]
         res_list = []
         while True:
             try:
@@ -105,7 +111,7 @@ class MyScaleSearcher(BaseSearcher):
         search_str = f"""
         SELECT
             id,
-            TextSearch({query.query_text_column},{query.query_text}) AS dis
+            TextSearch({query.query_text_column},{remove_punctuation(query.query_text)}) AS dis
         FROM {MYSCALE_DATABASE_NAME}
         ORDER BY dis DESC
         LIMIT {top}
