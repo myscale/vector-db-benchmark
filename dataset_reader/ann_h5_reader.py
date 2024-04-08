@@ -43,8 +43,10 @@ class AnnH5Reader(BaseReader):
 
     def read_queries(self, times: Optional[int] = 1000, query_meta: Optional[dict] = None) -> Iterator[Query]:
         for query_path in self.query_files:
+            print(f"try run query_path: {query_path}")
             # skip mismatched query path
             if query_meta is not None and query_meta != query_path["meta"]:
+                print(f"skip query_path: {query_path}")
                 continue
             with h5py.File(query_path["path"], "r") as query_data:
                 count = 0
@@ -66,12 +68,13 @@ class AnnH5Reader(BaseReader):
                     else:
                         distances = [None] * len(query_data["test"])
 
-                    if query_path["score_type"] is not None:
+                    if query_path.get("score_type", None) is not None:
                         st = query_path["score_type"]
                     elif self.dataset_config.score_type is not None:
                         st = self.dataset_config.score_type
                     else:
                         st = "default"
+                    print(f"current score_type is: {st}")
                     score_type = [st] * len(query_data["test"])
 
                     # for hybrid_query, currently, only support single column query.
