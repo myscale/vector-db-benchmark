@@ -24,6 +24,8 @@ tar_code:
     - rm -rf vector-db-benchmark/experiments/configurations/*
     - tar -czvf vector-db-benchmark.tar.gz vector-db-benchmark
     - ls -lh vector-db-benchmark.tar.gz
+    - echo -e "$COS_CONFIG" > ~/.cos.conf
+    - cat ~/.cos.conf
     - coscmd upload vector-db-benchmark.tar.gz vector-db-benchmark-space/
   artifacts:
     name: "code"
