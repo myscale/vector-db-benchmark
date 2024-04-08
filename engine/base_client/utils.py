@@ -72,8 +72,12 @@ def ndcg(actual_ids: List[int], expected_ids: List[int], limit: int):
 
 # MRR
 def mrr(actual_ids: List[int], expected_ids: List[int], limit: int):
+    mrr_result = 0.0
     actual_ids = actual_ids[:limit]
-    if expected_ids[0] in actual_ids:
-        return 1 / (actual_ids.index(expected_ids[0])+1)
-    else:
-        return 0
+
+    for i in range(0, min(len(actual_ids), limit)):
+        if actual_ids[i] in expected_ids:
+            mrr_result += 1 / (i + 1)
+            break
+
+    return mrr_result
