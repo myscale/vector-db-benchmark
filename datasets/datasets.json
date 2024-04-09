@@ -465,54 +465,72 @@
       {
         "name": "laion-768-5m-ip-probability-0.001.hdf5",
         "meta": {"probability": 0.001},
+        "queries": 1000,
+        "score_type": "default",
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.001.hdf5",
         "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.001.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-0.005.hdf5",
         "meta": {"probability": 0.005},
+        "queries": 1000,
+        "score_type": "default",
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.005.hdf5",
         "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.005.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-0.01.hdf5",
         "meta": {"probability": 0.01},
+        "queries": 1000,
+        "score_type": "default",
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.01.hdf5",
         "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.01.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-0.05.hdf5",
         "meta": {"probability": 0.05},
+        "queries": 1000,
+        "score_type": "default",
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.05.hdf5",
         "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.05.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-0.1.hdf5",
         "meta": {"probability": 0.1},
+        "queries": 1000,
+        "score_type": "default",
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.1.hdf5",
         "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.1.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-0.3.hdf5",
         "meta": {"probability": 0.3},
+        "queries": 1000,
+        "score_type": "default",
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.3.hdf5",
         "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.3.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-0.5.hdf5",
         "meta": {"probability": 0.5},
+        "queries": 1000,
+        "score_type": "default",
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.5.hdf5",
         "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.5.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-0.8.hdf5",
         "meta": {"probability": 0.8},
+        "queries": 1000,
+        "score_type": "default",
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-0.8.hdf5",
         "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-0.8.hdf5"
       },
       {
         "name": "laion-768-5m-ip-probability-1.0.hdf5",
         "meta": {"probability": 1.0},
+        "queries": 1000,
+        "score_type": "default",
         "path": "downloaded/laion-768-5m-ip-probability/laion-768-5m-ip-probability-1.0.hdf5",
         "link": "https://myscale-datasets.s3.ap-southeast-1.amazonaws.com/laion-768-5m-ip-probability-1.0.hdf5"
       }

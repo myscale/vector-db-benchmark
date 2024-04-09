@@ -31,7 +31,7 @@ class AnnH5Reader(BaseReader):
                 {
                     "path": self.dataset_dir / query_file_op["path"],
                     "meta": query_file_op["meta"],
-                    "score_type": query_file_op["score_type"],
+                    "score_type": query_file_op.get("score_type", "default"),
                     "queries": query_file_op["queries"],
                 } for
                 query_file_op in self.dataset_config.query_files]
