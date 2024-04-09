@@ -799,5 +799,28 @@
     "group_name": "ms-macro-768-1m-cosine",
     "tag": "hybrid",
     "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro-768-1m-cosine.hdf5"
+  },
+  {
+    "name": "ms-macro2-768-full-cosine",
+    "result_group": "hybrid_search",
+    "query_files":[
+      {
+        "name": "ms-macro2-768-full-cosine-dev-query.hdf5",
+        "meta": {"type": "dev"},
+        "queries": 6980,
+        "score_type": "mrr",
+        "path": "downloaded/ms-macro2-768-full-cosine/ms-macro2-768-full-cosine-dev-query.hdf5",
+        "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro2-768-full-cosine-dev-query.hdf5"
+      }
+    ],
+    "vector_size": 768,
+    "vector_count": 8841823,
+    "queries": 6980,
+    "distance": "cosine",
+    "type": "h5",
+    "path": "downloaded/ms-macro2-768-full-cosine/ms-macro2-768-full-cosine.hdf5",
+    "group_name": "ms-macro2-768-full-cosine",
+    "tag": "hybrid",
+    "link": "https://mqdb-release-1253802058.cos.ap-beijing.myqcloud.com/datasets/ms-macro2-768-full-cosine.hdf5"
   }
 ]
