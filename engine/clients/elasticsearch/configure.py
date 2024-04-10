@@ -34,16 +34,22 @@ class ElasticConfigurator(BaseConfigurator):
                     "vector": {
                         "type": "dense_vector",
                         "dims": vector_size,
-                        "index": True,
-                        "similarity": DISTANCE_MAPPING[distance],
-                        "index_options": {
-                            **{
-                                "type": "hnsw",
-                                "m": 16,
-                                "ef_construction": 100,
-                            },
-                            **collection_params.get("index_options"),
-                        },
+                        "index": not collection_params.get("only_text_search", False),
+                        **(
+                            {
+                                "similarity": DISTANCE_MAPPING[distance],
+                                "index_options": {
+                                    **{
+                                        "type": "hnsw",
+                                        "m": 16,
+                                        "ef_construction": 100,
+                                    },
+                                    **collection_params.get("index_options"),
+                                },
+                            }
+                            if not collection_params.get("only_text_search", False)
+                            else {}
+                        ),
                     },
                     **{
                         extra_columns_name[i]: {

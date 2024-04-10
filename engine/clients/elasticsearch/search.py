@@ -1,6 +1,6 @@
 import time
 import uuid
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 from elasticsearch import Elasticsearch
 
@@ -31,7 +31,7 @@ class ElasticSearcher(BaseSearcher):
     @classmethod
     def search_one(cls, vector, meta_conditions, top, schema, query: Query) -> List[Tuple[int, float]]:
         if query.query_text is not None:
-            raise NotImplementedError
+            return cls.hybrid_search(meta_conditions, top, schema, query)
         try:
             knn = {
                 "field": "vector",
@@ -61,3 +61,45 @@ class ElasticSearcher(BaseSearcher):
             return re
         except Exception as e:
             raise RuntimeError(f"🐛 elastic search exception in search_one, {e}")
+
+    @classmethod
+    def hybrid_search(cls, meta_conditions, top: Optional[int], schema, query: Query) -> List[Tuple[int, float]]:
+        search_params_dict = cls.search_params["params"]
+        text_search = search_params_dict.get("text_search", False)
+        if text_search:
+            return cls.text_search(meta_conditions, top, schema, query)
+        else:
+            raise NotImplementedError
+
+    @classmethod
+    def text_search(cls, meta_conditions, top, schema, query) -> List[Tuple[int, float]]:
+        try:
+            # 构建文本搜索查询
+            query = {
+                "query": {
+                    "match": {
+                        f"{query.query_text_column}": query.query_text
+                    }
+                }
+            }
+            # TODO 后续完善可以使用 filter
+            source_excludes = ['vector']
+            if schema is not None:
+                source_excludes.extend(list(schema.keys()))
+
+            # 执行文本搜索
+            res = cls.client.search(
+                index=ELASTIC_INDEX,
+                query=query,
+                size=top,
+                source_excludes=source_excludes
+            )
+
+            # 处理搜索结果
+            re = [
+                (uuid.UUID(hex=hit["_id"]).int, hit["_score"])
+                for hit in res["hits"]["hits"]
+            ]
+            return re
+        except Exception as e:
+            raise RuntimeError(f"🐛 Elasticsearch exception in text_search: {e}")
