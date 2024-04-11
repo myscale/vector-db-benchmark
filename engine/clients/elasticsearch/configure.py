@@ -57,6 +57,13 @@ class ElasticConfigurator(BaseConfigurator):
                             # overlap with the ones used internally.
                             "type": H5_COLUMN_TYPES_MAPPING.get(extra_columns_type[i], extra_columns_type[i]),
                             "index": True,
+                            **(
+                                {
+                                    "similarity": "BM25"
+                                }
+                                if H5_COLUMN_TYPES_MAPPING.get(extra_columns_type[i], extra_columns_type[i]) == "text"
+                                else {}
+                            ),
                         }
                         for i in range(0, len(extra_columns_name))
                     }

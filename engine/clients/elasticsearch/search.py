@@ -64,8 +64,8 @@ class ElasticSearcher(BaseSearcher):
 
     @classmethod
     def hybrid_search(cls, meta_conditions, top: Optional[int], schema, query: Query) -> List[Tuple[int, float]]:
-        search_params_dict = cls.search_params["params"]
-        text_search = search_params_dict.get("text_search", False)
+        # search_params_dict = cls.search_params["params"]
+        text_search = cls.search_params.get("only_text_search", False)
         if text_search:
             return cls.text_search(meta_conditions, top, schema, query)
         else:
@@ -76,11 +76,11 @@ class ElasticSearcher(BaseSearcher):
         try:
             # 构建文本搜索查询
             query = {
-                "query": {
-                    "match": {
-                        f"{query.query_text_column}": query.query_text
-                    }
+                # "query": {
+                "match": {
+                    f"{query.query_text_column}": query.query_text
                 }
+                # }
             }
             # TODO 后续完善可以使用 filter
             source_excludes = ['vector']
