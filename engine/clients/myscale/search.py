@@ -111,7 +111,7 @@ class MyScaleSearcher(BaseSearcher):
         search_str = f"""
         SELECT
             id,
-            TextSearch({query.query_text_column},{remove_punctuation(query.query_text)}) AS dis
+            TextSearch({query.query_text_column},'{remove_punctuation(query.query_text)}') AS dis
         FROM {MYSCALE_DATABASE_NAME}
         ORDER BY dis DESC
         LIMIT {top}
