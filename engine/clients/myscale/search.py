@@ -74,7 +74,7 @@ class MyScaleSearcher(BaseSearcher):
     @classmethod
     def hybrid_search(cls, meta_conditions, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
         search_params_dict = cls.search_params["params"]
-        text_search = search_params_dict.get("text_search", False)
+        text_search = search_params_dict.get("only_text_search", False)
         if text_search:
             return cls.text_search(meta_conditions, top, query)
 
