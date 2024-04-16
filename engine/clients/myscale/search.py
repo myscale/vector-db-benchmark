@@ -81,11 +81,12 @@ class MyScaleSearcher(BaseSearcher):
         dense_alpha = search_params_dict.get("dense_alpha", 1)
         fusion_type = search_params_dict.get("fusion_type", "RRF")
         fusion_weight = search_params_dict.get("fusion_weight", 0.5)
+        fusion_k = search_params_dict.get("fusion_k", 60)
 
         search_str = f"""
         SELECT
             id,
-            HybridSearch('dense_alpha={dense_alpha}', 'fusion_type={fusion_type}', 'fusion_weight={fusion_weight}')(vector, {query.query_text_column}, %s, %s) AS dis
+            HybridSearch('dense_alpha={dense_alpha}', 'fusion_type={fusion_type}', 'fusion_weight={fusion_weight}', 'fusion_k={fusion_k}')(vector, {query.query_text_column}, %s, %s) AS dis
         FROM {MYSCALE_DATABASE_NAME}
         ORDER BY dis DESC
         LIMIT {top}
