@@ -3,6 +3,8 @@ import time
 from typing import List, Optional, Tuple
 import clickhouse_connect
 from clickhouse_connect.driver.client import Client
+from ranx import Run, fuse
+from ranx.normalization import rank_norm
 
 from dataset_reader.base_reader import Query
 from engine.base_client import BaseSearcher
@@ -37,10 +39,7 @@ class MyScaleSearcher(BaseSearcher):
         cls.connection_params = connection_params
 
     @classmethod
-    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema, query: Query) -> List[
-        Tuple[int, float]]:
-        if query.query_text is not None and cls.connection_params.get("tantivy_idx_cols", None) is not None:
-            return cls.hybrid_search(meta_conditions, top, query)
+    def vector_search(cls, vector: List[float], meta_conditions, top: Optional[int]) -> List[Tuple[int, float]]:
         search_params_dict = cls.search_params["params"]
         par = ""
         for key in search_params_dict.keys():
@@ -72,12 +71,20 @@ class MyScaleSearcher(BaseSearcher):
         return res_list
 
     @classmethod
-    def hybrid_search(cls, meta_conditions, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
-        search_params_dict = cls.search_params["params"]
-        text_search = search_params_dict.get("only_text_search", False)
-        if text_search:
-            return cls.text_search(meta_conditions, top, query)
+    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema, query: Query) -> List[
+        Tuple[int, float]]:
+        if query.query_text is not None and cls.connection_params.get("tantivy_idx_cols", None) is not None:
+            if cls.search_params["params"].get("only_text_search", False):
+                return cls.text_search(top, query)
+            else:
+                # return cls.hybrid_search(top, query)
+                return cls.hybrid_search_with_ranx(top, query)
+        else:
+            return cls.vector_search(vector, meta_conditions, top)
 
+    @classmethod
+    def hybrid_search(cls, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
+        search_params_dict = cls.search_params["params"]
         dense_alpha = search_params_dict.get("dense_alpha", 1)
         fusion_type = search_params_dict.get("fusion_type", "RRF")
         fusion_weight = search_params_dict.get("fusion_weight", 0.5)
@@ -108,7 +115,28 @@ class MyScaleSearcher(BaseSearcher):
         return res_list
 
     @classmethod
-    def text_search(cls, meta_conditions, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
+    def hybrid_search_with_ranx(cls, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
+        vector_search_results: List[Tuple] = cls.vector_search(vector=query.vector, meta_conditions=query.meta_conditions, top=top)
+        text_search_results: List[Tuple] = cls.text_search(top=top, query=query)
+        vector_dict = {"query-0": {str(row[0]): float(row[1]) for row in vector_search_results}}
+        text_dict = {"query-0": {str(row[0]): float(row[1]) for row in text_search_results}}
+        vector_run = rank_norm(Run(vector_dict, name="vector"))
+        bm25_run = rank_norm(Run(text_dict, name="text"))
+
+        combined_run = fuse(
+            runs=[vector_run, bm25_run],
+            method="rrf",
+            params={'k': 10}
+        )
+        fused_results = []
+        for doc_id, score in combined_run.get_doc_ids_and_scores()[0].items():
+            fused_results.append((int(doc_id), score))
+
+        return fused_results[:top]
+
+    @classmethod
+    def text_search(cls, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
+        # TODO: handle filter condition
         search_str = f"""
         SELECT
             id,
