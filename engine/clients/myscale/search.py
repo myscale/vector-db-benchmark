@@ -4,11 +4,12 @@ from typing import List, Optional, Tuple
 import clickhouse_connect
 from clickhouse_connect.driver.client import Client
 from ranx import Run, fuse
-from ranx.normalization import rank_norm
+from ranx.normalization import rank_norm, min_max_norm
 
 from dataset_reader.base_reader import Query
 from engine.base_client import BaseSearcher
 from engine.clients.myscale.config import *
+from engine.clients.myscale.min_max_inverted import min_max_norm_inverted
 from engine.clients.myscale.parser import MyScaleConditionParser
 
 
@@ -132,8 +133,8 @@ class MyScaleSearcher(BaseSearcher):
 
         vector_dict = {"query-0": {str(row[0]): float(row[1]) for row in vector_search_results}}
         text_dict = {"query-0": {str(row[0]): float(row[1]) for row in text_search_results}}
-        vector_run = rank_norm(Run(vector_dict, name="vector"))
-        bm25_run = rank_norm(Run(text_dict, name="text"))
+        vector_run = min_max_norm_inverted(Run(vector_dict, name="vector"))
+        bm25_run = min_max_norm(Run(text_dict, name="text"))
 
         combined_run = fuse(
             runs=[vector_run, bm25_run],
