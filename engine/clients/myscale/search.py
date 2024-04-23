@@ -121,11 +121,14 @@ class MyScaleSearcher(BaseSearcher):
 
         # 检查搜索结果是否为空
         if not vector_search_results and not text_search_results:
-            return []  # 如果两个搜索结果都为空,返回空列表
+            print("both vector and text search are empty")
+            return []
         elif not vector_search_results:
-            return text_search_results[:top]  # 如果vector search结果为空,返回text search结果
+            print("vector search is empty")
+            return text_search_results  # 如果vector search结果为空,返回text search结果
         elif not text_search_results:
-            return vector_search_results[:top]  # 如果text search结果为空,返回vector search结果
+            print("text search is empty")
+            return vector_search_results  # 如果text search结果为空,返回vector search结果
 
         vector_dict = {"query-0": {str(row[0]): float(row[1]) for row in vector_search_results}}
         text_dict = {"query-0": {str(row[0]): float(row[1]) for row in text_search_results}}
