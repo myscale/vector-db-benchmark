@@ -117,8 +117,15 @@ class MyScaleSearcher(BaseSearcher):
 
     @classmethod
     def hybrid_search_with_ranx(cls, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
-        vector_search_results: List[Tuple[int, float]] = cls.vector_search(vector=query.vector, meta_conditions=query.meta_conditions, top=top)
-        text_search_results: List[Tuple[int, float]] = cls.text_search(top=top, query=query)
+        vector_search_results: List[Tuple[int, float]] = cls.vector_search(
+            vector=query.vector,
+            meta_conditions=query.meta_conditions,
+            top=top*10
+        )
+        text_search_results: List[Tuple[int, float]] = cls.text_search(
+            top=top*10,
+            query=query
+        )
 
         # 检查搜索结果是否为空
         if not vector_search_results and not text_search_results:
@@ -134,6 +141,7 @@ class MyScaleSearcher(BaseSearcher):
         vector_dict = {"query-0": {str(row[0]): float(row[1]) for row in vector_search_results}}
         text_dict = {"query-0": {str(row[0]): float(row[1]) for row in text_search_results}}
         vector_run = min_max_norm_inverted(Run(vector_dict, name="vector"))
+        vector_run.sort()
         bm25_run = min_max_norm(Run(text_dict, name="text"))
 
         combined_run = fuse(
