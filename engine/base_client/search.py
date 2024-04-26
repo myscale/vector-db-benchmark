@@ -49,10 +49,10 @@ class BaseSearcher:
 
         # Updating the TopK, the number of standard answers contained in the dataset may be less than TopK
         # The HNM dataset only has 25 standard answers.
-        ans_len = len(query.expected_result)
-        top = (top > ans_len and ans_len or top)
+        # ans_len = len(query.expected_result)
+        # top = (top > ans_len and ans_len or top)
 
-        precision = 1.0
+        precision = 0.0
         # if query.expected_result is not None:
         #     # Retrieve the top K results of vector search
         #     ids = set([x[0] for x in search_res][:top])

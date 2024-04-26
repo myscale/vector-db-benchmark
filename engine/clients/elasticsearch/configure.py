@@ -34,16 +34,22 @@ class ElasticConfigurator(BaseConfigurator):
                     "vector": {
                         "type": "dense_vector",
                         "dims": vector_size,
-                        "index": True,
-                        "similarity": DISTANCE_MAPPING[distance],
-                        "index_options": {
-                            **{
-                                "type": "hnsw",
-                                "m": 16,
-                                "ef_construction": 100,
-                            },
-                            **collection_params.get("index_options"),
-                        },
+                        "index": not collection_params.get("only_text_search", False),
+                        **(
+                            {
+                                "similarity": DISTANCE_MAPPING[distance],
+                                "index_options": {
+                                    **{
+                                        "type": "hnsw",
+                                        "m": 16,
+                                        "ef_construction": 100,
+                                    },
+                                    **collection_params.get("index_options"),
+                                },
+                            }
+                            if not collection_params.get("only_text_search", False)
+                            else {}
+                        ),
                     },
                     **{
                         extra_columns_name[i]: {
@@ -51,6 +57,13 @@ class ElasticConfigurator(BaseConfigurator):
                             # overlap with the ones used internally.
                             "type": H5_COLUMN_TYPES_MAPPING.get(extra_columns_type[i], extra_columns_type[i]),
                             "index": True,
+                            **(
+                                {
+                                    "similarity": "BM25"
+                                }
+                                if H5_COLUMN_TYPES_MAPPING.get(extra_columns_type[i], extra_columns_type[i]) == "text"
+                                else {}
+                            ),
                         }
                         for i in range(0, len(extra_columns_name))
                     }

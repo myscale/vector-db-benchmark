@@ -3,10 +3,13 @@ import time
 from typing import List, Optional, Tuple
 import clickhouse_connect
 from clickhouse_connect.driver.client import Client
+from ranx import Run, fuse
+from ranx.normalization import rank_norm, min_max_norm
 
 from dataset_reader.base_reader import Query
 from engine.base_client import BaseSearcher
 from engine.clients.myscale.config import *
+from engine.clients.myscale.min_max_inverted import min_max_norm_inverted
 from engine.clients.myscale.parser import MyScaleConditionParser
 
 
@@ -37,10 +40,7 @@ class MyScaleSearcher(BaseSearcher):
         cls.connection_params = connection_params
 
     @classmethod
-    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema, query: Query) -> List[
-        Tuple[int, float]]:
-        if query.query_text is not None and cls.connection_params.get("tantivy_idx_cols", None) is not None:
-            return cls.hybrid_search(meta_conditions, top, query)
+    def vector_search(cls, vector: List[float], meta_conditions, top: Optional[int]) -> List[Tuple[int, float]]:
         search_params_dict = cls.search_params["params"]
         par = ""
         for key in search_params_dict.keys():
@@ -72,20 +72,29 @@ class MyScaleSearcher(BaseSearcher):
         return res_list
 
     @classmethod
-    def hybrid_search(cls, meta_conditions, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
-        search_params_dict = cls.search_params["params"]
-        text_search = search_params_dict.get("text_search", False)
-        if text_search:
-            return cls.text_search(meta_conditions, top, query)
+    def search_one(cls, vector: List[float], meta_conditions, top: Optional[int], schema, query: Query) -> List[
+        Tuple[int, float]]:
+        if query.query_text is not None and cls.connection_params.get("tantivy_idx_cols", None) is not None:
+            if cls.search_params["params"].get("only_text_search", False):
+                return cls.text_search(top, query)
+            else:
+                # return cls.hybrid_search(top, query)
+                return cls.hybrid_search_with_ranx(top, query)
+        else:
+            return cls.vector_search(vector, meta_conditions, top)
 
+    @classmethod
+    def hybrid_search(cls, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
+        search_params_dict = cls.search_params["params"]
         dense_alpha = search_params_dict.get("dense_alpha", 1)
         fusion_type = search_params_dict.get("fusion_type", "RRF")
         fusion_weight = search_params_dict.get("fusion_weight", 0.5)
+        fusion_k = search_params_dict.get("fusion_k", 60)
 
         search_str = f"""
         SELECT
             id,
-            HybridSearch('dense_alpha={dense_alpha}', 'fusion_type={fusion_type}', 'fusion_weight={fusion_weight}')(vector, {query.query_text_column}, %s, %s) AS dis
+            HybridSearch('dense_alpha={dense_alpha}', 'fusion_type={fusion_type}', 'fusion_weight={fusion_weight}', 'fusion_k={fusion_k}')(vector, {query.query_text_column}, %s, %s) AS dis
         FROM {MYSCALE_DATABASE_NAME}
         ORDER BY dis DESC
         LIMIT {top}
@@ -107,11 +116,53 @@ class MyScaleSearcher(BaseSearcher):
         return res_list
 
     @classmethod
-    def text_search(cls, meta_conditions, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
+    def hybrid_search_with_ranx(cls, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
+        vector_search_results: List[Tuple[int, float]] = cls.vector_search(
+            vector=query.vector,
+            meta_conditions=query.meta_conditions,
+            top=top*10
+        )
+        text_search_results: List[Tuple[int, float]] = cls.text_search(
+            top=top*10,
+            query=query
+        )
+
+        # 检查搜索结果是否为空
+        if not vector_search_results and not text_search_results:
+            print("both vector and text search are empty")
+            return []
+        elif not vector_search_results:
+            print("vector search is empty")
+            return text_search_results  # 如果vector search结果为空,返回text search结果
+        elif not text_search_results:
+            print("text search is empty")
+            return vector_search_results  # 如果text search结果为空,返回vector search结果
+
+        text_dict = {"query-0": {str(row[0]): float(row[1]) for row in text_search_results}}
+        max_value = max(float(row[3]) for row in vector_search_results)
+        vector_dict = {"query-0": {str(row[0]): max_value - float(row[3]) for row in vector_search_results}}
+
+        vector_run = min_max_norm(Run(vector_dict, name="vector"))
+        bm25_run = min_max_norm(Run(text_dict, name="text"))
+
+        combined_run = fuse(
+            runs=[vector_run, bm25_run],
+            method="rrf",
+            params={'k': 10}
+        )
+        fused_results = []
+        for doc_id, score in combined_run.get_doc_ids_and_scores()[0].items():
+            fused_results.append((int(doc_id), score))
+
+        return fused_results[:top]
+
+    @classmethod
+    def text_search(cls, top: Optional[int], query: Query) -> List[Tuple[int, float]]:
+        # TODO: handle filter condition
         search_str = f"""
         SELECT
             id,
-            TextSearch({query.query_text_column},{remove_punctuation(query.query_text)}) AS dis
+            TextSearch({query.query_text_column},'{remove_punctuation(query.query_text)}') AS dis
         FROM {MYSCALE_DATABASE_NAME}
         ORDER BY dis DESC
         LIMIT {top}
