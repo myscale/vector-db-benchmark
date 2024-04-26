@@ -138,10 +138,11 @@ class MyScaleSearcher(BaseSearcher):
             print("text search is empty")
             return vector_search_results  # 如果text search结果为空,返回vector search结果
 
-        vector_dict = {"query-0": {str(row[0]): float(row[1]) for row in vector_search_results}}
         text_dict = {"query-0": {str(row[0]): float(row[1]) for row in text_search_results}}
-        vector_run = min_max_norm_inverted(Run(vector_dict, name="vector"))
-        vector_run.sort()
+        max_value = max(float(row[3]) for row in vector_search_results)
+        vector_dict = {"query-0": {str(row[0]): max_value - float(row[3]) for row in vector_search_results}}
+
+        vector_run = min_max_norm(Run(vector_dict, name="vector"))
         bm25_run = min_max_norm(Run(text_dict, name="text"))
 
         combined_run = fuse(
