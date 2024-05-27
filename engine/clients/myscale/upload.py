@@ -151,7 +151,7 @@ class MyScaleUploader(BaseUploader):
         if len(tantivy_idx_cols) != 0:
             index_name = f"{MYSCALE_DATABASE_NAME}_{get_random_string(4)}"
             index_cols = ",".join(tantivy_idx_cols)
-            index_create_str = f"alter table {MYSCALE_DATABASE_NAME} add index {index_name} ({index_cols}) type tantivy('{tantivy_idx_params}') GRANULARITY 1;"
+            index_create_str = f"alter table {MYSCALE_DATABASE_NAME} add index {index_name} ({index_cols}) type fts('{tantivy_idx_params}') GRANULARITY 1;"
             index_materialize_str = f"ALTER TABLE {MYSCALE_DATABASE_NAME} MATERIALIZE INDEX {index_name};"
             print(f">>> {index_create_str}")
             cls.client.command(index_create_str)
