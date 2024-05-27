@@ -78,8 +78,8 @@ class MyScaleSearcher(BaseSearcher):
             if cls.search_params["params"].get("only_text_search", False):
                 return cls.text_search(top, query)
             else:
-                # return cls.hybrid_search(top, query)
-                return cls.hybrid_search_with_ranx(top, query)
+                return cls.hybrid_search(top, query)
+                # return cls.hybrid_search_with_ranx(top, query)
         else:
             return cls.vector_search(vector, meta_conditions, top)
 
