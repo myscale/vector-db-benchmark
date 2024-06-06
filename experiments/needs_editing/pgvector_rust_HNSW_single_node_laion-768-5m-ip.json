@@ -24,28 +24,28 @@
         "parallel": 4,
         "top": 10,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         }
       },
       {
         "parallel": 4,
         "top": 100,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         }
       },
       {
         "parallel": 8,
         "top": 10,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         }
       },
       {
         "parallel": 8,
         "top": 100,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100
         }
       }
     ],
@@ -53,8 +53,12 @@
       "parallel": 16,
       "batch_size": 64,
       "index_params": {
-        "m": 12,
-        "ef_construction": 100
+        "indexing": {
+          "hnsw": {
+            "m": 12,
+            "ef_construction": 100
+          }
+        }
       },
       "index_type": "hnsw",
       "engine_type": "rust"

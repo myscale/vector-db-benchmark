@@ -24,6 +24,7 @@ pinecone-client = "^2.2.4"
 pyproximase = "^0.7.0"
 boto3 = "^1.34.15"
 psycopg2-binary = "^2.9.9"
+toml = "^0.10.2"
 
 
 [tool.poetry.dev-dependencies]
