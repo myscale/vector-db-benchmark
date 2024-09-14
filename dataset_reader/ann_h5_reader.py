@@ -151,17 +151,19 @@ class AnnH5Reader(BaseReader):
                 if 0 < vectors_limit <= vector_count:
                     break
 
-                for vector in data_block:
+                extra_columns_data = {col_name: train_data[col_name][start:end] for col_name in extra_columns}
+                for idx, vector in enumerate(data_block):
                     # normalize the vector for some distance
                     if self.normalize:
                         vector /= np.linalg.norm(vector)
 
                     # read payload data
-                    extra_columns_data = {}
+                    record_extra_data = {}
                     for col_name, col_type in zip(extra_columns, extra_columns_type):
-                        extra_columns_data[col_name] = convert_H52py(col_type)(train_data[col_name][global_idx])
+                        value = extra_columns_data[col_name][idx]
                         if convert_H52py(col_type) == str:
-                            extra_columns_data[col_name] = convert_bytes_to_str(extra_columns_data[col_name])
+                            value = convert_bytes_to_str(value)
+                        record_extra_data[col_name] = value
 
                     if 0 < vectors_limit <= vector_count:
                         break
