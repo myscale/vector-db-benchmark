@@ -97,6 +97,9 @@ class BaseSearcher:
         count = queries if queries_need <= queries else queries_need
         # Match the correct dataset based on the `query_meta` provided by the `search_parameters`.
         multi_queries = get_queries(times=count, query_meta=self.search_params.get("query_meta", None))
+        # read the queries into memory for parallel processing
+        candidates_queries = [query for query in multi_queries]
+        iterater_candidates_queries = iter(candidates_queries)
         print(f"parallel - {parallel}, queries have {queries}, queries need {queries_need}, queries run - {count}")
         start = time.perf_counter()
 
@@ -112,7 +115,7 @@ class BaseSearcher:
                 ),
         ) as pool:
             precisions, latencies = list(
-                zip(*pool.imap_unordered(search_one, iterable=tqdm.tqdm(multi_queries)))
+                zip(*pool.imap_unordered(search_one, iterable=tqdm.tqdm(iterater_candidates_queries, mininterval=0.5, maxinterval=1.0)))
             )
 
         total_time = time.perf_counter() - start
