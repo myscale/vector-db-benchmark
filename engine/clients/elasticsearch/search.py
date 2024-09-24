@@ -82,7 +82,7 @@ class ElasticSearcher(BaseSearcher):
                 }
                 # }
             }
-            # TODO 后续完善可以使用 filter
+            # TODO we need use `meta_conditions` to construct search condition.
             source_excludes = ['vector']
             if schema is not None:
                 source_excludes.extend(list(schema.keys()))
@@ -95,7 +95,6 @@ class ElasticSearcher(BaseSearcher):
                 source_excludes=source_excludes
             )
 
-            # 处理搜索结果
             re = [
                 (uuid.UUID(hex=hit["_id"]).int, hit["_score"])
                 for hit in res["hits"]["hits"]

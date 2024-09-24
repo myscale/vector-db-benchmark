@@ -127,16 +127,16 @@ class MyScaleSearcher(BaseSearcher):
             query=query
         )
 
-        # 检查搜索结果是否为空
+        # check whether search results were empty.
         if not vector_search_results and not text_search_results:
             print("both vector and text search are empty")
             return []
         elif not vector_search_results:
             print("vector search is empty")
-            return text_search_results  # 如果vector search结果为空,返回text search结果
+            return text_search_results  # if vector search results were empty, return text search result.
         elif not text_search_results:
             print("text search is empty")
-            return vector_search_results  # 如果text search结果为空,返回vector search结果
+            return vector_search_results  # if text search results were empty, return vector search result.
 
         text_dict = {"query-0": {str(row[0]): float(row[1]) for row in text_search_results}}
         max_value = max(float(row[3]) for row in vector_search_results)
