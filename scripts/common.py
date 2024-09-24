@@ -1,5 +1,15 @@
+import hashlib
 import os
 from typing import Iterator
+
+
+def convert_string2unique_number(string_: str):
+    # Create a new md5 hash object
+    hash_object = hashlib.md5(string_.encode())
+    # Get the hexadecimal representation of the hash
+    hex_dig = hash_object.hexdigest()
+    # Convert the hexadecimal to integer
+    return int(hex_dig, 16)
 
 
 def walk_result_file_paths(root_path: str) -> Iterator[str]:

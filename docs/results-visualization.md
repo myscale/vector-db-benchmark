@@ -34,7 +34,11 @@ cd vector-db-benchmark/scripts
 python3 process_result_files.py
 ```
 
+If you are dealing with a filtered type of dataset, please refer to the more [detailed documentation](../scripts/README.md):
+
 Then you will get a json file named `benchmark.json`, please replace [old_benchmark.json](https://github.com/myscale/benchmark/blob/main/public/benchmark.json) with your new `benchmark.json`.
+
+
 
 ## View Plotly Chart
 
