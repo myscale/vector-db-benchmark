@@ -6,7 +6,7 @@
     "platform": "CloudTest_v0.0.4",
     "index_type": "HNSW",
     "dataset": "laion-768-5m-ip-probability",
-    "version": "pg15-latest",
+    "version": "pg16-v0.2.0",
     "branch": "master",
     "commit": "sha256:38c7e5c4fa3afd48fb4911b3f96489ac287b59f8bfdd9b7b55c0eca898ffec21",
     "remark": "pgvector implemented in RUST",
@@ -24,7 +24,8 @@
         "parallel": 4,
         "top": 10,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100,
+          "vectors.search_mode": "vbase"
         },
         "query_meta": {
           "probability": 0.01
@@ -34,7 +35,8 @@
         "parallel": 4,
         "top": 10,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100,
+          "vectors.search_mode": "vbase"
         },
         "query_meta": {
           "probability": 0.1
@@ -44,7 +46,8 @@
         "parallel": 4,
         "top": 100,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100,
+          "vectors.search_mode": "vbase"
         },
         "query_meta": {
           "probability": 0.01
@@ -54,7 +57,8 @@
         "parallel": 4,
         "top": 100,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100,
+          "vectors.search_mode": "vbase"
         },
         "query_meta": {
           "probability": 0.1
@@ -64,7 +68,8 @@
         "parallel": 8,
         "top": 10,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100,
+          "vectors.search_mode": "vbase"
         },
         "query_meta": {
           "probability": 0.01
@@ -74,7 +79,8 @@
         "parallel": 8,
         "top": 10,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100,
+          "vectors.search_mode": "vbase"
         },
         "query_meta": {
           "probability": 0.1
@@ -84,7 +90,8 @@
         "parallel": 8,
         "top": 100,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100,
+          "vectors.search_mode": "vbase"
         },
         "query_meta": {
           "probability": 0.01
@@ -94,7 +101,8 @@
         "parallel": 8,
         "top": 100,
         "params": {
-          "hnsw.ef_search": 100
+          "vectors.hnsw_ef_search": 100,
+          "vectors.search_mode": "vbase"
         },
         "query_meta": {
           "probability": 0.1
@@ -105,8 +113,10 @@
       "parallel": 16,
       "batch_size": 64,
       "index_params": {
-        "m": 12,
-        "ef_construction": 100
+        "indexing.hnsw.m": 12,
+        "indexing.hnsw.ef_construction": 100,
+        "optimizing.optimizing_threads": 8,
+        "segment.max_sealed_segment_size": 5000000
       },
       "index_type": "hnsw",
       "engine_type": "rust"
